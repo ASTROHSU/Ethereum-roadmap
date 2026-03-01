@@ -122,7 +122,7 @@ const roadmapData = [
             impact: 8,
             difficulty: 6,
             solution:
-              '已有重大進展！2024 年 3 月的 Dencun 升級（EIP-4844）引入 Blob 資料，讓 L2 Roll up 費用瞬間降低了 10～100 倍。2025 年 5 月的 Pectra 升級再把 Blob 空間加倍（PeerDAS）。正在測試中的 Glamsterdam（預計 2026 上半年）將引入區塊級別訪問列表（EIP-7928）與 ePBS（EIP-7732），預計讓 L1 執行效率再大幅提升，Gas 費用進一步下降。',
+              '已有重大進展！2024 年 3 月的 Dencun 升級（EIP-4844）引入 Blob 資料，讓 L2 Rollup 費用瞬間降低了 10～100 倍。2025 年 5 月的 Pectra 升級再把 Blob 空間加倍（PeerDAS）。正在測試中的 Glamsterdam（預計 2026 上半年）將引入區塊級別訪問列表（EIP-7928）與 ePBS（EIP-7732），預計讓 L1 執行效率再大幅提升，Gas 費用進一步下降。',
             techTerms: ['EIP-4844 (Proto-Danksharding)', 'PeerDAS / EIP-7594', 'Block Access Lists (EIP-7928)', 'ePBS (EIP-7732)'],
             eta: 'Dencun ✅ 已完成 (2024/3)、Pectra ✅ 已完成 (2025/5)、Glamsterdam 🔄 預計 2026 上半年',
             maturity: 'Mainnet',
@@ -138,6 +138,55 @@ const roadmapData = [
           },
         ],
       },
+      {
+        id: 'scale_l2',
+        title: 'L2 碎片化與跨鏈麻煩',
+        description: '多條 L2 造成資金割裂，橋接繁瑣、RPC 不同、Gas token 各異，體驗極差。',
+        severity: 8,
+        items: [
+          {
+            id: 'p6',
+            question: '跨 L2 要橋接好麻煩，手續費搞不清楚，資產還常常被鎖在不同鏈上動彈不得？',
+            riskSummary:
+              '橋接合約是駭客重點攻擊目標，歷史上多次橋接被黑損失鉅大。跨鏈體驗差也讓新用戶卻步、流動性分散在各 L2 之間。',
+            severity: 8,
+            impact: 8,
+            difficulty: 8,
+            solution:
+              'Vitalik 本人也說 L2 體驗目前對一般人「幾乎無法使用」。解法從兩個方向推進：一是生態層，Optimism Superchain、Polygon AggLayer 讓旗下 L2 可免橋接直接溝通；二是協議層，ERC-7683 是跨鏈訂單標準，Intent-Based 架構讓你只需說「我要把 A 鏈的 USDC 換到 B 鏈」，背後由解算者自動完成，不用自己橋。',
+            techTerms: ['ERC-7683 (跨鏈訂單標準)', 'Intent-Based 架構', 'Superchain / AggLayer', '原生互通性 (Native Interop)'],
+            eta: '生態層方案（Superchain、AggLayer）2025 已部分上線；協議層原生互通性 2026-2027',
+            maturity: 'Testnet',
+            confidence: 'medium',
+            sources: [
+              { label: 'ERC-7683', url: 'https://eips.ethereum.org/EIPS/eip-7683' },
+              { label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
+            ],
+            links: [
+              { type: 'external', label: 'Vitalik：L2 互通性說明', url: 'https://vitalik.eth.limo' },
+            ],
+          },
+          {
+            id: 'p7',
+            question: '每換一條 L2 就要加新 RPC、用不同的 Gas 幣、甚至還要買原生代幣，根本沒辦法用？',
+            riskSummary:
+              '多鏈碎片化讓上手門檻極高，新用戶一旦搞錯鏈發錯幣基本就找不回來；也讓開發者難以設計跨鏈的無縫體驗。',
+            severity: 7,
+            impact: 7,
+            difficulty: 7,
+            solution:
+              'EIP-7702（Pectra，2025/5 已上線）讓帳戶抽象成為可能——你可以用穩定幣（如 USDC）或任何代幣付 Gas，不需要持有各鏈的原生代幣。跨鏈地址標準化（跨鏈統一地址格式）和一鍵多鏈部署也在推進中，目標是讓切換 L2 像切換 Wi-Fi 一樣無感。',
+            techTerms: ['EIP-7702 (帳戶抽象 / Paymaster)', '跨鏈統一地址', 'ERC-7683', '穩定幣付 Gas'],
+            eta: 'Paymaster（穩定幣付 Gas）✅ Pectra 已上線；跨鏈地址統一 2026-2027',
+            maturity: 'Mainnet',
+            confidence: 'high',
+            sources: [
+              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
+            ],
+            links: [],
+          },
+        ],
+      },
     ],
   },
   {
@@ -145,6 +194,36 @@ const roadmapData = [
     title: '帳號與操作',
     icon: <Wallet className="w-6 h-6" />,
     topics: [
+      {
+        id: 'ux_onboard',
+        title: '新手入門門檻',
+        description: '從買幣到第一次用 DApp，每個步驟都可能讓新手放棄。',
+        severity: 8,
+        items: [
+          {
+            id: 'p8',
+            question: '我是完全的新手，光是搞懂要用哪個 L2、怎麼買 ETH、怎麼付 Gas 就已經放棄了？',
+            riskSummary:
+              '每新增一個操作步驟都會流失大量用戶，複雜的入門流程讓以太坊生態系的成長速度遠低於應有水準，也讓非技術背景人士幾乎無法參與。',
+            severity: 8,
+            impact: 9,
+            difficulty: 7,
+            solution:
+              '帳戶抽象（EIP-7702，Pectra 已上線）是最大的改變：你不需要持有 ETH 也能付 Gas（可用 USDC 等穩定幣），甚至 DApp 可以幫你代付手續費。未來的 Glamsterdam 和 Hegotá 將進一步讓錢包支援社交登入、Email 恢復，以及跨鏈一鍵操作，讓整體體驗更接近 Web2 App。',
+            techTerms: ['帳戶抽象 / EIP-7702', 'Paymaster（代付 Gas）', '社交登入錢包', 'Smart Account'],
+            eta: '✅ Paymaster 已在 Pectra (2025/5) 上線；社交登入錢包 2026-2027',
+            maturity: 'Mainnet',
+            confidence: 'high',
+            sources: [
+              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
+              { label: 'Ethereum.org 智慧錢包', url: 'https://ethereum.org/wallets/smart-contract-wallets' },
+            ],
+            links: [
+              { type: 'external', label: 'Ethereum.org：帳戶說明', url: 'https://ethereum.org/wallets' },
+            ],
+          },
+        ],
+      },
       {
         id: 'ux_recovery',
         title: '助記詞與帳戶恢復',
@@ -178,6 +257,25 @@ const roadmapData = [
               { type: 'external', label: 'Ethereum.org：帳戶抽象說明', url: 'https://ethereum.org/wallets/smart-contract-wallets' },
             ],
           },
+          {
+            id: 'p9',
+            question: '我要管好多條鏈的錢包，每個鏈地址都不一樣，根本記不住也管不來？',
+            riskSummary:
+              '多鏈環境讓用戶平均需要維護 3–5 個不同地址，資產分散導致容易誤轉，也增加私鑰管理的風險面。',
+            severity: 6,
+            impact: 7,
+            difficulty: 6,
+            solution:
+              '有幾個方向正在推進。短期：EIP-7702 讓你用同一個帳號邏輯跨 L2 操作，Paymaster 讓各鏈都能用同一種代幣付費。長期：跨鏈統一地址格式（如 CAIP-10 標準）和帳戶抽象讓整個多鏈體驗可以統一到一個智慧帳戶管理，你只需要一個「錢包應用程式」就夠。',
+            techTerms: ['CAIP-10 (跨鏈地址標準)', 'EIP-7702', 'Smart Account', 'Intent Framework'],
+            eta: 'EIP-7702 ✅ 已上線；統一多鏈帳戶體驗 2026-2027',
+            maturity: 'Draft',
+            confidence: 'medium',
+            sources: [
+              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
+            ],
+            links: [],
+          },
         ],
       },
     ],
@@ -187,6 +285,36 @@ const roadmapData = [
     title: '隱私與資安',
     icon: <ShieldAlert className="w-6 h-6" />,
     topics: [
+      {
+        id: 'privacy_approve',
+        title: '智慧合約授權風險',
+        description: '一個「Approve」按鈕可能讓惡意合約掏空整個錢包，用戶難以辨識風險。',
+        severity: 9,
+        items: [
+          {
+            id: 'p10',
+            question: '我只是點了一個「授權」按鈕，結果整個錢包被清空，這是怎麼回事？',
+            riskSummary:
+              '傳統的無限制 Approve 授權讓恡意合約可以在任何時間提走你授權的所有代幣。釣魚網站、山寨 DApp 大量利用這個機制，已造成數十億美元損失。',
+            severity: 9,
+            impact: 10,
+            difficulty: 5,
+            solution:
+              'Pectra 上線的 EIP-7702 讓帳戶抽象成真，智慧錢包可以實作細粒度授權：每筆授權限定金額、限定有效期、限定目標合約。你再也不需要批無限額度給一個 DApp。現在你也可以在 Revoke.cash 等工具手動撤銷舊授權，或改用支援交易模擬的錢包（如 Rabby、MetaMask Snaps）在簽名前就看到資產變動預覽。',
+            techTerms: ['EIP-7702 (細粒度授權)', '交易模擬 (Tx Simulation)', 'Revoke.cash', 'ERC-20 Permit (EIP-2612)'],
+            eta: '部分工具（Rabby、Revoke.cash）✅ 現已可用；協議層細粒度授權 ✅ EIP-7702 已在 Pectra 上線',
+            maturity: 'Mainnet',
+            confidence: 'high',
+            sources: [
+              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
+              { label: 'EIP-2612 (Permit)', url: 'https://eips.ethereum.org/EIPS/eip-2612' },
+            ],
+            links: [
+              { type: 'external', label: 'Revoke.cash（撤銷授權工具）', url: 'https://revoke.cash' },
+            ],
+          },
+        ],
+      },
       {
         id: 'privacy_asset',
         title: '資產持有隱私',
@@ -211,6 +339,25 @@ const roadmapData = [
             sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
             links: [{ type: 'external', label: 'Vitalik：隱形地址概述', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' }],
           },
+          {
+            id: 'p11',
+            question: '我用 DApp 時，後端 API 伺服器看得到我的 IP 和操作，和 Web2 有什麼根本差別？',
+            riskSummary:
+              '大多數 DApp 前端仍透過中心化 RPC（如 Infura、Alchemy）來讀取區塊鏈資料，這意味著 RPC 服務商可以記錄你的 IP、錢包地址和操作時間，破壞了「去中心化」的假設。',
+            severity: 7,
+            impact: 7,
+            difficulty: 8,
+            solution:
+              'Helios 是以太坊基金會支援的輕節點客戶端，讓瀏覽器 / 手機可以直接驗證區塊鏈資料，不需要信任 RPC 服務商。長期路線圖（The Verge / Hegotá）中的無狀態客戶端技術，將讓幾乎任何裝置都能成為輕量節點，從源頭解決 RPC 中心化問題。目前建議：使用私人 RPC（如自架節點或 Chainlist 上的公開替代節點）。',
+            techTerms: ['Helios 輕節點', '無狀態客戶端 (Stateless Client)', 'RPC 去中心化', 'Private RPC'],
+            eta: 'Helios 🔄 持續開發中；完整無狀態節點 Hegotá+ (2026 下半年以後)',
+            maturity: 'Research',
+            confidence: 'medium',
+            sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
+            links: [
+              { type: 'external', label: 'Helios 輕節點 (GitHub)', url: 'https://github.com/a16z/helios' },
+            ],
+          },
         ],
       },
       {
@@ -229,16 +376,18 @@ const roadmapData = [
             impact: 7,
             difficulty: 7,
             solution:
-              '重大改變即將到來！正在 Devnet 測試中的 Glamsterdam 升級（預計 2026 上半年）核心之一是 ePBS（EIP-7732）—將「負責打包的人」和「負責提議的人」分離並寫入協議，讓 MEV 提取更透明、更可預測，減少搶跑機會。長期目標是加密記憶體池，歸入 Scourge 階段。',
-            techTerms: ['ePBS (EIP-7732, 提議者與建構者分離)', '加密記憶體池 (Encrypted Mempool)', 'Glamsterdam 升級'],
-            eta: 'ePBS 🔄 Glamsterdam 預計 2026 上半年；加密 Mempool 仍在研究',
+              '重大改變即將到來！正在 Devnet 測試中的 Glamsterdam 升級（預計 2026 上半年）核心之一是 ePBS（EIP-7732）—將「負責打包的人」和「負責提議的人」分離並寫入協議，讓 MEV 提取更透明、更可預測，減少搶跑機會。現在也可以用 Flashbots Protect、MEV Blocker 等私人 Mempool 服務繞過搶跑風險。長期目標是加密記憶體池，歸入 Scourge 階段。',
+            techTerms: ['ePBS (EIP-7732)', 'Flashbots Protect', 'MEV Blocker', '加密記憶體池 (Encrypted Mempool)'],
+            eta: 'ePBS 🔄 Glamsterdam 預計 2026 上半年；Flashbots Protect ✅ 現已可用',
             maturity: 'Testnet',
             confidence: 'medium',
             sources: [
               { label: 'EIP-7732 (ePBS)', url: 'https://eips.ethereum.org/EIPS/eip-7732' },
               { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
             ],
-            links: [],
+            links: [
+              { type: 'external', label: 'MEV Blocker（現可使用）', url: 'https://mevblocker.io' },
+            ],
           },
         ],
       },
@@ -277,9 +426,60 @@ const roadmapData = [
           },
         ],
       },
+      {
+        id: 'node_staking',
+        title: '質押集中化',
+        description: 'Lido、Coinbase 等大型質押者控制大量 ETH，引發中心化疑慮。',
+        severity: 7,
+        items: [
+          {
+            id: 'p12',
+            question: '聽說 Lido 掌控了以太坊 30% 的質押，這樣和中心化有什麼差別？',
+            riskSummary:
+              'Lido、Coinbase 等前幾大質押機構合計掌控超過 50% 的質押 ETH，理論上可能協調影響交易排序、甚至審查特定地址。這是當前以太坊去中心化最被質疑的問題。',
+            severity: 7,
+            impact: 9,
+            difficulty: 9,
+            solution:
+              'Scourge 階段的核心目標之一就是解決這個問題。Lido 本身也推出了 Dual Governance 機制讓 stETH 持有者可以否決治理提案。技術上，DVT（分散式驗證者技術）讓單一質押份額可由多個節點共同驗證，降低單點失敗風險。以太坊基金會也公開表態自己的質押使用少數派客戶端，以身作則推廣多元化。',
+            techTerms: ['DVT (分散式驗證者技術)', 'Dual Governance (Lido)', 'Scourge 階段', 'EIP-7251 (最大餘額提升)'],
+            eta: 'DVT 🔄 持續推進中；Scourge 完整方案 2027+',
+            maturity: 'Research',
+            confidence: 'medium',
+            sources: [
+              { label: 'Ethereum.org Scourge', url: 'https://ethereum.org/roadmap/scourge' },
+              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
+            ],
+            links: [],
+          },
+          {
+            id: 'p13',
+            question: '我想支持以太坊質押但沒有 32 ETH，又不想把幣交給 Lido，還有選擇嗎？',
+            riskSummary:
+              '32 ETH 的門檻（約合數萬美元）讓大多數人只能選擇中心化交易所或 Lido，直接推高了質押集中化的程度。',
+            severity: 6,
+            impact: 7,
+            difficulty: 6,
+            solution:
+              'Pectra 升級的 EIP-7251 已將最大有效餘額從 32 ETH 提升至 2048 ETH，讓現有驗證者可以合併質押、降低運營成本；對小額質押者而言，Rocketpool、SSV Network 等去中心化質押池提供了比 Lido 更去中心化的選擇，且不需要 32 ETH。DVT 技術讓小型質押者也能以較低資金參與節點驗證。',
+            techTerms: ['EIP-7251 (最大餘額 2048 ETH)', 'DVT (分散式驗證者)', 'Rocketpool / SSV Network', '去中心化質押池'],
+            eta: 'EIP-7251 ✅ Pectra 已上線 (2025/5)；去中心化質押池 ✅ 現已可用',
+            maturity: 'Mainnet',
+            confidence: 'high',
+            sources: [
+              { label: 'EIP-7251', url: 'https://eips.ethereum.org/EIPS/eip-7251' },
+              { label: 'Ethereum.org Staking', url: 'https://ethereum.org/staking' },
+            ],
+            links: [
+              { type: 'external', label: 'Ethereum.org 質押選項比較', url: 'https://ethereum.org/staking' },
+            ],
+          },
+        ],
+      },
     ],
   },
 ];
+
 
 export default function EthereumRoadmapUX() {
   const [activeTab, setActiveTab] = useState(roadmapData[0].id);
