@@ -12,7 +12,55 @@ import {
   AlertCircle,
   ExternalLink,
   ChevronRight,
+  Map,
+  CheckCircle2,
 } from 'lucide-react';
+
+// 以太坊官方升級階段（技術路線圖原貌，供對照與建立權威感）
+const officialRoadmapPhases = [
+  {
+    id: 'merge',
+    name: 'The Merge',
+    nameZh: '合併',
+    short: 'PoW → PoS，共識層與執行層合一',
+    status: 'completed',
+  },
+  {
+    id: 'surge',
+    name: 'The Surge',
+    nameZh: '擴容',
+    short: '分片、L2、高 TPS',
+    status: 'in_progress',
+  },
+  {
+    id: 'scourge',
+    name: 'The Scourge',
+    nameZh: '淨化',
+    short: 'MEV、流動性質押、經濟去中心化',
+    status: 'future',
+  },
+  {
+    id: 'verge',
+    name: 'The Verge',
+    nameZh: '邊緣',
+    short: 'Verkle Trees、輕節點、無狀態',
+    status: 'future',
+  },
+  {
+    id: 'purge',
+    name: 'The Purge',
+    nameZh: '精簡',
+    short: '歷史資料瘦身、技術債清理',
+    status: 'future',
+  },
+  {
+    id: 'splurge',
+    name: 'The Splurge',
+    nameZh: '雜項',
+    short: '其餘改進、協調各階段',
+    status: 'future',
+  },
+];
 
 // 嚴重度對應文案
 const getSeverityLabel = (n) => {
@@ -237,16 +285,76 @@ export default function EthereumRoadmapUX() {
             <span className="font-semibold tracking-wider text-sm">區塊勢・互動工具</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-            以太坊升級：讀者痛點地圖
+            以太坊升級地圖
           </h1>
           <p className="text-slate-600 leading-relaxed max-w-2xl">
-            別管那些艱澀的技術名詞了！選擇你目前在使用區塊鏈時遇到的困擾，
-            我們幫你對應以太坊未來的升級藍圖（Strawmap），看看你的問題何時能被解決。
+            下面先呈現技術上的升級地圖原貌，再從你的困擾對應回各階段與解法。
           </p>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
+        {/* 技術上的升級地圖（原貌） */}
+        <section className="mb-10">
+          <div className="flex items-center gap-2 text-slate-600 mb-3">
+            <Map className="w-5 h-5 text-indigo-500" />
+            <h2 className="text-lg font-semibold text-slate-800">技術上的升級地圖長這樣</h2>
+          </div>
+          <p className="text-sm text-slate-500 mb-4 max-w-2xl">
+            以太坊官方以數個並行階段推進升級；本頁把這張地圖反過來，從你的問題對應回這些階段。
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {officialRoadmapPhases.map((phase) => (
+              <div
+                key={phase.id}
+                className={`rounded-xl border p-4 ${
+                  phase.status === 'completed'
+                    ? 'bg-emerald-50/80 border-emerald-200'
+                    : phase.status === 'in_progress'
+                      ? 'bg-indigo-50/80 border-indigo-200'
+                      : 'bg-white border-slate-200'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  {phase.status === 'completed' ? (
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                  ) : null}
+                  <span className="font-semibold text-slate-800">
+                    {phase.name}
+                    <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600">{phase.short}</p>
+                {phase.status === 'completed' && (
+                  <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
+                )}
+                {phase.status === 'in_progress' && (
+                  <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="mt-3">
+            <a
+              href="https://ethereum.org/roadmap"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              參考 Ethereum.org 路線圖
+            </a>
+          </div>
+        </section>
+
+        {/* 從你的問題對應回這張地圖 */}
+        <div className="flex items-center gap-2 text-slate-600 mb-3">
+          <span className="text-lg font-semibold text-slate-800">從你的問題對應回這張地圖</span>
+        </div>
+        <p className="text-sm text-slate-500 mb-4">
+          選擇你遇到的困擾，我們幫你對應到上面的升級階段與預計解法。
+        </p>
+
         {/* Category Tabs */}
         <div className="flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
           {roadmapData.map((category) => (
