@@ -53,7 +53,7 @@ const officialRoadmapPhases = [
     status: 'in_progress',
     progress: 20,
     goals: [
-      '🔄 ePBS（Glamsterdam）——此處針對「提議者 vs 打包者分離」，讓 MEV 抄脱變透明可預期',
+      '🔄 ePBS（Glamsterdam）——此處針對「提議者 vs 打包者分離」，讓 MEV 提取額度透明、可預期',
       '🔄 DVT（分散式驗證者技術）持續推進',
       '📋 加密記憶體池（未來防 MEV 搶跑）',
       '📋 抑制流動性質押集中化（Lido / Coinbase 問題）',
