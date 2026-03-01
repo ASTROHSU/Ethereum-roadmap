@@ -295,83 +295,6 @@ export default function EthereumRoadmapUX() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* 參考：技術路線圖原貌（預設收合） */}
-        <section className="mb-6">
-          <button
-            type="button"
-            onClick={() => setOfficialRoadmapOpen(!officialRoadmapOpen)}
-            className="w-full text-left flex items-center justify-between gap-2 py-2 px-3 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors"
-          >
-            <span className="flex items-center gap-2 text-slate-600">
-              <Map className="w-4 h-4 text-indigo-500" />
-              <span className="text-sm font-medium">參考：技術路線圖原貌</span>
-              <span className="text-slate-400 text-xs">（可展開，附官方連結）</span>
-            </span>
-            {officialRoadmapOpen ? (
-              <ChevronUp className="w-5 h-5 text-slate-400 flex-shrink-0" />
-            ) : (
-              <ChevronDown className="w-5 h-5 text-slate-400 flex-shrink-0" />
-            )}
-          </button>
-          {officialRoadmapOpen && (
-            <div className="mt-3 p-4 rounded-xl border border-slate-200 bg-white space-y-4">
-              <p className="text-sm text-slate-600 leading-relaxed">
-                下面六個階段是以太坊官方用來描述升級的架構。它們<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向：像是一個系統的不同部分同時在演進，每次升級可能同時涉及多個階段。本頁把這張地圖轉成「從你的問題對應回去」的版本。
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {officialRoadmapPhases.map((phase) => (
-                  <div
-                    key={phase.id}
-                    className={`rounded-xl border p-4 ${
-                      phase.status === 'completed'
-                        ? 'bg-emerald-50/80 border-emerald-200'
-                        : phase.status === 'in_progress'
-                          ? 'bg-indigo-50/80 border-indigo-200'
-                          : 'bg-white border-slate-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      {phase.status === 'completed' ? (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                      ) : null}
-                      <span className="font-semibold text-slate-800">
-                        {phase.name}
-                        <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
-                      </span>
-                    </div>
-                    <p className="text-sm text-slate-600">{phase.short}</p>
-                    {phase.status === 'completed' && (
-                      <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
-                    )}
-                    {phase.status === 'in_progress' && (
-                      <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div>
-                <a
-                  href="https://ethereum.org/roadmap"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  參考 Ethereum.org 路線圖（原始來源）
-                </a>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* 主體：從你的問題對應到升級地圖 */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-slate-800 mb-1">從你遇到的困擾開始</h2>
-          <p className="text-slate-600 text-sm">
-            選一個你正在煩惱的面向，對應到背後的升級階段與解法。
-          </p>
-        </div>
-
         {/* Category Tabs */}
         <div className="flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
           {roadmapData.map((category) => (
@@ -393,7 +316,7 @@ export default function EthereumRoadmapUX() {
         {/* Topic Breakdown */}
         <div className="mb-6">
           <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
-            子議題 (Topic Breakdown)
+            子議題
           </h2>
           <div className="flex flex-col gap-2">
             {activeCategory.topics.map((topic) => (
@@ -616,6 +539,74 @@ export default function EthereumRoadmapUX() {
             </div>
           ))}
         </div>
+
+        {/* 參考：技術路線圖原貌（收在頁面最下方） */}
+        <section className="mt-12 pt-8 border-t border-slate-200">
+          <button
+            type="button"
+            onClick={() => setOfficialRoadmapOpen(!officialRoadmapOpen)}
+            className="w-full text-left flex items-center justify-between gap-2 py-2 px-0 text-slate-500 hover:text-slate-700 transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <Map className="w-4 h-4 text-slate-400" />
+              <span className="text-xs font-medium">參考：技術路線圖原貌（可展開，附官方連結）</span>
+            </span>
+            {officialRoadmapOpen ? (
+              <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+            )}
+          </button>
+          {officialRoadmapOpen && (
+            <div className="mt-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                下面六個階段是以太坊官方用來描述升級的架構。它們<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向：像是一個系統的不同部分同時在演進，每次升級可能同時涉及多個階段。本頁把這張地圖轉成「從你的問題對應回去」的版本。
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {officialRoadmapPhases.map((phase) => (
+                  <div
+                    key={phase.id}
+                    className={`rounded-xl border p-4 ${
+                      phase.status === 'completed'
+                        ? 'bg-emerald-50/80 border-emerald-200'
+                        : phase.status === 'in_progress'
+                          ? 'bg-indigo-50/80 border-indigo-200'
+                          : 'bg-white border-slate-200'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      {phase.status === 'completed' ? (
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                      ) : null}
+                      <span className="font-semibold text-slate-800">
+                        {phase.name}
+                        <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-600">{phase.short}</p>
+                    {phase.status === 'completed' && (
+                      <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
+                    )}
+                    {phase.status === 'in_progress' && (
+                      <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <a
+                  href="https://ethereum.org/roadmap"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  參考 Ethereum.org 路線圖（原始來源）
+                </a>
+              </div>
+            </div>
+          )}
+        </section>
       </main>
     </div>
   );
