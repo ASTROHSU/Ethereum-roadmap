@@ -562,9 +562,6 @@ export default function EthereumRoadmapUX() {
               {' · '}
               {RECENT_UPDATES}
             </p>
-            <p className="mt-1 text-slate-400">
-              若你有看到更新的發展而本站尚未反映，可展開下方「參考與資料來源」對照；我們會不定期更新。
-            </p>
           </div>
         </footer>
 
