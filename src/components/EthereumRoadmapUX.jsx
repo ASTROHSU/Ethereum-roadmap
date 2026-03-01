@@ -608,7 +608,15 @@ export default function EthereumRoadmapUX() {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen bg-[#F6F8FD] text-slate-800 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans relative overflow-hidden">
+
+      {/* ── Background Glows (Option C) ── */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-[100px]" />
+        <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-300/20 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-300/20 rounded-full blur-[120px]" />
+      </div>
+
 
       {/* ── Sidebar Overlay ── */}
       {sidebarOpen && (
@@ -781,7 +789,7 @@ export default function EthereumRoadmapUX() {
       </aside>
 
       {/* ── Header ── */}
-      <header className="bg-[#F6F8FD]/80 backdrop-blur-md border-b border-indigo-100 sticky top-0 z-10">
+      <header className="bg-slate-50/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-2">
@@ -811,7 +819,7 @@ export default function EthereumRoadmapUX() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-5 md:py-8">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 py-5 md:py-8">
         {/* Category Tabs */}
         <div className="relative mb-6">
           <div className="flex overflow-x-auto space-x-2 pb-4 scrollbar-hide">
@@ -830,7 +838,7 @@ export default function EthereumRoadmapUX() {
             ))}
           </div>
           {/* 右側漸層，提示可橫滑 */}
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-[#F6F8FD] to-transparent md:hidden" />
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-slate-50 to-transparent md:hidden" />
         </div>
 
         {/* Topic chips */}
@@ -856,7 +864,7 @@ export default function EthereumRoadmapUX() {
             ))}
           </div>
           {/* 右側漸層，提示可橫滑 */}
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-[#F6F8FD] to-transparent" />
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-slate-50 to-transparent" />
         </div>
 
         {/* Items (痛點卡片) */}
