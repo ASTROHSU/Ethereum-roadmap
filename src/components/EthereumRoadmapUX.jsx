@@ -108,7 +108,7 @@ const upgradeTimeline = [
   { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '節點儲存需求大幅减少（未來目標手機也能跑）；從源頭改善 DApp 對使用者透明化。' },
   // 已完成（新到舊）
   { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
-  { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低 10～100 倍，是許多人相信 L2 的街樓。' },
+  { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低 10～100 倍，是許多人真正相信 L2 可行的里程碑。' },
   { name: 'Shanghai / Shapella', nameZh: '開放質押提款', date: '2023 年 4 月', status: 'completed', note: '質押者終於能提回質押的 ETH，PoS 證明實際可行。' },
   { name: 'The Merge', nameZh: '合併', date: '2022 年 9 月', status: 'completed', note: '將挖礦切換為質押，網路能耗降低 99.95%。以太坊最重要的一次升級。' },
   { name: 'London (EIP-1559)', nameZh: 'Gas 費用機制改革', date: '2021 年 8 月', status: 'completed', note: '引入基礎費 + 小費，讓 Gas 費用更可預測，並開始销毀部分 ETH。' },
