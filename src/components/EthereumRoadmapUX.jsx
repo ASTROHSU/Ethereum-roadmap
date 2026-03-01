@@ -140,14 +140,13 @@ const roadmapData = [
             impact: 9,
             difficulty: 5,
             solution:
-              '可以。協議層將透過 EIP-8141（帳戶抽象總成）實現「Frame Transactions」：一筆交易由多個 frame 組成，可做驗證（簽名、多簽、可更換金鑰）、部署新帳戶、甚至用 paymaster 用其他代幣付 gas，無需中介。多簽、社群恢復、生物辨識登入都會成為一階公民；Vitalik 表示約一年內有機會在 Hegota fork 落地。',
+              '可以。之後以太坊會支援「帳戶抽象」：你不用再死背 12 個字，可以像 Web2 一樣換密碼、用多簽或找信任的人幫你恢復帳戶，甚至用其他代幣付手續費。這套升級（EIP-8141）有機會約一年內上線。',
             techTerms: [
               '帳戶抽象 (Account Abstraction)',
-              'EIP-8141 / Frame Transactions',
-              'Paymaster（代付 gas）',
-              'EIP-7997 確定性工廠',
+              'EIP-8141',
+              '多簽、社群恢復、用其他代幣付 gas',
             ],
-            eta: '約一年內 (Hegota fork 目標)',
+            eta: '約一年內（目標 Hegota 升級）',
             maturity: 'Draft',
             confidence: 'high',
             sources: [
@@ -155,7 +154,7 @@ const roadmapData = [
               { label: 'EIP-4337 (ERC-4337)', url: 'https://eips.ethereum.org/EIPS/eip-4337' },
             ],
             links: [
-              { type: 'external', label: 'Vitalik：Now, account abstraction (EIP-8141)', url: 'https://x.com/VitalikButerin/status/1867837745282519460' },
+              { type: 'external', label: 'Vitalik：帳戶抽象說明', url: 'https://x.com/VitalikButerin/status/2027774090627715377' },
             ],
           },
         ],
