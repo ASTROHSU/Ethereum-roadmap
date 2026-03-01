@@ -24,41 +24,80 @@ const officialRoadmapPhases = [
     nameZh: '合併',
     short: 'PoW → PoS，共識層與執行層合一',
     status: 'completed',
+    progress: 100,
+    goals: [
+      '✅ 從挖礦（PoW）切換為質押（PoS），能耗降低 99.95%',
+      '✅ 共識層（信標鏈）與執行層合併完成',
+      '✅ 奠定後續所有升級的架構基礎',
+    ],
   },
   {
     id: 'surge',
     name: 'The Surge',
     nameZh: '擴容',
-    short: '分片、L2、高 TPS',
+    short: '透過 L2 + 分片讓以太坊承載更多交易、更低費用',
     status: 'in_progress',
+    progress: 45,
+    goals: [
+      '✅ EIP-4844 Blobs 上線（Dencun, 2024/3），L2 費用大降',
+      '✅ Blob 空間加倍（Pectra / PeerDAS, 2025/5）',
+      '🔄 ePBS + Block Access Lists（Glamsterdam, 2026 上半年）',
+      '📋 Full Danksharding（長期目標，100,000+ TPS）',
+    ],
   },
   {
     id: 'scourge',
     name: 'The Scourge',
     nameZh: '淨化',
-    short: 'MEV、流動性質押、經濟去中心化',
+    short: '解決 MEV 問題、質押集中化與經濟去中心化',
     status: 'in_progress',
+    progress: 20,
+    goals: [
+      '🔄 ePBS（提議者與建構者分離）進入 Glamsterdam',
+      '🔄 DVT（分散式驗證者技術）持續推進',
+      '📋 加密記憶體池（未來防 MEV 搶跑）',
+      '📋 抑制流動性質押集中化（Lido / Coinbase 問題）',
+    ],
   },
   {
     id: 'verge',
     name: 'The Verge',
     nameZh: '邊緣',
-    short: 'Verkle Trees、輕節點、無狀態',
+    short: '讓驗證以太坊不再需要大硬碟，手機也能跑節點',
     status: 'future',
+    progress: 10,
+    goals: [
+      '🔄 Verkle Trees（取代 Merkle，大幅縮減儲存需求）進入 Hegotá',
+      '📋 無狀態客戶端（不需同步整條鏈即可驗證區塊）',
+      '📋 SNARK 驗證區塊（ZK 化 EVM，終極輕量化）',
+    ],
   },
   {
     id: 'purge',
     name: 'The Purge',
     nameZh: '精簡',
-    short: '歷史資料瘦身、技術債清理',
+    short: '清除歷史包袱，讓協議更簡單、更易維護',
     status: 'future',
+    progress: 15,
+    goals: [
+      '✅ EIP-4444：節點不再強制儲存 1 年以上歷史資料',
+      '📋 移除過時 OpCode 與複雜性（EOF / EVM 清理）',
+      '📋 協議精簡，降低客戶端開發維護成本',
+    ],
   },
   {
     id: 'splurge',
     name: 'The Splurge',
     nameZh: '雜項',
-    short: '其餘改進、協調各階段',
+    short: '帳戶抽象、隱私、後量子安全等其餘重要改進',
     status: 'future',
+    progress: 25,
+    goals: [
+      '✅ EIP-7702 帳戶抽象（Pectra, 2025/5 已上線）',
+      '🔄 原生隱私（隱形地址、ZK 原生支援）',
+      '📋 後量子密碼學（抵抗量子電腦攻擊）',
+      '📋 EVM 升級（Gas 改革、新 OpCode）',
+    ],
   },
 ];
 
@@ -338,6 +377,11 @@ const roadmapData = [
             confidence: 'low',
             sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
             links: [{ type: 'external', label: 'Vitalik：隱形地址概述', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' }],
+            termExplainers: [
+              { term: '隱形地址', explanation: '每次有人轉幣給你時，自動幫仿產生一個全新的一次性地址來收款；外界只能看到地址，無法确認就是「你」在收。', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' },
+              { term: 'Hegotá', explanation: '以太坊預計 2026 下半年的下一大型升級（Heze + Bogotá），預計帶來 Verkle Trees、無狀態節點與隆私改進。', url: 'https://ethereum.org/roadmap' },
+              { term: 'FOCIL', explanation: 'Fork-Choice Inclusion List」的縮寫，一種投票機制，讓榜驗證者可以強制要求批向员必須包入某些交易，防止建構者任意審查交易。', url: null },
+            ],
           },
           {
             id: 'p11',
@@ -356,6 +400,11 @@ const roadmapData = [
             sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
             links: [
               { type: 'external', label: 'Helios 輕節點 (GitHub)', url: 'https://github.com/a16z/helios' },
+            ],
+            termExplainers: [
+              { term: 'Helios', explanation: '以太坊基金會支援的輕節點客戶端，讓瀏覽器 / 手機可以直接驗證區塊鏈資料，不需要信任任何中心化 RPC。', url: 'https://github.com/a16z/helios' },
+              { term: 'RPC', explanation: '「Remote Procedure Call」。你的錢包 App 讀取區塊鏈資料時通常不是自己計算，而是跳加問 Infura、Alchemy 等中心化伺服器。', url: null },
+              { term: '無狀態客戶端', explanation: '不需要儲存整條區塊鏈，仅鬓少數據就能驗證最新區塊的正確性，Hegotá 後預計落地。', url: null },
             ],
           },
         ],
@@ -578,11 +627,11 @@ export default function EthereumRoadmapUX() {
 
           {/* 技術路線圖原貌 */}
           <div>
-            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大階段）</span>
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大面向）</span>
             <p className="mt-2 text-slate-600 leading-relaxed">
-              下面六個階段是以太坊官方用來描述升級的架構，<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向。
+              這六個面向<strong className="text-slate-700">並行推進</strong>，不分先後。每個面向都有自己要解決的問題與目前完成度。
             </p>
-            <div className="grid grid-cols-1 gap-2 mt-3">
+            <div className="grid grid-cols-1 gap-3 mt-3">
               {officialRoadmapPhases.map((phase) => (
                 <div
                   key={phase.id}
@@ -593,19 +642,40 @@ export default function EthereumRoadmapUX() {
                       : 'bg-white border-slate-200'
                     }`}
                 >
-                  <div className="flex items-center gap-2 mb-0.5">
-                    {phase.status === 'completed' ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                    ) : null}
-                    {phase.status === 'in_progress' ? (
-                      <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />
-                    ) : null}
-                    <span className="font-semibold text-slate-800 text-sm">
-                      {phase.name}
-                      <span className="text-slate-500 font-normal ml-1 text-xs">({phase.nameZh})</span>
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <div className="flex items-center gap-2">
+                      {phase.status === 'completed' ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                      ) : phase.status === 'in_progress' ? (
+                        <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />
+                      ) : (
+                        <div className="w-2 h-2 rounded-full bg-slate-300 flex-shrink-0 ml-0.5" />
+                      )}
+                      <span className="font-semibold text-slate-800 text-sm">
+                        {phase.name}
+                        <span className="text-slate-500 font-normal ml-1 text-xs">({phase.nameZh})</span>
+                      </span>
+                    </div>
+                    <span className="text-xs font-medium text-slate-500 flex-shrink-0">{phase.progress}%</span>
                   </div>
-                  <p className="text-xs text-slate-600 ml-6">{phase.short}</p>
+                  {/* 進度條 */}
+                  <div className="ml-6 mb-2">
+                    <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${phase.status === 'completed' ? 'bg-emerald-500'
+                          : phase.status === 'in_progress' ? 'bg-indigo-500'
+                            : 'bg-slate-300'
+                          }`}
+                        style={{ width: `${phase.progress}%` }}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-500 ml-6 mb-1.5 italic">{phase.short}</p>
+                  <ul className="ml-6 space-y-0.5">
+                    {phase.goals.map((g, i) => (
+                      <li key={i} className="text-xs text-slate-600 leading-relaxed">{g}</li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>
@@ -663,7 +733,7 @@ export default function EthereumRoadmapUX() {
               以太坊升級地圖
             </h1>
             <p className="text-slate-600 leading-relaxed max-w-2xl">
-              以太坊升級到哪裡了？未來還有哪些？真的能解決我的問題嗎？選你正在煩惱的面向，對應到背後的階段與解法。
+              以太坊升級到哪裡了？未來還有哪些？真的能解決我的問題嗎？
             </p>
           </div>
           <button
@@ -808,6 +878,23 @@ export default function EthereumRoadmapUX() {
                       以太坊解法
                     </span>
                     <p className="text-slate-600 leading-relaxed">{item.solution}</p>
+                    {/* 名詞速解 */}
+                    {(item.termExplainers?.length ?? 0) > 0 && (
+                      <div className="mt-3 space-y-1.5">
+                        <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">名詞速解</p>
+                        {item.termExplainers.map((te, i) => (
+                          <div key={i} className="flex items-start gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+                            <span className="font-semibold text-indigo-700 whitespace-nowrap flex-shrink-0">{te.term}</span>
+                            <span className="text-slate-500 leading-relaxed">{te.explanation}</span>
+                            {te.url && (
+                              <a href={te.url} target="_blank" rel="noopener noreferrer" className="ml-auto flex-shrink-0 text-indigo-500 hover:text-indigo-700">
+                                <ExternalLink className="w-3 h-3" />
+                              </a>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* 4. 技術名詞 + ETA */}
