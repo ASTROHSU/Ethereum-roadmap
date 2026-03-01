@@ -8,7 +8,6 @@ import {
   ChevronUp,
   Clock,
   Code,
-  BookOpen,
   AlertCircle,
   ExternalLink,
   ChevronRight,
@@ -281,15 +280,11 @@ export default function EthereumRoadmapUX() {
       {/* Header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center space-x-2 text-indigo-600 mb-2">
-            <BookOpen className="w-5 h-5" />
-            <span className="font-semibold tracking-wider text-sm">區塊勢・互動工具</span>
-          </div>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
             以太坊升級地圖
           </h1>
           <p className="text-slate-600 leading-relaxed max-w-2xl">
-            把技術升級與你遇到的問題對應起來：選一個你正在煩惱的面向，我們幫你對應到背後的升級階段與解法。
+            以太坊升級到哪裡了？未來還有哪些？真的能解決我的問題嗎？選你正在煩惱的面向，對應到背後的階段與解法。
           </p>
         </div>
       </header>
