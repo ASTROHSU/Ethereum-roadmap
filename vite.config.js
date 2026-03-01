@@ -2,6 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/Ethereum-roadmap/',
+  base: process.env.VERCEL ? '/' : '/Ethereum-roadmap/',
   plugins: [react()],
 })
