@@ -553,111 +553,107 @@ export default function EthereumRoadmapUX() {
           ))}
         </div>
 
-        {/* 參考：技術路線圖原貌（收在頁面最下方） */}
-        <section className="mt-12 pt-8 border-t border-slate-200">
+        {/* 最近一次更新（最外層，直接可見） */}
+        <footer className="mt-12 pt-6 pb-4 border-t border-slate-200">
+          <div className="text-xs text-slate-500 max-w-2xl">
+            <span className="font-medium text-slate-600">最近一次更新</span>
+            <p className="mt-1">
+              <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
+              {' · '}
+              {RECENT_UPDATES}
+            </p>
+            <p className="mt-1 text-slate-400">
+              若你有看到更新的發展而本站尚未反映，可展開下方「參考與資料來源」對照；我們會不定期更新。
+            </p>
+          </div>
+        </footer>
+
+        {/* 參考：技術路線圖原貌 + 資料從哪裡來（收合，需展開才看得到） */}
+        <section className="pb-8">
           <button
             type="button"
             onClick={() => setOfficialRoadmapOpen(!officialRoadmapOpen)}
-            className="w-full text-left flex items-center justify-between gap-2 py-2 px-0 text-slate-500 hover:text-slate-700 transition-colors"
+            className="w-full text-left flex items-center justify-between gap-2 py-2 px-0 text-slate-400 hover:text-slate-600 transition-colors"
           >
-            <span className="flex items-center gap-2">
-              <Map className="w-4 h-4 text-slate-400" />
-              <span className="text-xs font-medium">參考：技術路線圖原貌（可展開，附官方連結）</span>
-            </span>
+            <span className="text-xs">參考：技術路線圖原貌與資料來源</span>
             {officialRoadmapOpen ? (
-              <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+              <ChevronUp className="w-4 h-4 flex-shrink-0" />
             ) : (
-              <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+              <ChevronDown className="w-4 h-4 flex-shrink-0" />
             )}
           </button>
           {officialRoadmapOpen && (
-            <div className="mt-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
-              <p className="text-sm text-slate-600 leading-relaxed">
-                下面六個階段是以太坊官方用來描述升級的架構。它們<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向：像是一個系統的不同部分同時在演進，每次升級可能同時涉及多個階段。本頁把這張地圖轉成「從你的問題對應回去」的版本。
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {officialRoadmapPhases.map((phase) => (
-                  <div
-                    key={phase.id}
-                    className={`rounded-xl border p-4 ${
-                      phase.status === 'completed'
-                        ? 'bg-emerald-50/80 border-emerald-200'
-                        : phase.status === 'in_progress'
-                          ? 'bg-indigo-50/80 border-indigo-200'
-                          : 'bg-white border-slate-200'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      {phase.status === 'completed' ? (
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                      ) : null}
-                      <span className="font-semibold text-slate-800">
-                        {phase.name}
-                        <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
-                      </span>
-                    </div>
-                    <p className="text-sm text-slate-600">{phase.short}</p>
-                    {phase.status === 'completed' && (
-                      <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
-                    )}
-                    {phase.status === 'in_progress' && (
-                      <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
-                    )}
-                  </div>
-                ))}
-              </div>
+            <div className="mt-3 pt-4 border-t border-slate-100 space-y-6 text-sm">
               <div>
+                <span className="font-medium text-slate-600 text-xs">技術路線圖原貌</span>
+                <p className="mt-2 text-slate-600 leading-relaxed">
+                  下面六個階段是以太坊官方用來描述升級的架構。它們<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向：像是一個系統的不同部分同時在演進，每次升級可能同時涉及多個階段。本頁把這張地圖轉成「從你的問題對應回去」的版本。
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+                  {officialRoadmapPhases.map((phase) => (
+                    <div
+                      key={phase.id}
+                      className={`rounded-xl border p-4 ${
+                        phase.status === 'completed'
+                          ? 'bg-emerald-50/80 border-emerald-200'
+                          : phase.status === 'in_progress'
+                            ? 'bg-indigo-50/80 border-indigo-200'
+                            : 'bg-white border-slate-200'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        {phase.status === 'completed' ? (
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                        ) : null}
+                        <span className="font-semibold text-slate-800">
+                          {phase.name}
+                          <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
+                        </span>
+                      </div>
+                      <p className="text-sm text-slate-600">{phase.short}</p>
+                      {phase.status === 'completed' && (
+                        <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
+                      )}
+                      {phase.status === 'in_progress' && (
+                        <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
                 <a
                   href="https://ethereum.org/roadmap"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+                  className="inline-flex items-center gap-1 mt-2 text-indigo-600 hover:text-indigo-800 text-sm"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
-                  參考 Ethereum.org 路線圖（原始來源）
+                  Ethereum.org 路線圖（原始來源）
                 </a>
+              </div>
+              <div>
+                <span className="font-medium text-slate-600 text-xs">資料從哪裡來</span>
+                <p className="mt-2 text-slate-600">
+                  本頁內容參考以下來源整理，各痛點卡片內也有個別來源與連結可對照。
+                </p>
+                <ul className="mt-2 space-y-1">
+                  {DATA_SOURCES.map((s, i) => (
+                    <li key={i}>
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+                      >
+                        {s.label}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           )}
         </section>
-
-        {/* 資料來源與最近更新（頁面最下方） */}
-        <footer className="mt-12 pt-6 pb-8 border-t border-slate-200">
-          <div className="text-xs text-slate-500 space-y-3 max-w-2xl">
-            <div>
-              <span className="font-medium text-slate-600">資料從哪裡來</span>
-              <p className="mt-1">
-                本頁內容參考以下來源整理，各痛點卡片內也有個別來源與連結可對照。
-              </p>
-              <ul className="mt-2 space-y-1">
-                {DATA_SOURCES.map((s, i) => (
-                  <li key={i}>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
-                    >
-                      {s.label}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <span className="font-medium text-slate-600">最近一次更新</span>
-              <p className="mt-1">
-                <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
-                {' · '}
-                {RECENT_UPDATES}
-              </p>
-              <p className="mt-1 text-slate-400">
-                若你有看到更新的發展而本站尚未反映，可依上方來源自行對照；我們會不定期更新。
-              </p>
-            </div>
-          </div>
-        </footer>
       </main>
     </div>
   );
