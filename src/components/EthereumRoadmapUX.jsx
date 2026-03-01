@@ -782,12 +782,12 @@ export default function EthereumRoadmapUX() {
 
       {/* ── Header ── */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-6 flex items-start justify-between gap-4">
+        <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-3">
               以太坊升級地圖
             </h1>
-            <p className="text-slate-600 leading-relaxed max-w-2xl">
+            <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl">
               以太坊升級了什麼？未來還有哪些？能解決我的問題嗎？
             </p>
           </div>
@@ -802,22 +802,26 @@ export default function EthereumRoadmapUX() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-5 md:py-8">
         {/* Category Tabs */}
-        <div className="flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-hide">
-          {roadmapData.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => handleTabChange(category.id)}
-              className={`flex items-center space-x-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${activeTab === category.id
-                ? 'bg-indigo-600 text-white shadow-md'
-                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-                }`}
-            >
-              {category.icon}
-              <span className="font-medium">{category.title}</span>
-            </button>
-          ))}
+        <div className="relative mb-6">
+          <div className="flex overflow-x-auto space-x-2 pb-4 scrollbar-hide">
+            {roadmapData.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleTabChange(category.id)}
+                className={`flex items-center space-x-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${activeTab === category.id
+                  ? 'bg-indigo-600 text-white shadow-md'
+                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  }`}
+              >
+                {category.icon}
+                <span className="font-medium">{category.title}</span>
+              </button>
+            ))}
+          </div>
+          {/* 右側漸層，提示可橫滑 */}
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-slate-50 to-transparent md:hidden" />
         </div>
 
         {/* Topic Breakdown */}
