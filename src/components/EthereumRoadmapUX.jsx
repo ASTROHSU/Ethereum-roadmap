@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Wallet,
   ShieldAlert,
@@ -11,11 +11,12 @@ import {
   AlertCircle,
   ExternalLink,
   ChevronRight,
-  Map,
   CheckCircle2,
+  BookOpen,
+  X,
 } from 'lucide-react';
 
-// 以太坊官方升級階段（技術路線圖原貌，供對照與建立權威感）
+// 以太坊官方升級階段
 const officialRoadmapPhases = [
   {
     id: 'merge',
@@ -36,7 +37,7 @@ const officialRoadmapPhases = [
     name: 'The Scourge',
     nameZh: '淨化',
     short: 'MEV、流動性質押、經濟去中心化',
-    status: 'future',
+    status: 'in_progress',
   },
   {
     id: 'verge',
@@ -61,7 +62,14 @@ const officialRoadmapPhases = [
   },
 ];
 
-// 嚴重度對應文案
+// 2026 年最新升級狀態
+const upgradeTimeline = [
+  { name: 'Dencun (EIP-4844)', nameZh: 'Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 費用大幅下降' },
+  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月 7 日', status: 'completed', note: 'EIP-7702 帳戶抽象、Blob 空間加倍' },
+  { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: 'ePBS + Block Access Lists，Devnet 測試中' },
+  { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: 'Verkle Trees、無狀態節點、後量子密碼學' },
+];
+
 const getSeverityLabel = (n) => {
   if (n <= 3) return '低';
   if (n <= 6) return '中';
@@ -74,26 +82,25 @@ const getSeverityColor = (n) => {
   return 'bg-rose-500';
 };
 
-// 成熟度 / 不確定性 標籤樣式
 const maturityLabels = {
   Research: '研究階段',
   Draft: '草案',
   Spec: '規格',
   Testnet: '測試網',
-  Mainnet: '主網',
+  Mainnet: '主網已上線',
 };
 const confidenceLabels = { low: '不確定性高', medium: '中等', high: '較確定' };
 
-// 網站資料透明度：讀者可確認資料來源與更新時間
-const LAST_UPDATED = '2025-03-01';
+const LAST_UPDATED = '2026-03-01';
 const DATA_SOURCES = [
-  { label: 'Strawmap', url: 'https://strawmap.org/' },
-  { label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
-  { label: 'EIPs（例如 EIP-8141、EIP-4337）', url: 'https://eips.ethereum.org/' },
+  { label: 'Strawmap (ethereum.org)', url: 'https://ethereum.org/roadmap' },
+  { label: 'Ethereum.org 升級歷史', url: 'https://ethereum.org/history' },
+  { label: 'EIPs 官方資料庫', url: 'https://eips.ethereum.org/' },
+  { label: 'Ethereum Foundation 部落格', url: 'https://blog.ethereum.org/' },
 ];
-const RECENT_UPDATES = '帳戶抽象改寫為 EIP-8141、文案簡化，並附 Vitalik 說明連結。';
+const RECENT_UPDATES =
+  'Pectra 已於 2025/5 上線主網（EIP-7702 帳戶抽象、Blob 空間加倍）；Glamsterdam 現正 Devnet 測試中，預計 2026 上半年主網。';
 
-// 編輯團隊維護的 JSON 資料庫：Category → Topics → Items
 const roadmapData = [
   {
     id: 'scale',
@@ -104,23 +111,27 @@ const roadmapData = [
         id: 'scale_l1',
         title: 'L1 手續費與吞吐',
         description: '主網 Gas 貴、容量有限，使用者被迫頻繁使用 L2 或忍受高成本。',
-        severity: 7,
+        severity: 5,
         items: [
           {
             id: 'p1',
             question: 'L1 手續費還是太貴了，但我又不想頻繁跨鏈到 L2，覺得好麻煩？',
             riskSummary:
               '高額手續費會排擠小額交易與新用戶，並讓 DeFi 操作成本不穩定，影響使用意願。',
-            severity: 7,
+            severity: 5,
             impact: 8,
             difficulty: 6,
             solution:
-              '以太坊將再次提升 L1 本身的處理能力，而不僅僅是把責任推給 L2。未來 L1 的 Gas Limit 會提高，並引入更有效率的虛擬機機制。',
-            techTerms: ['L1 Gas Limit 提升', 'EOF (EVM Object Format)'],
-            eta: '2025 - 2026 (The Splurge / Surge)',
-            maturity: 'Draft',
-            confidence: 'medium',
-            sources: [{ label: 'Strawmap', url: 'https://strawmap.org/' }],
+              '已有重大進展！2024 年 3 月的 Dencun 升級（EIP-4844）引入 Blob 資料，讓 L2 Roll up 費用瞬間降低了 10～100 倍。2025 年 5 月的 Pectra 升級再把 Blob 空間加倍（PeerDAS）。正在測試中的 Glamsterdam（預計 2026 上半年）將引入區塊級別訪問列表（EIP-7928）與 ePBS（EIP-7732），預計讓 L1 執行效率再大幅提升，Gas 費用進一步下降。',
+            techTerms: ['EIP-4844 (Proto-Danksharding)', 'PeerDAS / EIP-7594', 'Block Access Lists (EIP-7928)', 'ePBS (EIP-7732)'],
+            eta: 'Dencun ✅ 已完成 (2024/3)、Pectra ✅ 已完成 (2025/5)、Glamsterdam 🔄 預計 2026 上半年',
+            maturity: 'Mainnet',
+            confidence: 'high',
+            sources: [
+              { label: 'Ethereum.org 升級歷史', url: 'https://ethereum.org/history' },
+              { label: 'EIP-4844', url: 'https://eips.ethereum.org/EIPS/eip-4844' },
+              { label: 'EIP-7928 (Block Access Lists)', url: 'https://eips.ethereum.org/EIPS/eip-7928' },
+            ],
             links: [
               { type: 'external', label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
             ],
@@ -138,32 +149,33 @@ const roadmapData = [
         id: 'ux_recovery',
         title: '助記詞與帳戶恢復',
         description: '私鑰/助記詞一旦遺失，資產無法找回，門檻與心理負擔高。',
-        severity: 8,
+        severity: 6,
         items: [
           {
             id: 'p2',
             question: '記助記詞太反人類了！弄丟私鑰資產就歸零，不能像 Web2 一樣重設密碼嗎？',
             riskSummary:
               '遺失助記詞等於永久失去資產；無恢復機制也讓釣魚、盜竊一旦得手就無法挽回。',
-            severity: 9,
+            severity: 6,
             impact: 9,
             difficulty: 5,
             solution:
-              '可以。之後以太坊會支援「帳戶抽象」：你不用再死背 12 個字，可以像 Web2 一樣換密碼、用多簽或找信任的人幫你恢復帳戶，甚至用其他代幣付手續費。這套升級（EIP-8141）有機會約一年內上線。',
+              '已解決！2025 年 5 月上線的 Pectra 升級核心之一 EIP-7702 讓你的現有錢包（EOA）可以暫時委託給智慧合約行事，不需要建立新帳戶就能享有多簽保護、社群恢復、用其他代幣付 Gas 等功能。Safe、Argent 等主流錢包已開始支援。接下來的 Glamsterdam 將進一步原生化帳戶抽象機制。',
             techTerms: [
               '帳戶抽象 (Account Abstraction)',
-              'EIP-8141',
-              '多簽、社群恢復、用其他代幣付 gas',
+              'EIP-7702 (EOA 委託)',
+              '多簽、社群恢復',
+              'Safe / Argent 錢包支援',
             ],
-            eta: '約一年內（目標 Hegota 升級）',
-            maturity: 'Draft',
+            eta: '✅ 主網已上線（Pectra, 2025 年 5 月）',
+            maturity: 'Mainnet',
             confidence: 'high',
             sources: [
-              { label: 'EIP-8141', url: 'https://eips.ethereum.org/EIPS/eip-8141' },
+              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
               { label: 'EIP-4337 (ERC-4337)', url: 'https://eips.ethereum.org/EIPS/eip-4337' },
             ],
             links: [
-              { type: 'external', label: 'Vitalik：帳戶抽象說明', url: 'https://x.com/VitalikButerin/status/2027774090627715377' },
+              { type: 'external', label: 'Ethereum.org：帳戶抽象說明', url: 'https://ethereum.org/wallets/smart-contract-wallets' },
             ],
           },
         ],
@@ -189,15 +201,15 @@ const roadmapData = [
               '可能被鎖定成駭客/釣魚對象，或被社交工程攻擊；也會暴露投資策略與資產配置。',
             severity: 8,
             impact: 8,
-            difficulty: 6,
+            difficulty: 7,
             solution:
-              '未來將內建更強大的密碼學工具。當別人轉帳給你時，可以自動生成「隱形地址」，資金依然是你的，但外界無法將這筆錢與你的主帳號連在一起。',
-            techTerms: ['隱形地址 (Stealth Addresses)', 'ZK-SNARKs 原生支援'],
-            eta: '2026+ (The Splurge)',
+              '目前仍是以太坊重點研究中的課題。Vitalik 已提出的隱形地址（Stealth Addresses）方案可讓每筆轉帳自動產生一次性地址，讓外界無法把特定轉帳與你的主地址連結。Hegotá 升級（預計 2026 下半年）也預計加入 FOCIL 抗審查機制，並推進隱私保護技術的落地。',
+            techTerms: ['隱形地址 (Stealth Addresses)', 'ZK-SNARKs 原生支援', 'FOCIL (抗審查機制)'],
+            eta: '研究 & 規劃中 → 預計 Hegotá 開始落地 (2026 下半年)',
             maturity: 'Research',
             confidence: 'low',
-            sources: [{ label: 'Strawmap', url: 'https://strawmap.org/' }],
-            links: [{ type: 'external', label: 'Stealth addresses 概述', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' }],
+            sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
+            links: [{ type: 'external', label: 'Vitalik：隱形地址概述', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' }],
           },
         ],
       },
@@ -206,23 +218,26 @@ const roadmapData = [
         title: '交易隱私 / MEV',
         description:
           '交易在 mempool 可被觀察，可能被搶跑/夾擊，導致成交價格惡化或失敗。',
-        severity: 8,
+        severity: 7,
         items: [
           {
             id: 'p4',
             question: '在 DEX 買幣，常常因為滑點或被 MEV 機器人「夾擊」而買貴了？',
             riskSummary:
               '大額或時效敏感的交易容易被搶跑、三明治攻擊，造成實際成交價比預期差，甚至交易失敗。',
-            severity: 8,
+            severity: 7,
             impact: 7,
             difficulty: 7,
             solution:
-              '以太坊將在底層改變交易打包的規則，把「負責打包的人」和「負責提議的人」分開，並加密等待中的交易，讓機器人無法偷看你的交易來作惡。',
-            techTerms: ['PBS (提議者與建構者分離)', '加密記憶體池 (Encrypted Mempool)'],
-            eta: '2026 - 2027 (The Scourge)',
-            maturity: 'Research',
+              '重大改變即將到來！正在 Devnet 測試中的 Glamsterdam 升級（預計 2026 上半年）核心之一是 ePBS（EIP-7732）—將「負責打包的人」和「負責提議的人」分離並寫入協議，讓 MEV 提取更透明、更可預測，減少搶跑機會。長期目標是加密記憶體池，歸入 Scourge 階段。',
+            techTerms: ['ePBS (EIP-7732, 提議者與建構者分離)', '加密記憶體池 (Encrypted Mempool)', 'Glamsterdam 升級'],
+            eta: 'ePBS 🔄 Glamsterdam 預計 2026 上半年；加密 Mempool 仍在研究',
+            maturity: 'Testnet',
             confidence: 'medium',
-            sources: [{ label: 'Strawmap', url: 'https://strawmap.org/' }],
+            sources: [
+              { label: 'EIP-7732 (ePBS)', url: 'https://eips.ethereum.org/EIPS/eip-7732' },
+              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
+            ],
             links: [],
           },
         ],
@@ -249,12 +264,15 @@ const roadmapData = [
             impact: 7,
             difficulty: 8,
             solution:
-              '即將大幅瘦身！未來的技術升級會讓節點「無狀態化」，你甚至可以只用手機或智慧手錶，就能驗證以太坊區塊鏈，徹底打破硬體門檻。',
-            techTerms: ['Verkle Trees', '無狀態客戶端 (Stateless Clients)'],
-            eta: '2027 - 2028 (The Verge)',
-            maturity: 'Research',
+              '即將大幅瘦身！預計在 Hegotá 升級（2026 下半年）中引入的 Verkle Trees 將把節點儲存需求大幅削減。長遠來看，無狀態客戶端讓你甚至不需要同步整條鏈就能驗證區塊。此外，以太坊基金會已組建後量子密碼學研究小組，確保節點面對量子電腦威脅時仍安全。',
+            techTerms: ['Verkle Trees', '無狀態客戶端 (Stateless Clients)', '後量子密碼學 (Post-Quantum Cryptography)'],
+            eta: 'Verkle Trees 🔄 Hegotá 預計 2026 下半年；後量子 2027+ 規劃中',
+            maturity: 'Testnet',
             confidence: 'medium',
-            sources: [{ label: 'Strawmap', url: 'https://strawmap.org/' }],
+            sources: [
+              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
+              { label: 'Ethereum Foundation 部落格', url: 'https://blog.ethereum.org/' },
+            ],
             links: [],
           },
         ],
@@ -268,7 +286,7 @@ export default function EthereumRoadmapUX() {
   const [activeTopic, setActiveTopic] = useState(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [sourcesOpen, setSourcesOpen] = useState({});
-  const [officialRoadmapOpen, setOfficialRoadmapOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const activeCategory = roadmapData.find((c) => c.id === activeTab) ?? roadmapData[0];
   const effectiveTopic =
@@ -293,17 +311,169 @@ export default function EthereumRoadmapUX() {
     setSourcesOpen((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
   };
 
+  // 關閉 sidebar 時鎖定 body scroll
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [sidebarOpen]);
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
-      {/* Header */}
+
+      {/* ── Sidebar Overlay ── */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* ── Sidebar Panel ── */}
+      <aside
+        className={`fixed top-0 right-0 h-full w-full max-w-md z-50 bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
+          <span className="font-semibold text-slate-800 text-lg">參考資料與來源</span>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="text-slate-400 hover:text-slate-700 transition-colors p-1 rounded-full hover:bg-slate-100"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 text-sm">
+
+          {/* 升級時間軸 */}
+          <div>
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">2024 – 2026 升級時間軸</span>
+            <div className="mt-3 space-y-3">
+              {upgradeTimeline.map((u) => (
+                <div key={u.name} className={`rounded-xl border p-3.5 ${u.status === 'completed'
+                    ? 'bg-emerald-50 border-emerald-200'
+                    : u.status === 'in_progress'
+                      ? 'bg-indigo-50 border-indigo-200'
+                      : 'bg-white border-slate-200'
+                  }`}>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      {u.status === 'completed' && <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />}
+                      {u.status === 'in_progress' && <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />}
+                      {u.status === 'future' && <div className="w-2 h-2 rounded-full bg-slate-300 flex-shrink-0 ml-0.5" />}
+                      <span className="font-semibold text-slate-800">{u.name}</span>
+                    </div>
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${u.status === 'completed' ? 'bg-emerald-100 text-emerald-700'
+                        : u.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700'
+                          : 'bg-slate-100 text-slate-500'
+                      }`}>
+                      {u.status === 'completed' ? '已完成' : u.status === 'in_progress' ? '進行中' : '規劃中'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-1 ml-6">{u.nameZh} · {u.date}</p>
+                  <p className="text-xs text-slate-600 mt-1 ml-6">{u.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 技術路線圖原貌 */}
+          <div>
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大階段）</span>
+            <p className="mt-2 text-slate-600 leading-relaxed">
+              下面六個階段是以太坊官方用來描述升級的架構，<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向。
+            </p>
+            <div className="grid grid-cols-1 gap-2 mt-3">
+              {officialRoadmapPhases.map((phase) => (
+                <div
+                  key={phase.id}
+                  className={`rounded-xl border p-3 ${phase.status === 'completed'
+                      ? 'bg-emerald-50 border-emerald-200'
+                      : phase.status === 'in_progress'
+                        ? 'bg-indigo-50 border-indigo-200'
+                        : 'bg-white border-slate-200'
+                    }`}
+                >
+                  <div className="flex items-center gap-2 mb-0.5">
+                    {phase.status === 'completed' ? (
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                    ) : null}
+                    {phase.status === 'in_progress' ? (
+                      <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />
+                    ) : null}
+                    <span className="font-semibold text-slate-800 text-sm">
+                      {phase.name}
+                      <span className="text-slate-500 font-normal ml-1 text-xs">({phase.nameZh})</span>
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-600 ml-6">{phase.short}</p>
+                </div>
+              ))}
+            </div>
+            <a
+              href="https://ethereum.org/roadmap"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 mt-3 text-indigo-600 hover:text-indigo-800 text-xs"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Ethereum.org 路線圖（原始來源）
+            </a>
+          </div>
+
+          {/* 資料來源 */}
+          <div>
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">資料從哪裡來</span>
+            <p className="mt-2 text-slate-600">
+              本頁內容參考以下來源整理，各痛點卡片內也有個別來源與連結可對照。
+            </p>
+            <ul className="mt-2 space-y-2">
+              {DATA_SOURCES.map((s, i) => (
+                <li key={i}>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+                  >
+                    {s.label}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 最近更新 */}
+          <div className="pt-4 border-t border-slate-100 text-xs text-slate-500">
+            <span className="font-medium text-slate-600">最近一次更新</span>
+            <p className="mt-1">
+              <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
+              {' · '}
+              {RECENT_UPDATES}
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── Header ── */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-            以太坊升級地圖
-          </h1>
-          <p className="text-slate-600 leading-relaxed max-w-2xl">
-            以太坊升級到哪裡了？未來還有哪些？真的能解決我的問題嗎？選你正在煩惱的面向，對應到背後的階段與解法。
-          </p>
+        <div className="max-w-4xl mx-auto px-4 py-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              以太坊升級地圖
+            </h1>
+            <p className="text-slate-600 leading-relaxed max-w-2xl">
+              以太坊升級到哪裡了？未來還有哪些？真的能解決我的問題嗎？選你正在煩惱的面向，對應到背後的階段與解法。
+            </p>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex-shrink-0 flex flex-col items-center gap-1 px-3 py-2.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-slate-500 hover:text-indigo-600"
+            title="參考資料與來源"
+          >
+            <BookOpen className="w-5 h-5" />
+            <span className="text-xs font-medium">參考來源</span>
+          </button>
         </div>
       </header>
 
@@ -314,11 +484,10 @@ export default function EthereumRoadmapUX() {
             <button
               key={category.id}
               onClick={() => handleTabChange(category.id)}
-              className={`flex items-center space-x-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${
-                activeTab === category.id
+              className={`flex items-center space-x-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${activeTab === category.id
                   ? 'bg-indigo-600 text-white shadow-md'
                   : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
-              }`}
+                }`}
             >
               {category.icon}
               <span className="font-medium">{category.title}</span>
@@ -339,11 +508,10 @@ export default function EthereumRoadmapUX() {
                   setActiveTopic(topic.id);
                   setExpandedCard(null);
                 }}
-                className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between ${
-                  effectiveTopic === topic.id
+                className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between ${effectiveTopic === topic.id
                     ? 'bg-indigo-50 border-indigo-300 ring-1 ring-indigo-100'
                     : 'bg-white border-slate-200 hover:border-indigo-200 hover:bg-slate-50'
-                }`}
+                  }`}
               >
                 <div>
                   <span className="font-medium text-slate-800">{topic.title}</span>
@@ -351,13 +519,12 @@ export default function EthereumRoadmapUX() {
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0 ml-3">
                   <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded ${
-                      topic.severity >= 7
+                    className={`text-xs font-medium px-2 py-0.5 rounded ${topic.severity >= 7
                         ? 'bg-rose-100 text-rose-700'
                         : topic.severity >= 4
                           ? 'bg-amber-100 text-amber-700'
                           : 'bg-slate-100 text-slate-600'
-                    }`}
+                      }`}
                   >
                     嚴重度 {topic.severity}/10
                   </span>
@@ -375,11 +542,10 @@ export default function EthereumRoadmapUX() {
           {items.map((item) => (
             <div
               key={item.id}
-              className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${
-                expandedCard === item.id
+              className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id
                   ? 'border-indigo-400 shadow-lg ring-1 ring-indigo-100'
                   : 'border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-md'
-              }`}
+                }`}
             >
               <button
                 onClick={() => toggleCard(item.id)}
@@ -403,9 +569,8 @@ export default function EthereumRoadmapUX() {
               </button>
 
               <div
-                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${
-                  expandedCard === item.id ? 'max-h-[1200px] pb-6 opacity-100' : 'max-h-0 opacity-0'
-                }`}
+                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1400px] pb-6 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
               >
                 <div className="border-t border-slate-100 pt-5 space-y-5">
                   {/* 1. 嚴重度 */}
@@ -445,7 +610,7 @@ export default function EthereumRoadmapUX() {
                     <p className="text-slate-600 leading-relaxed">{item.solution}</p>
                   </div>
 
-                  {/* 4. 技術名詞 + ETA + 成熟度/不確定性 */}
+                  {/* 4. 技術名詞 + ETA */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 rounded-xl p-4 border border-slate-100">
                     <div>
                       <div className="flex items-center text-slate-500 text-sm mb-1 font-medium">
@@ -468,7 +633,7 @@ export default function EthereumRoadmapUX() {
                         <Clock className="w-4 h-4 mr-1.5" />
                         預計實現時間 (ETA)
                       </div>
-                      <div className="text-slate-800 font-medium mt-2">{item.eta}</div>
+                      <div className="text-slate-800 font-medium mt-2 text-sm leading-relaxed">{item.eta}</div>
                     </div>
                   </div>
 
@@ -485,18 +650,9 @@ export default function EthereumRoadmapUX() {
                     ETA 為進度推估，非承諾時程；成熟度與不確定性供判斷可信度。
                   </p>
 
-                  {/* 6. 連結（依 links 決定顯示） */}
+                  {/* 6. 連結 */}
                   {(item.links?.length ?? 0) > 0 && (
                     <div className="pt-4 border-t border-slate-100 space-y-2">
-                      {item.links.some((l) => l.type === 'blocktrend') && (
-                        <a
-                          href={item.links.find((l) => l.type === 'blocktrend')?.url}
-                          className="text-indigo-600 hover:text-indigo-800 font-medium text-sm flex items-center transition-colors"
-                        >
-                          閱讀《區塊勢》深入解析
-                          <span className="ml-1 text-lg leading-none">→</span>
-                        </a>
-                      )}
                       {item.links
                         .filter((l) => l.type === 'external')
                         .map((link, i) => (
@@ -553,104 +709,26 @@ export default function EthereumRoadmapUX() {
           ))}
         </div>
 
-        {/* 最近一次更新（最外層，直接可見） */}
-        <footer className="mt-12 pt-6 pb-4 border-t border-slate-200">
-          <div className="text-xs text-slate-500 max-w-2xl">
-            <span className="font-medium text-slate-600">最近一次更新</span>
-            <p className="mt-1">
-              <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
-              {' · '}
-              {RECENT_UPDATES}
-            </p>
+        {/* Footer */}
+        <footer className="mt-12 pt-6 pb-8 border-t border-slate-200">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="text-xs text-slate-500 max-w-2xl">
+              <span className="font-medium text-slate-600">最近一次更新</span>
+              <p className="mt-1">
+                <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
+                {' · '}
+                {RECENT_UPDATES}
+              </p>
+            </div>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors"
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              查看參考資料與來源
+            </button>
           </div>
         </footer>
-
-        {/* 參考：技術路線圖原貌 + 資料從哪裡來（收合，需展開才看得到） */}
-        <section className="pb-8">
-          <button
-            type="button"
-            onClick={() => setOfficialRoadmapOpen(!officialRoadmapOpen)}
-            className="w-full text-left flex items-center justify-between gap-2 py-2 px-0 text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            <span className="text-xs">參考：技術路線圖原貌與資料來源</span>
-            {officialRoadmapOpen ? (
-              <ChevronUp className="w-4 h-4 flex-shrink-0" />
-            ) : (
-              <ChevronDown className="w-4 h-4 flex-shrink-0" />
-            )}
-          </button>
-          {officialRoadmapOpen && (
-            <div className="mt-3 pt-4 border-t border-slate-100 space-y-6 text-sm">
-              <div>
-                <span className="font-medium text-slate-600 text-xs">技術路線圖原貌</span>
-                <p className="mt-2 text-slate-600 leading-relaxed">
-                  下面六個階段是以太坊官方用來描述升級的架構。它們<strong className="text-slate-700">不是嚴格先後順序</strong>，而是<strong className="text-slate-700">並行推進</strong>的不同面向：像是一個系統的不同部分同時在演進，每次升級可能同時涉及多個階段。本頁把這張地圖轉成「從你的問題對應回去」的版本。
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
-                  {officialRoadmapPhases.map((phase) => (
-                    <div
-                      key={phase.id}
-                      className={`rounded-xl border p-4 ${
-                        phase.status === 'completed'
-                          ? 'bg-emerald-50/80 border-emerald-200'
-                          : phase.status === 'in_progress'
-                            ? 'bg-indigo-50/80 border-indigo-200'
-                            : 'bg-white border-slate-200'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 mb-1">
-                        {phase.status === 'completed' ? (
-                          <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                        ) : null}
-                        <span className="font-semibold text-slate-800">
-                          {phase.name}
-                          <span className="text-slate-500 font-normal ml-1">({phase.nameZh})</span>
-                        </span>
-                      </div>
-                      <p className="text-sm text-slate-600">{phase.short}</p>
-                      {phase.status === 'completed' && (
-                        <span className="inline-block mt-2 text-xs font-medium text-emerald-700">已完成</span>
-                      )}
-                      {phase.status === 'in_progress' && (
-                        <span className="inline-block mt-2 text-xs font-medium text-indigo-700">進行中</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <a
-                  href="https://ethereum.org/roadmap"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 mt-2 text-indigo-600 hover:text-indigo-800 text-sm"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Ethereum.org 路線圖（原始來源）
-                </a>
-              </div>
-              <div>
-                <span className="font-medium text-slate-600 text-xs">資料從哪裡來</span>
-                <p className="mt-2 text-slate-600">
-                  本頁內容參考以下來源整理，各痛點卡片內也有個別來源與連結可對照。
-                </p>
-                <ul className="mt-2 space-y-1">
-                  {DATA_SOURCES.map((s, i) => (
-                    <li key={i}>
-                      <a
-                        href={s.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
-                      >
-                        {s.label}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
-        </section>
       </main>
     </div>
   );
