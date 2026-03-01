@@ -147,7 +147,7 @@ const LAST_UPDATED = '2026-03-01';
 const DATA_SOURCES = [
   {
     label: 'Strawmap（EF 官方技術路線圖）',
-    desc: '由以太坊基金會 Protocol 團隊維護，專為研究者與開發者設計的技術路線圖，文件本身說明「一般人請看 ethereum.org/roadmap」。你現在在看的這個網站，就是普通人版的 Strawmap。',
+    desc: '由以太坊基金會 Protocol 團隊維護，專為研究者與開發者設計的技術路線圖。',
     url: 'https://strawmap.org/',
   },
   {
@@ -789,7 +789,7 @@ export default function EthereumRoadmapUX() {
               以太坊升級地圖
             </h1>
             <p className="text-slate-600 leading-relaxed max-w-2xl">
-              Strawmap 給進階讀者看的部分，這裡用普通人的語言說清楚。
+              以太坊升級了什麼？未來還有哪些？能解決我的問題嗎？
             </p>
           </div>
           <button
