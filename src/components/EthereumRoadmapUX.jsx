@@ -41,7 +41,7 @@ const officialRoadmapPhases = [
     goals: [
       '✅ EIP-4844 Blobs 上線（Dencun, 2024/3），L2 費用大降',
       '✅ Blob 空間加倍（Pectra / PeerDAS, 2025/5）',
-      '🔄 ePBS + Block Access Lists（Glamsterdam, 2026 上半年）',
+      '🔄 ePBS 搭配 Block Access Lists（Glamsterdam）——此處針對「區塊容量擴大」這面向',
       '📋 Full Danksharding（長期目標，100,000+ TPS）',
     ],
   },
@@ -53,7 +53,7 @@ const officialRoadmapPhases = [
     status: 'in_progress',
     progress: 20,
     goals: [
-      '🔄 ePBS（提議者與建構者分離）進入 Glamsterdam',
+      '🔄 ePBS（Glamsterdam）——此處針對「提議者 vs 打包者分離」，讓 MEV 抄脱變透明可預期',
       '🔄 DVT（分散式驗證者技術）持續推進',
       '📋 加密記憶體池（未來防 MEV 搶跑）',
       '📋 抑制流動性質押集中化（Lido / Coinbase 問題）',
@@ -697,10 +697,7 @@ export default function EthereumRoadmapUX() {
           {/* 技術路線圖原貌 */}
           <div>
             <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大面向）</span>
-            <p className="mt-1 text-xs text-slate-400 italic">長期研究主題，不是單次升級，而是持續推進的六個方向。一次升級可能同時推進多個面向。</p>
-            <p className="mt-2 text-slate-600 leading-relaxed">
-              這六個面向<strong className="text-slate-700">並行推進</strong>，不分先後。每個面向都有自己要解決的問題與目前完成度。
-            </p>
+            <p className="mt-1 text-xs text-slate-400 italic">長期研究主題，不是單次升級，而是並行推進的六個方向。同一個升級（如 ePBS）可能同時推進不同面向。</p>
             <div className="grid grid-cols-1 gap-3 mt-3">
               {officialRoadmapPhases.map((phase) => (
                 <div
