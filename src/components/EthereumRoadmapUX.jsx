@@ -350,10 +350,10 @@ export default function EthereumRoadmapUX() {
             <div className="mt-3 space-y-3">
               {upgradeTimeline.map((u) => (
                 <div key={u.name} className={`rounded-xl border p-3.5 ${u.status === 'completed'
-                    ? 'bg-emerald-50 border-emerald-200'
-                    : u.status === 'in_progress'
-                      ? 'bg-indigo-50 border-indigo-200'
-                      : 'bg-white border-slate-200'
+                  ? 'bg-emerald-50 border-emerald-200'
+                  : u.status === 'in_progress'
+                    ? 'bg-indigo-50 border-indigo-200'
+                    : 'bg-white border-slate-200'
                   }`}>
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -363,8 +363,8 @@ export default function EthereumRoadmapUX() {
                       <span className="font-semibold text-slate-800">{u.name}</span>
                     </div>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${u.status === 'completed' ? 'bg-emerald-100 text-emerald-700'
-                        : u.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700'
-                          : 'bg-slate-100 text-slate-500'
+                      : u.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700'
+                        : 'bg-slate-100 text-slate-500'
                       }`}>
                       {u.status === 'completed' ? '已完成' : u.status === 'in_progress' ? '進行中' : '規劃中'}
                     </span>
@@ -387,10 +387,10 @@ export default function EthereumRoadmapUX() {
                 <div
                   key={phase.id}
                   className={`rounded-xl border p-3 ${phase.status === 'completed'
-                      ? 'bg-emerald-50 border-emerald-200'
-                      : phase.status === 'in_progress'
-                        ? 'bg-indigo-50 border-indigo-200'
-                        : 'bg-white border-slate-200'
+                    ? 'bg-emerald-50 border-emerald-200'
+                    : phase.status === 'in_progress'
+                      ? 'bg-indigo-50 border-indigo-200'
+                      : 'bg-white border-slate-200'
                     }`}
                 >
                   <div className="flex items-center gap-2 mb-0.5">
@@ -485,8 +485,8 @@ export default function EthereumRoadmapUX() {
               key={category.id}
               onClick={() => handleTabChange(category.id)}
               className={`flex items-center space-x-2 px-5 py-3 rounded-full whitespace-nowrap transition-all ${activeTab === category.id
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
                 }`}
             >
               {category.icon}
@@ -509,8 +509,8 @@ export default function EthereumRoadmapUX() {
                   setExpandedCard(null);
                 }}
                 className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between ${effectiveTopic === topic.id
-                    ? 'bg-indigo-50 border-indigo-300 ring-1 ring-indigo-100'
-                    : 'bg-white border-slate-200 hover:border-indigo-200 hover:bg-slate-50'
+                  ? 'bg-indigo-50 border-indigo-300 ring-1 ring-indigo-100'
+                  : 'bg-white border-slate-200 hover:border-indigo-200 hover:bg-slate-50'
                   }`}
               >
                 <div>
@@ -520,10 +520,10 @@ export default function EthereumRoadmapUX() {
                 <div className="flex items-center gap-2 flex-shrink-0 ml-3">
                   <span
                     className={`text-xs font-medium px-2 py-0.5 rounded ${topic.severity >= 7
-                        ? 'bg-rose-100 text-rose-700'
-                        : topic.severity >= 4
-                          ? 'bg-amber-100 text-amber-700'
-                          : 'bg-slate-100 text-slate-600'
+                      ? 'bg-rose-100 text-rose-700'
+                      : topic.severity >= 4
+                        ? 'bg-amber-100 text-amber-700'
+                        : 'bg-slate-100 text-slate-600'
                       }`}
                   >
                     嚴重度 {topic.severity}/10
@@ -543,8 +543,8 @@ export default function EthereumRoadmapUX() {
             <div
               key={item.id}
               className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id
-                  ? 'border-indigo-400 shadow-lg ring-1 ring-indigo-100'
-                  : 'border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-md'
+                ? 'border-indigo-400 shadow-lg ring-1 ring-indigo-100'
+                : 'border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-md'
                 }`}
             >
               <button
@@ -708,27 +708,6 @@ export default function EthereumRoadmapUX() {
             </div>
           ))}
         </div>
-
-        {/* Footer */}
-        <footer className="mt-12 pt-6 pb-8 border-t border-slate-200">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="text-xs text-slate-500 max-w-2xl">
-              <span className="font-medium text-slate-600">最近一次更新</span>
-              <p className="mt-1">
-                <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
-                {' · '}
-                {RECENT_UPDATES}
-              </p>
-            </div>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="text-xs text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors"
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              查看參考資料與來源
-            </button>
-          </div>
-        </footer>
       </main>
     </div>
   );
