@@ -824,12 +824,9 @@ export default function EthereumRoadmapUX() {
           <div className="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-l from-slate-50 to-transparent md:hidden" />
         </div>
 
-        {/* Topic Breakdown */}
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
-            子議題
-          </h2>
-          <div className="flex flex-col gap-2">
+        {/* Topic chips */}
+        <div className="relative mb-5">
+          <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
             {activeCategory.topics.map((topic) => (
               <button
                 key={topic.id}
@@ -837,33 +834,20 @@ export default function EthereumRoadmapUX() {
                   setActiveTopic(topic.id);
                   setExpandedCard(null);
                 }}
-                className={`w-full text-left px-4 py-3 rounded-xl border transition-all flex items-center justify-between ${effectiveTopic === topic.id
-                  ? 'bg-indigo-50 border-indigo-300 ring-1 ring-indigo-100'
-                  : 'bg-white border-slate-200 hover:border-indigo-200 hover:bg-slate-50'
+                className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium border ${effectiveTopic === topic.id
+                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50'
                   }`}
               >
-                <div>
-                  <span className="font-medium text-slate-800">{topic.title}</span>
-                  <p className="text-sm text-slate-500 mt-0.5 line-clamp-1">{topic.description}</p>
-                </div>
-                <div className="flex items-center gap-2 flex-shrink-0 ml-3">
-                  <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded ${topic.severity >= 7
-                      ? 'bg-rose-100 text-rose-700'
-                      : topic.severity >= 4
-                        ? 'bg-amber-100 text-amber-700'
-                        : 'bg-slate-100 text-slate-600'
-                      }`}
-                  >
-                    嚴重度 {topic.severity}/10
-                  </span>
-                  <ChevronRight
-                    className={`w-5 h-5 text-slate-400 ${effectiveTopic === topic.id ? 'text-indigo-600' : ''}`}
-                  />
-                </div>
+                {/* 嚴重度色點 */}
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${topic.severity >= 7 ? 'bg-rose-400' : topic.severity >= 4 ? 'bg-amber-400' : 'bg-slate-300'
+                  } ${effectiveTopic === topic.id ? 'opacity-80' : ''}`} />
+                {topic.title}
               </button>
             ))}
           </div>
+          {/* 右側漸層，提示可橫滑 */}
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-slate-50 to-transparent" />
         </div>
 
         {/* Items (痛點卡片) */}
