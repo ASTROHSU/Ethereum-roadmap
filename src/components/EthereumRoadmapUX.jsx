@@ -221,10 +221,18 @@ const roadmapData = [
             severity: 8,
             impact: 8,
             difficulty: 8,
+            breakingNews: {
+              date: '2026 年 1 月',
+              summary: 'Vitalik 公開宣告：以 L2 為中心的路線圖已經「過時」。隨著 L1 自身快速擴容，L2 的主要賣點「便宜」將不再成立。L2 必須找到「擴容以外」的獨特定位，否則應該大方承認自己是獨立 L1。',
+              links: [
+                { label: '閱讀深入分析', url: 'https://www.blocktrend.today/p/758' },
+                { label: 'Vitalik 原文', url: 'https://x.com/VitalikButerin/status/2018711006394843585' },
+              ],
+            },
             solution:
-              'Vitalik 本人也說 L2 體驗目前對一般人「幾乎無法使用」。解法從兩個方向推進：一是生態層，Optimism Superchain、Polygon AggLayer 讓旗下 L2 可免橋接直接溝通；二是協議層，ERC-7683 是跨鏈訂單標準，Intent-Based 架構讓你只需說「我要把 A 鏈的 USDC 換到 B 鏈」，背後由解算者自動完成，不用自己橋。',
+              '短期內，跨鏈架構依然在推進：ERC-7683 跨鏈訂單標準讓你只需說「我要把 A 鏈的 USDC 換到 B 鏈」，背後自動完成。Superchain、AggLayer 也讓旗下各 L2 免橋接溝通。但長期來看，如果 L1 的 gas fee 夠便宜，多數人根本不需要離開 L1。',
             techTerms: ['ERC-7683 (跨鏈訂單標準)', 'Intent-Based 架構', 'Superchain / AggLayer', '原生互通性 (Native Interop)'],
-            eta: '生態層方案（Superchain、AggLayer）2025 已部分上線；協議層原生互通性 2026-2027',
+            eta: '生態層方案（Superchain、AggLayer）部分已上線；協議層原生互通性 2026-2027；長期：L1 擴容可能直接取代 L2 的角色',
             maturity: 'Testnet',
             confidence: 'medium',
             sources: [
@@ -235,6 +243,7 @@ const roadmapData = [
               { type: 'external', label: 'Vitalik：L2 互通性說明', url: 'https://vitalik.eth.limo' },
             ],
           },
+
           {
             id: 'p7',
             question: '每換一條 L2 就要加新 RPC、用不同的 Gas 幣、甚至還要買原生代幣，根本沒辦法用？',
@@ -885,10 +894,35 @@ export default function EthereumRoadmapUX() {
               </button>
 
               <div
-                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1400px] pb-6 opacity-100' : 'max-h-0 opacity-0'
+                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1800px] pb-6 opacity-100' : 'max-h-0 opacity-0'
                   }`}
               >
                 <div className="border-t border-slate-100 pt-5 space-y-5">
+
+                  {/* ⚡ 最新動態 Breaking News */}
+                  {item.breakingNews && (
+                    <div className="rounded-xl bg-amber-50 border border-amber-300 px-4 py-3.5">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-amber-600 font-bold text-sm">⚡ 路線圖重大轉向</span>
+                        <span className="text-xs text-amber-500">{item.breakingNews.date}</span>
+                      </div>
+                      <p className="text-sm text-amber-900 leading-relaxed mb-2.5">{item.breakingNews.summary}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {item.breakingNews.links.map((l, i) => (
+                          <a
+                            key={i}
+                            href={l.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 hover:bg-amber-200 transition-colors border border-amber-200"
+                          >
+                            {l.label}
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   {/* 1. 嚴重度 */}
                   <div>
                     <div className="flex items-center gap-2 text-slate-500 text-sm font-medium mb-2">
