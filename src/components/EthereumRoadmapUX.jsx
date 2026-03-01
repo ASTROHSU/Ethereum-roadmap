@@ -784,10 +784,19 @@ export default function EthereumRoadmapUX() {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-3">
+            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-2">
               以太坊升級地圖
             </h1>
-            <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl">
+            <a
+              href="https://www.blocktrend.today"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-500 transition-colors"
+            >
+              by 區塊勢
+              <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+            <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl mt-2">
               以太坊升級了什麼？未來還有哪些？能解決我的問題嗎？
             </p>
           </div>
@@ -835,8 +844,8 @@ export default function EthereumRoadmapUX() {
                   setExpandedCard(null);
                 }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium border ${effectiveTopic === topic.id
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50'
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                  : 'bg-white text-slate-600 border-slate-200 hover:border-indigo-300 hover:bg-indigo-50'
                   }`}
               >
                 {/* 嚴重度色點 */}
