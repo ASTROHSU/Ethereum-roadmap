@@ -105,21 +105,22 @@ const officialRoadmapPhases = [
 const upgradeTimeline = [
   // 未來 / 進行中
   { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: '讓「決定哪個區塊上鏈的人」和「打包交易的人」正式分開，減少機器人在背後暗箱搶跑的空間；加上執行效率改進，預計 Gas 費用再大幅下降。目前 Devnet 測試中。' },
-  { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '節點儲存需求大幅减少（未來目標手機也能跑）；從源頭改善 DApp 對使用者透明化。' },
+  { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '縮減節點所需的硬碟空間，讓一般電腦甚至手機也能直接驗證區塊鏈、不再必須仰賴 Infura 等中心化服務。' },
   // 已完成（新到舊）
-  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
+  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；可以設定讓家人幫你恢復錢包，不再只靠一張助記詞紙條。' },
   { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低 10～100 倍，是許多人真正相信 L2 可行的里程碑。' },
   { name: 'Shanghai / Shapella', nameZh: '開放質押提款', date: '2023 年 4 月', status: 'completed', note: '質押者終於能提回質押的 ETH，PoS 證明實際可行。' },
   { name: 'The Merge', nameZh: '合併', date: '2022 年 9 月', status: 'completed', note: '將挖礦切換為質押，網路能耗降低 99.95%。以太坊最重要的一次升級。' },
-  { name: 'London (EIP-1559)', nameZh: 'Gas 費用機制改革', date: '2021 年 8 月', status: 'completed', note: '引入基礎費 + 小費，讓 Gas 費用更可預測，並開始销毀部分 ETH。' },
-  { name: 'Berlin', nameZh: 'Gas 效率小調整', date: '2021 年 4 月', status: 'completed', note: '優化對某些區塊鏈操作的 Gas 費用，並修補數個安全漏洞。' },
+  { name: 'London (EIP-1559)', nameZh: 'Gas 費用機制改革', date: '2021 年 8 月', status: 'completed', note: '引入基礎費 + 小費，讓 Gas 費用更可預測，並開始銷毀部分 ETH。' },
+  { name: 'Berlin', nameZh: 'Gas 效率調整', date: '2021 年 4 月', status: 'completed', note: '降低讀取儲存資料的操作費用，讓 DeFi 協議省錢；同時修補可被用來癱瘓節點的 DoS 安全漏洞。' },
   { name: 'Muir Glacier', nameZh: '難度炸彈延遲', date: '2020 年 1 月', status: 'completed', note: '再次延遲難度炸彈，讓 PoW 挖礦能維持到 The Merge。' },
-  { name: 'Istanbul', nameZh: '多個 EIP 整備升級', date: '2019 年 12 月', status: 'completed', note: '改善與 Zcash 的互操作性，優化若干 Gas 費用，強化 L2 Rollup 基礎。' },
-  { name: 'Constantinople / St. Petersburg', nameZh: '效率與經濟模型調整', date: '2019 年 2 月', status: 'completed', note: '區塊獎勵減少、Gas 優化，並修除一個重大安全漏洞。' },
-  { name: 'Byzantium', nameZh: 'Metropolis 第一階段', date: '2017 年 10 月', status: 'completed', note: '引入 ZK 隱私預備計算、地址可讀餘額等，奠定後續 DeFi 基礎。' },
-  { name: 'Homestead', nameZh: '第一個穩定版本', date: '2016 年 3 月', status: 'completed', note: '移除早期可被利用的安全說明，以太坊正式進入穩定可用階段。' },
-  { name: 'Frontier', nameZh: '創世區塊 / 初始啟動', date: '2015 年 7 月', status: 'completed', note: '以太坊公主網正式發佈，當時僅限開發者使用，尚無圖形介面。' },
+  { name: 'Istanbul', nameZh: '多個 EIP 整備升級', date: '2019 年 12 月', status: 'completed', note: '降低 Rollup 相關操作的 Gas 費用，大幅降低未來 L2 的運作成本；同時為後續隱私應用鋪好底層基礎。' },
+  { name: 'Constantinople / St. Petersburg', nameZh: '效率與經濟模型調整', date: '2019 年 2 月', status: 'completed', note: '區塊獎勵從 3 ETH 減至 2 ETH、Gas 優化，並緊急修補了一個可能被用來盜幣的安全漏洞。' },
+  { name: 'Byzantium', nameZh: 'Metropolis 第一階段', date: '2017 年 10 月', status: 'completed', note: '加入了 ZK 密碼學所需的底層運算元件（當時就是在為日後的 ZK 技術埋伏筆）；區塊獎勵從 5 ETH 減至 3 ETH，開始控制通膨。' },
+  { name: 'Homestead', nameZh: '第一個穩定版本', date: '2016 年 3 月', status: 'completed', note: '移除早期的安全性免責聲明，以太坊正式宣告進入穩定可用階段。' },
+  { name: 'Frontier', nameZh: '創世區塊 / 初始啟動', date: '2015 年 7 月', status: 'completed', note: '以太坊主網正式發佈，當時僅限開發者使用，尚無圖形介面。' },
 ];
+
 
 const getSeverityLabel = (n) => {
   if (n <= 3) return '低';
