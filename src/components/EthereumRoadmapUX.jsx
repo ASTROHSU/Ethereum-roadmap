@@ -103,10 +103,15 @@ const officialRoadmapPhases = [
 
 // 2026 年最新升級狀態
 const upgradeTimeline = [
-  { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低了10⋅100倍，是許多人相信 L2 的街樓。' },
-  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月 7 日', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
+  // 未來 / 進行中
   { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: '投票者與打包者分離，讓 MEV 抄脱額度更透明可預期；區塊播放改進，預計 Gas 費用再大幅下降。目前 Devnet 測試中。' },
   { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '節點儲存需求大幅减少（未來目標手機也能跑）；從源頭改善 DApp 對使用者透明化。' },
+  // 已完成（新到舊）
+  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
+  { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低了10⋅100倍，是許多人相信 L2 的街樓。' },
+  { name: 'Shanghai / Shapella', nameZh: '开放質押提款', date: '2023 年 4 月', status: 'completed', note: '質押者終於能提回質押的 ETH，PoS 證明實際可行。' },
+  { name: 'The Merge', nameZh: '合併', date: '2022 年 9 月', status: 'completed', note: '將挖礦切換為質押，網路能耗降低 99.95%。以太坊最重要的一次升級。' },
+  { name: 'London (EIP-1559)', nameZh: 'Gas 費用挹減機制', date: '2021 年 8 月', status: 'completed', note: '引入基礎費 + 小費，讓 Gas 費用更可預測，並開始销毀部分 ETH。' },
 ];
 
 const getSeverityLabel = (n) => {
@@ -584,7 +589,7 @@ export default function EthereumRoadmapUX() {
           }`}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
-          <span className="font-semibold text-slate-800 text-lg">參考資料與來源</span>
+          <span className="font-semibold text-slate-800 text-lg">路線圖全貌</span>
           <button
             onClick={() => setSidebarOpen(false)}
             className="text-slate-400 hover:text-slate-700 transition-colors p-1 rounded-full hover:bg-slate-100"
@@ -740,16 +745,6 @@ export default function EthereumRoadmapUX() {
               ))}
             </ul>
           </div>
-
-          {/* 最近更新 */}
-          <div className="pt-4 border-t border-slate-100 text-xs text-slate-500">
-            <span className="font-medium text-slate-600">最近一次更新</span>
-            <p className="mt-1">
-              <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
-              {' · '}
-              {RECENT_UPDATES}
-            </p>
-          </div>
         </div>
       </aside>
 
@@ -767,10 +762,10 @@ export default function EthereumRoadmapUX() {
           <button
             onClick={() => setSidebarOpen(true)}
             className="flex-shrink-0 flex flex-col items-center gap-1 px-3 py-2.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50 transition-all text-slate-500 hover:text-indigo-600"
-            title="參考資料與來源"
+            title="路線圖全貌"
           >
             <BookOpen className="w-5 h-5" />
-            <span className="text-xs font-medium">參考來源</span>
+            <span className="text-xs font-medium">路線圖</span>
           </button>
         </div>
       </header>
@@ -961,9 +956,7 @@ export default function EthereumRoadmapUX() {
                       {confidenceLabels[item.confidence] ?? item.confidence}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500">
-                    ETA 為進度推估，非承諾時程；成熟度與不確定性供判斷可信度。
-                  </p>
+
 
                   {/* 6. 連結 */}
                   {(item.links?.length ?? 0) > 0 && (
