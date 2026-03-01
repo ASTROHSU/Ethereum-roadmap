@@ -103,10 +103,10 @@ const officialRoadmapPhases = [
 
 // 2026 年最新升級狀態
 const upgradeTimeline = [
-  { name: 'Dencun (EIP-4844)', nameZh: 'Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 費用大幅下降' },
-  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月 7 日', status: 'completed', note: 'EIP-7702 帳戶抽象、Blob 空間加倍' },
-  { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: 'ePBS + Block Access Lists，Devnet 測試中' },
-  { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: 'Verkle Trees、無狀態節點、後量子密碼學' },
+  { name: 'Dencun', nameZh: 'EIP-4844 Blobs 上線', date: '2024 年 3 月', status: 'completed', note: 'L2 手續費降低了10⋅100倍，是許多人相信 L2 的街樓。' },
+  { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月 7 日', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
+  { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: '投票者與打包者分離，讓 MEV 抄脱額度更透明可預期；區塊播放改進，預計 Gas 費用再大幅下降。目前 Devnet 測試中。' },
+  { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '節點儲存需求大幅减少（未來目標手機也能跑）；從源頭改善 DApp 對使用者透明化。' },
 ];
 
 const getSeverityLabel = (n) => {
@@ -536,6 +536,7 @@ export default function EthereumRoadmapUX() {
   const [expandedCard, setExpandedCard] = useState(null);
   const [sourcesOpen, setSourcesOpen] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showPastUpgrades, setShowPastUpgrades] = useState(false);
 
   const activeCategory = roadmapData.find((c) => c.id === activeTab) ?? roadmapData[0];
   const effectiveTopic =
@@ -595,33 +596,60 @@ export default function EthereumRoadmapUX() {
 
           {/* 升級時間軸 */}
           <div>
-            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">2024 – 2026 升級時間軸</span>
-            <div className="mt-3 space-y-3">
-              {upgradeTimeline.map((u) => (
-                <div key={u.name} className={`rounded-xl border p-3.5 ${u.status === 'completed'
-                  ? 'bg-emerald-50 border-emerald-200'
-                  : u.status === 'in_progress'
-                    ? 'bg-indigo-50 border-indigo-200'
-                    : 'bg-white border-slate-200'
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">2026 升級</span>
+            <div className="mt-3 space-y-2">
+              {/* 即將 / 規劃中 —— 預認顯示 */}
+              {upgradeTimeline.filter(u => u.status !== 'completed').map((u) => (
+                <div key={u.name} className={`rounded-xl border p-3.5 ${u.status === 'in_progress' ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-slate-200'
                   }`}>
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      {u.status === 'completed' && <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />}
-                      {u.status === 'in_progress' && <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />}
-                      {u.status === 'future' && <div className="w-2 h-2 rounded-full bg-slate-300 flex-shrink-0 ml-0.5" />}
+                      {u.status === 'in_progress' && <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0" />}
+                      {u.status === 'future' && <div className="w-2 h-2 rounded-full bg-slate-300 flex-shrink-0" />}
                       <span className="font-semibold text-slate-800">{u.name}</span>
                     </div>
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${u.status === 'completed' ? 'bg-emerald-100 text-emerald-700'
-                      : u.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700'
-                        : 'bg-slate-100 text-slate-500'
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${u.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700' : 'bg-slate-100 text-slate-500'
                       }`}>
-                      {u.status === 'completed' ? '已完成' : u.status === 'in_progress' ? '進行中' : '規劃中'}
+                      {u.status === 'in_progress' ? '🔄 進行中' : '📋 規劃中'}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1 ml-6">{u.nameZh} · {u.date}</p>
-                  <p className="text-xs text-slate-600 mt-1 ml-6">{u.note}</p>
+                  <p className="text-xs text-slate-500 mt-1 ml-4">{u.nameZh} · {u.date}</p>
+                  <p className="text-xs text-slate-600 mt-1 ml-4 leading-relaxed">{u.note}</p>
                 </div>
               ))}
+              {/* 已完成 —— 預計折疊 */}
+              {(() => {
+                const past = upgradeTimeline.filter(u => u.status === 'completed');
+                return (
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => setShowPastUpgrades(p => !p)}
+                      className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-600 py-1.5 transition-colors"
+                    >
+                      <span>已完成升級（{past.length} 個）</span>
+                      {showPastUpgrades ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                    </button>
+                    {showPastUpgrades && (
+                      <div className="space-y-2">
+                        {past.map((u) => (
+                          <div key={u.name} className="rounded-xl border bg-emerald-50 border-emerald-200 p-3.5">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                                <span className="font-semibold text-slate-800">{u.name}</span>
+                              </div>
+                              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">✅ 已完成</span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-1 ml-6">{u.nameZh} · {u.date}</p>
+                            <p className="text-xs text-slate-600 mt-1 ml-6 leading-relaxed">{u.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
 
