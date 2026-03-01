@@ -637,6 +637,7 @@ export default function EthereumRoadmapUX() {
           {/* 升級時間軸 */}
           <div>
             <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">2026 升級</span>
+            <p className="mt-1 text-xs text-slate-400 italic">具體的程式碼發布，有明確時間與功能清單，以「硬分叉」形式更新上線。</p>
             <div className="mt-3 space-y-2">
               {/* 即將 / 規劃中 —— 預認顯示 */}
               {upgradeTimeline.filter(u => u.status !== 'completed').map((u) => (
@@ -696,6 +697,7 @@ export default function EthereumRoadmapUX() {
           {/* 技術路線圖原貌 */}
           <div>
             <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大面向）</span>
+            <p className="mt-1 text-xs text-slate-400 italic">長期研究主題，不是單次升級，而是持續推進的六個方向。一次升級可能同時推進多個面向。</p>
             <p className="mt-2 text-slate-600 leading-relaxed">
               這六個面向<strong className="text-slate-700">並行推進</strong>，不分先後。每個面向都有自己要解決的問題與目前完成度。
             </p>
