@@ -104,7 +104,7 @@ const officialRoadmapPhases = [
 // 2026 年最新升級狀態
 const upgradeTimeline = [
   // 未來 / 進行中
-  { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: '投票者與打包者分離，讓 MEV 抄脱額度更透明可預期；區塊播放改進，預計 Gas 費用再大幅下降。目前 Devnet 測試中。' },
+  { name: 'Glamsterdam', nameZh: 'Gloas + Amsterdam', date: '預計 2026 上半年', status: 'in_progress', note: '讓「決定哪個區塊上鏈的人」和「打包交易的人」正式分開，減少機器人在背後暗箱搶跑的空間；加上執行效率改進，預計 Gas 費用再大幅下降。目前 Devnet 測試中。' },
   { name: 'Hegotá', nameZh: 'Heze + Bogotá', date: '預計 2026 下半年', status: 'future', note: '節點儲存需求大幅减少（未來目標手機也能跑）；從源頭改善 DApp 對使用者透明化。' },
   // 已完成（新到舊）
   { name: 'Pectra', nameZh: 'Prague + Electra', date: '2025 年 5 月', status: 'completed', note: '錢包不再需要持有 ETH 就能付 Gas；已可不死背助記詞做社群恢復錢包。' },
