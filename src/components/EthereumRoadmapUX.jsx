@@ -84,6 +84,15 @@ const maturityLabels = {
 };
 const confidenceLabels = { low: '不確定性高', medium: '中等', high: '較確定' };
 
+// 網站資料透明度：讀者可確認資料來源與更新時間
+const LAST_UPDATED = '2025-03-01';
+const DATA_SOURCES = [
+  { label: 'Strawmap', url: 'https://strawmap.org/' },
+  { label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
+  { label: 'EIPs（例如 EIP-8141、EIP-4337）', url: 'https://eips.ethereum.org/' },
+];
+const RECENT_UPDATES = '帳戶抽象改寫為 EIP-8141、文案簡化，並附 Vitalik 說明連結。';
+
 // 編輯團隊維護的 JSON 資料庫：Category → Topics → Items
 const roadmapData = [
   {
@@ -611,6 +620,44 @@ export default function EthereumRoadmapUX() {
             </div>
           )}
         </section>
+
+        {/* 資料來源與最近更新（頁面最下方） */}
+        <footer className="mt-12 pt-6 pb-8 border-t border-slate-200">
+          <div className="text-xs text-slate-500 space-y-3 max-w-2xl">
+            <div>
+              <span className="font-medium text-slate-600">資料從哪裡來</span>
+              <p className="mt-1">
+                本頁內容參考以下來源整理，各痛點卡片內也有個別來源與連結可對照。
+              </p>
+              <ul className="mt-2 space-y-1">
+                {DATA_SOURCES.map((s, i) => (
+                  <li key={i}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1"
+                    >
+                      {s.label}
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <span className="font-medium text-slate-600">最近一次更新</span>
+              <p className="mt-1">
+                <time dateTime={LAST_UPDATED}>{LAST_UPDATED}</time>
+                {' · '}
+                {RECENT_UPDATES}
+              </p>
+              <p className="mt-1 text-slate-400">
+                若你有看到更新的發展而本站尚未反映，可依上方來源自行對照；我們會不定期更新。
+              </p>
+            </div>
+          </div>
+        </footer>
       </main>
     </div>
   );
