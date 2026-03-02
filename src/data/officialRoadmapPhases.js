@@ -21,7 +21,7 @@ export const officialRoadmapPhasesZh = [
         progress: 45,
         goals: [
             '✅ EIP-4844 Blobs 上線（Dencun, 2024/3），L2 費用大降',
-            '✅ Blob 空間加倍（Pectra / PeerDAS, 2025/5）',
+            '✅ Blob 空間加倍（Pectra, 2025/5）；PeerDAS（Fusaka, 2025/12）',
             '🔄 ePBS 搭配 Block Access Lists（Glamsterdam）——此處針對「區塊容量擴大」這面向',
             '📋 Full Danksharding（長期目標，100,000+ TPS）',
         ],
@@ -61,7 +61,7 @@ export const officialRoadmapPhasesZh = [
         status: 'future',
         progress: 15,
         goals: [
-            '✅ EIP-4444：節點不再強制儲存 1 年以上歷史資料',
+            '🔄 EIP-4444：部分實施中（節點可捨棄 Merge 前歷史資料；完整 1 年滾動視窗尚在規劃）',
             '📋 移除過時 OpCode 與複雜性（EOF / EVM 清理）',
             '📋 協議精簡，降低客戶端開發維護成本',
         ],
@@ -105,7 +105,7 @@ export const officialRoadmapPhasesEn = [
         progress: 45,
         goals: [
             '✅ EIP-4844 Blobs live (Dencun, Mar 2024), dramatically reducing L2 fees',
-            '✅ Blob space doubled (Pectra / PeerDAS, May 2025)',
+            '✅ Blob space doubled (Pectra, May 2025); PeerDAS (Fusaka, Dec 2025)',
             '🔄 ePBS combined with Block Access Lists (Glamsterdam) — targeting block capacity expansion',
             '📋 Full Danksharding (long-term goal, 100,000+ TPS)',
         ],
@@ -145,7 +145,7 @@ export const officialRoadmapPhasesEn = [
         status: 'future',
         progress: 15,
         goals: [
-            '✅ EIP-4444: Nodes no longer required to store history older than 1 year',
+            '🔄 EIP-4444: Partial (pre-Merge history droppable); full 1-year rolling window still in planning',
             '📋 Removal of obsolete OpCodes and complexity (EOF / EVM cleanup)',
             '📋 Protocol simplification to reduce client development and maintenance overhead',
         ],
