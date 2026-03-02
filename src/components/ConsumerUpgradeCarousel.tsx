@@ -173,26 +173,11 @@ export default function ConsumerUpgradeCarousel({
                         </div>
                     )}
                 </div>
-
-                {/* Expandable highlights */}
-                {hasHighlights && (
-                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[800px] border-t' : 'max-h-0'} ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
-                        <div className="px-5 pb-5 space-y-3">
-                            <p className={`text-[10px] uppercase font-bold tracking-wider pt-3 mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-                                {HIGHLIGHTS_LABEL[language]}
-                            </p>
-                            {node.highlights?.map((h, i) => (
-                                <div key={i} className={`rounded-xl p-3.5 text-sm ${darkMode ? 'bg-slate-700/40 border border-slate-600/30' : 'bg-slate-50 border border-slate-100'}`}>
-                                    <p className={`font-bold mb-1.5 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{h.title}</p>
-                                    <p className={`leading-relaxed text-[13px] ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
         );
     };
+
+    const expandedNode = expandedId ? nodes.find((n) => n.id === expandedId) : null;
 
     return (
         <div className="relative group/carousel py-6 mt-4">
@@ -273,6 +258,25 @@ export default function ConsumerUpgradeCarousel({
                     );
                 })}
             </div>
+
+            {/* 展開時：重要里程碑以全寬區塊顯示在下方，善用空間 */}
+            {expandedNode?.highlights && expandedNode.highlights.length > 0 && (
+                <div className={`mt-6 rounded-2xl border overflow-hidden ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-white border-slate-200 shadow-lg'}`}>
+                    <div className="px-6 py-5">
+                        <p className={`text-xs uppercase font-bold tracking-wider mb-4 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                            {expandedNode.phase} · {HIGHLIGHTS_LABEL[language]}
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {expandedNode.highlights.map((h, i) => (
+                                <div key={i} className={`rounded-xl p-4 text-sm ${darkMode ? 'bg-slate-700/40 border border-slate-600/30' : 'bg-slate-50 border border-slate-100'}`}>
+                                    <p className={`font-bold mb-2 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{h.title}</p>
+                                    <p className={`leading-relaxed text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
