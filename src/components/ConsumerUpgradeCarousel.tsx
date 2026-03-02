@@ -39,24 +39,27 @@ export default function ConsumerUpgradeCarousel({
     const nodes: CarouselNode[] = getOrderedCarouselNodes(language);
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const initialScrollDone = useRef(false);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
 
     const [scrollPosition, setScrollPosition] = useState(0);
 
-    // 預設捲動到最右邊，讓畫面一開始就顯示最後三個方塊（不寫死某個升級）
+    // 僅在「進入網站第一次」捲動到最右邊，之後使用者可自由捲動，不強制拉回
     useEffect(() => {
+        if (initialScrollDone.current) return;
         const scrollToEnd = () => {
             if (containerRef.current) {
                 const { scrollWidth, clientWidth } = containerRef.current;
                 containerRef.current.scrollLeft = Math.max(0, scrollWidth - clientWidth);
                 checkScroll();
+                initialScrollDone.current = true;
             }
         };
         const t = setTimeout(scrollToEnd, 150);
         return () => clearTimeout(t);
-    }, [nodes]);
+    }, []);
 
     const checkScroll = () => {
         if (containerRef.current) {
