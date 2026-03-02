@@ -124,7 +124,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNode, setSelectedNode] = useState(roadmapNodes.find(n => n.id === 'glamsterdam') || null);
   const [expandedCard, setExpandedCard] = useState(null);
 
   const checkScroll = () => {
@@ -160,10 +160,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
   };
 
   const handleNodeClick = (node) => {
-    if (selectedNode?.id === node.id) {
-      setSelectedNode(null);
-      setExpandedCard(null);
-    } else {
+    // 只能切換不能收起
+    if (selectedNode?.id !== node.id) {
       setSelectedNode(node);
       setExpandedCard(null);
     }
@@ -267,8 +265,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
 
                       {/* Clickable hint */}
                       {clickable && (
-                        <span className={`block w-full text-center text-[10px] mt-2 font-medium ${isSelected ? 'text-indigo-500' : 'text-slate-400 group-hover:text-slate-500'}`}>
-                          {isSelected ? '▲ 收起' : '▼ 點擊查看'}
+                        <span className={`block w-full text-center text-[10px] mt-2 font-medium ${isSelected ? (darkMode ? 'text-indigo-400' : 'text-indigo-500') : (darkMode ? 'text-slate-500 group-hover:text-slate-400' : 'text-slate-400 group-hover:text-slate-500')}`}>
+                          {isSelected ? '▲ 目前查看中' : '▼ 點擊查看'}
                         </span>
                       )}
                     </div>
@@ -290,24 +288,20 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
           <div className={`rounded-2xl border shadow-lg p-6 md:p-8 transition-colors duration-300 ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-white border-slate-200'}`}>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <span className={`text-xs font-bold uppercase tracking-widest ${selectedNode.status === 'completed' ? 'text-emerald-600' :
-                  selectedNode.status === 'in_progress' ? 'text-indigo-600' : 'text-slate-500'
+                <span className={`text-xs font-bold uppercase tracking-widest ${selectedNode.status === 'completed' ? 'text-emerald-500' :
+                    selectedNode.status === 'in_progress' ? 'text-indigo-500' : 'text-slate-500'
                   }`}>{selectedNode.date}</span>
-                <h3 className="text-xl md:text-2xl font-bold text-slate-800 mt-1">
+                <h3 className={`text-xl md:text-2xl font-bold mt-1 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                   {selectedNode.phase}：{selectedNode.title}
                 </h3>
-                <p className="text-slate-500 text-sm mt-1">{selectedNode.description}</p>
+                <p className={`text-sm mt-1 mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{selectedNode.description}</p>
               </div>
-              <button onClick={() => { setSelectedNode(null); setExpandedCard(null); }}
-                className={`p-2 rounded-full transition-colors shrink-0 ${darkMode ? 'hover:bg-slate-700 text-slate-400 hover:text-slate-200' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-700'}`}>
-                <X className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Highlights (for earlier upgrades without full roadmapData) */}
             {selectedNode.highlights && selectedNode.highlights.length > 0 && (
               <div className="space-y-4 mb-6">
-                <h4 className="text-sm font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+                <h4 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                   這次升級的重點
                 </h4>
@@ -326,38 +320,40 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
               if (matchedItems.length === 0) return null;
               return (
                 <>
-                  <h4 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                     <AlertCircle className="w-4 h-4 text-rose-400" />
                     這次升級解決的痛點
                   </h4>
                   <div className="space-y-4">
                     {matchedItems.map((item) => (
-                      <div key={item.id} className={`bg-white rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id ? 'border-indigo-400 shadow-lg ring-1 ring-indigo-100' : 'border-slate-200 shadow-sm hover:border-indigo-200 hover:shadow-md'
+                      <div key={item.id} className={`rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id
+                          ? (darkMode ? 'border-indigo-500 shadow-lg bg-slate-900/50' : 'border-indigo-400 shadow-lg bg-white')
+                          : (darkMode ? 'border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400' : 'border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md')
                         }`}>
                         <button onClick={() => setExpandedCard(expandedCard === item.id ? null : item.id)}
                           className="w-full text-left px-6 py-5 flex items-start justify-between focus:outline-none">
                           <div className="flex-1 pr-4">
-                            <span className="inline-block px-2 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded mb-3">{item.topicTitle}</span>
-                            <h3 className="text-lg md:text-xl font-medium text-slate-800 leading-snug">{item.question}</h3>
+                            <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-3 ${darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-700'}`}>{item.topicTitle}</span>
+                            <h3 className="text-lg md:text-xl font-medium leading-snug">{item.question}</h3>
                           </div>
-                          <div className="flex-shrink-0 mt-2 text-slate-400 bg-slate-50 p-2 rounded-full">
+                          <div className={`flex-shrink-0 mt-2 p-2 rounded-full ${darkMode ? 'text-slate-400 bg-slate-700/50' : 'text-slate-400 bg-slate-50'}`}>
                             {expandedCard === item.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                           </div>
                         </button>
 
                         <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1800px] pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
-                          <div className="border-t border-slate-100 pt-5 space-y-5">
+                          <div className={`border-t pt-5 space-y-5 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
                             {item.breakingNews && (
-                              <div className="rounded-xl bg-amber-50 border border-amber-300 px-4 py-3.5">
+                              <div className={`rounded-xl border px-4 py-3.5 ${darkMode ? 'bg-amber-900/20 border-amber-800/50' : 'bg-amber-50 border-amber-300'}`}>
                                 <div className="flex items-center gap-2 mb-1.5">
-                                  <span className="text-amber-600 font-bold text-sm">⚡ 路線圖重大轉向</span>
-                                  <span className="text-xs text-amber-500">{item.breakingNews.date}</span>
+                                  <span className={`font-bold text-sm ${darkMode ? 'text-amber-500' : 'text-amber-600'}`}>⚡ 路線圖重大轉向</span>
+                                  <span className={`text-xs ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>{item.breakingNews.date}</span>
                                 </div>
-                                <p className="text-sm text-amber-900 leading-relaxed mb-2.5">{item.breakingNews.summary}</p>
+                                <p className={`text-sm leading-relaxed mb-2.5 ${darkMode ? 'text-amber-200/80' : 'text-amber-900'}`}>{item.breakingNews.summary}</p>
                                 <div className="flex flex-wrap gap-2">
                                   {item.breakingNews.links.map((l, i) => (
                                     <a key={i} href={l.url} target="_blank" rel="noopener noreferrer"
-                                      className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 hover:bg-amber-200 transition-colors border border-amber-200">
+                                      className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors ${darkMode ? 'bg-amber-900/30 text-amber-300 border-amber-800/50 hover:bg-amber-900/60' : 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'}`}>
                                       {l.label} <ExternalLink className="w-3 h-3" />
                                     </a>
                                   ))}
@@ -365,23 +361,26 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                               </div>
                             )}
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 rounded-xl p-4 border border-slate-100 mb-4">
+                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl p-4 border mb-4 ${darkMode ? 'bg-slate-900/40 border-slate-700/50' : 'bg-slate-50/50 border-slate-100'}`}>
                               <div>
-                                <div className="flex items-center justify-between text-slate-500 text-sm font-medium mb-3">
-                                  <div className="flex items-center gap-1.5"><AlertCircle className="w-4 h-4" /> 問題嚴重程度</div>
-                                  <span className="text-slate-700 font-bold">{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
+                                <div className="flex items-center justify-between text-sm font-medium mb-3">
+                                  <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><AlertCircle className="w-4 h-4" /> 問題嚴重程度</div>
+                                  <span className={`font-bold ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
                                 </div>
-                                <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div className={`h-2 rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
                                   <div className={`h-full rounded-full transition-all ${getSeverityColor(item.severity)}`} style={{ width: `${(item.severity / 10) * 100}%` }} />
                                 </div>
                               </div>
                               <div>
-                                <div className="flex items-center justify-between text-slate-500 text-sm font-medium mb-3">
-                                  <div className="flex items-center gap-1.5">
+                                <div className="flex items-center justify-between text-sm font-medium mb-3">
+                                  <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                                     {item.maturity === 'Mainnet' ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4" />}
                                     解決方案成熟度
                                   </div>
-                                  <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-700'}`}>
+                                  <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet'
+                                      ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
+                                      : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                    }`}>
                                     {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
                                   </span>
                                 </div>
@@ -389,7 +388,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                                   {['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].map((stage, idx) => {
                                     const currentIdx = ['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].indexOf(item.maturity);
                                     const isPassed = idx <= currentIdx;
-                                    let bgClass = isPassed ? (item.maturity === 'Mainnet' ? 'bg-emerald-400' : 'bg-indigo-400') : 'bg-slate-200';
+                                    let bgClass = isPassed ? (item.maturity === 'Mainnet' ? (darkMode ? 'bg-emerald-500' : 'bg-emerald-400') : (darkMode ? 'bg-indigo-500' : 'bg-indigo-400')) : (darkMode ? 'bg-slate-700' : 'bg-slate-200');
                                     return <div title={maturityLabels[stage]} key={stage} className={`flex-1 rounded-full transition-all ${bgClass} ${isPassed ? 'opacity-100' : 'opacity-40'}`} />;
                                   })}
                                 </div>
@@ -397,47 +396,47 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                             </div>
 
                             <div>
-                              <div className="text-slate-500 text-sm font-medium mb-2">風險在哪</div>
-                              <p className="text-slate-600 leading-relaxed text-sm bg-amber-50/80 border border-amber-100 rounded-lg p-3">{item.riskSummary}</p>
+                              <div className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>風險在哪</div>
+                              <p className={`leading-relaxed text-sm rounded-lg p-3 border ${darkMode ? 'bg-amber-900/10 border-amber-900/30 text-slate-300' : 'bg-amber-50/80 border-amber-100 text-slate-600'}`}>{item.riskSummary}</p>
                             </div>
 
                             <div className="mt-5">
-                              <span className="inline-block px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded mb-2">以太坊解法</span>
-                              <p className="text-slate-600 leading-relaxed">{item.solution}</p>
+                              <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-2 ${darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>以太坊解法</span>
+                              <p className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{item.solution}</p>
                               {(item.termExplainers?.length ?? 0) > 0 && (
                                 <div className="mt-3 space-y-1.5">
-                                  <p className="text-xs text-slate-400 uppercase tracking-wider font-medium">名詞速解</p>
+                                  <p className={`text-xs uppercase tracking-wider font-medium ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>名詞速解</p>
                                   {item.termExplainers.map((te, i) => (
-                                    <div key={i} className="flex items-start gap-2 text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
-                                      <span className="font-semibold text-indigo-700 whitespace-nowrap flex-shrink-0">{te.term}</span>
-                                      <span className="text-slate-500 leading-relaxed">{te.explanation}</span>
-                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className="ml-auto flex-shrink-0 text-indigo-500 hover:text-indigo-700"><ExternalLink className="w-3 h-3" /></a>}
+                                    <div key={i} className={`flex items-start gap-2 text-xs border rounded-lg px-3 py-2 ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                                      <span className={`font-semibold whitespace-nowrap flex-shrink-0 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>{te.term}</span>
+                                      <span className={`leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{te.explanation}</span>
+                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className={`ml-auto flex-shrink-0 hover:text-indigo-500 ${darkMode ? 'text-slate-500' : 'text-indigo-500'}`}><ExternalLink className="w-3 h-3" /></a>}
                                     </div>
                                   ))}
                                 </div>
                               )}
                             </div>
 
-                            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                            <div className={`mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4 border ${darkMode ? 'bg-slate-900/50 border-slate-700/50' : 'bg-slate-50 border-slate-100'}`}>
                               <div>
-                                <div className="flex items-center text-slate-500 text-sm mb-1 font-medium"><Code className="w-4 h-4 mr-1.5" /> 對應技術名詞</div>
+                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Code className="w-4 h-4 mr-1.5" /> 對應技術名詞</div>
                                 <div className="flex flex-wrap gap-2 mt-2">
-                                  {item.techTerms.map((term, i) => <span key={i} className="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-md font-mono border border-indigo-100">{term}</span>)}
+                                  {item.techTerms.map((term, i) => <span key={i} className={`px-2.5 py-1 text-sm rounded-md font-mono border ${darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'}`}>{term}</span>)}
                                 </div>
                               </div>
                               <div>
-                                <div className="flex items-center text-slate-500 text-sm mb-1 font-medium"><Clock className="w-4 h-4 mr-1.5" /> 預計實現時間 (ETA)</div>
-                                <div className="text-slate-800 font-medium mt-2 text-sm leading-relaxed">{item.eta}</div>
+                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 mr-1.5" /> 預計實現時間 (ETA)</div>
+                                <div className={`font-medium mt-2 text-sm leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{item.eta}</div>
                               </div>
                             </div>
 
                             {(item.links?.filter(l => l.type === 'tool').length > 0) && (
-                              <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
-                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">相關推薦工具</span>
+                              <div className={`mt-5 pt-4 border-t space-y-2 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                                <span className={`text-xs font-bold uppercase tracking-wider mb-2 block ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>相關推薦工具</span>
                                 <div className="flex flex-wrap gap-2">
                                   {item.links.filter(l => l.type === 'tool').map((link, i) => (
                                     <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
-                                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-medium rounded-lg transition-colors border border-indigo-100 shadow-sm">
+                                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors border shadow-sm ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100'}`}>
                                       <ExternalLink className="w-3.5 h-3.5" /> {link.label}
                                     </a>
                                   ))}
