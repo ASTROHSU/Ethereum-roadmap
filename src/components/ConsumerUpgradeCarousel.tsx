@@ -17,7 +17,7 @@ const STATUS_LABELS: Record<Language, Record<NodeStatus, string>> = {
 };
 
 const PAIN_POINT_SOLVED_LABEL: Record<Language, string> = {
-    zh: '解決的使用者痛點',
+    zh: '解決痛點',
     en: 'User Painpoints Addressed',
 };
 
