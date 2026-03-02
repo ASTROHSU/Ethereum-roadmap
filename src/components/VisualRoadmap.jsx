@@ -105,7 +105,7 @@ const roadmapNodes = [
   {
     id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
     title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險。",
-    painPoints: ["交易隱私 / MEV"]
+    painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"]
   },
   {
     id: "hegota", phase: "Hegotá", date: "預計 2026 下半年+", status: "future",
@@ -289,7 +289,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <span className={`text-xs font-bold uppercase tracking-widest ${selectedNode.status === 'completed' ? 'text-emerald-500' :
-                    selectedNode.status === 'in_progress' ? 'text-indigo-500' : 'text-slate-500'
+                  selectedNode.status === 'in_progress' ? 'text-indigo-500' : 'text-slate-500'
                   }`}>{selectedNode.date}</span>
                 <h3 className={`text-xl md:text-2xl font-bold mt-1 ${darkMode ? 'text-white' : 'text-slate-800'}`}>
                   {selectedNode.phase}：{selectedNode.title}
@@ -327,8 +327,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                   <div className="space-y-4">
                     {matchedItems.map((item) => (
                       <div key={item.id} className={`rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id
-                          ? (darkMode ? 'border-indigo-500 shadow-lg bg-slate-900/50' : 'border-indigo-400 shadow-lg bg-white')
-                          : (darkMode ? 'border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400' : 'border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md')
+                        ? (darkMode ? 'border-indigo-500 shadow-lg bg-slate-900/50' : 'border-indigo-400 shadow-lg bg-white')
+                        : (darkMode ? 'border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400' : 'border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md')
                         }`}>
                         <button onClick={() => setExpandedCard(expandedCard === item.id ? null : item.id)}
                           className="w-full text-left px-6 py-5 flex items-start justify-between focus:outline-none">
@@ -378,8 +378,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                                     解決方案成熟度
                                   </div>
                                   <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet'
-                                      ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
-                                      : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                    ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
+                                    : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
                                     }`}>
                                     {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
                                   </span>
