@@ -1073,6 +1073,22 @@ export default function EthereumRoadmapUX() {
           ))}
         </div>
       </main>
+
+      {/* ── Footer ── */}
+      <footer className="relative z-10 max-w-4xl mx-auto px-4 py-8 md:py-12 mt-8 text-center text-slate-500 border-t border-slate-200">
+        <p className="text-sm leading-relaxed mb-3">
+          這是一個開放協作的開源專案。歡迎大家一起幫忙更新與完善！
+        </p>
+        <a
+          href="https://github.com/ASTROHSU/Ethereum-roadmap"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"
+        >
+          <ExternalLink className="w-4 h-4" />
+          前往 GitHub
+        </a>
+      </footer>
     </div>
   );
 }
