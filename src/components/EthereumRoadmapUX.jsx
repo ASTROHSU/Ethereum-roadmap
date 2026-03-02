@@ -15,6 +15,8 @@ import {
   CheckCircle2,
   BookOpen,
   X,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 // 以太坊官方升級階段
@@ -494,6 +496,7 @@ export default function EthereumRoadmapUX() {
   const [activeTopic, setActiveTopic] = useState(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const activeCategory = roadmapData.find((c) => c.id === activeTab) ?? roadmapData[0];
   const effectiveTopic =
@@ -521,13 +524,23 @@ export default function EthereumRoadmapUX() {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans relative overflow-hidden">
+    <div className={`min-h-screen ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} font-sans relative overflow-hidden transition-colors duration-300`}>
 
       {/* ── Background Glows (Option C) ── */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-[100px]" />
-        <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-300/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-300/20 rounded-full blur-[120px]" />
+        {darkMode ? (
+          <>
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[100px]" />
+            <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-violet-600/15 rounded-full blur-[100px]" />
+            <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[120px]" />
+          </>
+        ) : (
+          <>
+            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-300/20 rounded-full blur-[100px]" />
+            <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-purple-300/20 rounded-full blur-[100px]" />
+            <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-300/20 rounded-full blur-[120px]" />
+          </>
+        )}
       </div>
 
 
@@ -541,23 +554,22 @@ export default function EthereumRoadmapUX() {
 
       {/* ── Sidebar Panel ── */}
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-md z-50 bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+        className={`fixed top-0 right-0 h-full w-full max-w-md z-50 ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-white'} shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
-          <span className="font-semibold text-slate-800 text-lg">路線圖全貌</span>
+        <div className={`flex items-center justify-between px-6 py-5 border-b ${darkMode ? 'border-slate-700' : 'border-slate-200'}`}>
+          <span className={`font-semibold text-lg ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>路線圖全貌</span>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="text-slate-400 hover:text-slate-700 transition-colors p-1 rounded-full hover:bg-slate-100"
+            className={`transition-colors p-1 rounded-full ${darkMode ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-700' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 text-sm">
+        <div className={`flex-1 overflow-y-auto px-6 py-6 space-y-8 text-sm ${darkMode ? 'text-slate-300' : ''}`}>
           {/* 技術路線圖原貌 */}
           <div>
-            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">技術路線圖原貌（六大面向）</span>
-            <p className="mt-1 text-xs text-slate-400 italic">長期研究主題，不是單次升級，而是並行推進的六個方向。同一個升級（如 ePBS）可能同時推進不同面向。</p>
+            <span className={`font-semibold text-xs uppercase tracking-wider ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>技術路線圖原貌（六大面向）</span>
+            <p className={`mt-1 text-xs italic ${darkMode ? 'text-slate-400' : 'text-slate-400'}`}>長期研究主題，不是單次升級，而是並行推進的六個方向。同一個升級（如 ePBS）可能同時推進不同面向。</p>
             <div className="grid grid-cols-1 gap-3 mt-3">
               {officialRoadmapPhases.map((phase) => (
                 <div
@@ -651,7 +663,7 @@ export default function EthereumRoadmapUX() {
             </h1>
 
             <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl mt-2">
-              以太坊升級了什麼？未來還有哪些？能解決我的問題嗎？
+              以太坊升級到哪了？未來還有哪些改進？能解決我的問題嗎？
             </p>
           </div>
           <button
