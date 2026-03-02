@@ -121,7 +121,6 @@ export default function VisualRoadmap({
         });
       }, 300);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scroll = (dir) => {
