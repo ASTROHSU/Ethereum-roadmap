@@ -73,9 +73,17 @@ function App() {
   const hegotaUpgrade = getUpgradeById('hegota')!;
   const pectraUpgrade = getUpgradeById('pectra')!;
 
+  // GitHub Pages 在 /Ethereum-roadmap/ 或 /ethereum-roadmap/，Vercel/本機在 /
+  const basename = (() => {
+    const p = typeof window !== 'undefined' ? window.location.pathname : '';
+    if (p.startsWith('/Ethereum-roadmap')) return '/Ethereum-roadmap';
+    if (p.startsWith('/ethereum-roadmap')) return '/ethereum-roadmap';
+    return '';
+  })();
+
   return (
     <ThemeProvider>
-      <Router basename={import.meta.env.BASE_URL}>
+      <Router basename={basename}>
         <RedirectHandler />
         <AnalyticsTracker />
         <ScrollToTop />

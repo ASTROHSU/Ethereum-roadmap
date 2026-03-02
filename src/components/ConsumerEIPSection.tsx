@@ -138,7 +138,7 @@ export default function ConsumerEIPSection({ language = 'zh', darkMode = false }
                 seen.add(e.eipNumber);
                 return true;
             })
-            .slice(0, 4);
+            .slice(0, 6);
     }, []);
 
     if (recentEIPs.length === 0) return null;

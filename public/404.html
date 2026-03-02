@@ -2,13 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Forkcast</title>
+    <title>以太坊升級地圖</title>
     <script type="text/javascript">
       // SPA redirect for custom domain
       // Redirect to root and let React Router handle the routing
       var l = window.location;
       var path = l.pathname + l.search + l.hash;
-      l.replace(l.origin + '/?redirect=' + encodeURIComponent(path));
+      var base = (l.pathname.startsWith('/Ethereum-roadmap') || l.pathname.startsWith('/ethereum-roadmap')) ? l.pathname.split('/').slice(0, 2).join('/') : '';
+      l.replace(l.origin + base + '/?redirect=' + encodeURIComponent(path));
     </script>
   </head>
   <body>
