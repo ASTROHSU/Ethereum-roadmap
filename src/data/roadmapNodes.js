@@ -2,7 +2,7 @@ export const roadmapNodesZh = [
     {
         id: "frontier", phase: "Frontier", date: "2015年7月", status: "completed",
         title: "創世發佈", description: "以太坊主網正式發佈，當時僅限開發者使用，尚無圖形介面。",
-        painPoints: [],
+        painPoints: ["區塊鏈可程式化程度", "去中心化運算"],
         highlights: [
             { title: '以太坊誕生', desc: '主網正式上線，但僅能透過命令列操作，普通使用者幾乎無法使用。這個階段的重點是驗證「智慧合約平台」的概念是否可行。' }
         ]
@@ -10,7 +10,7 @@ export const roadmapNodesZh = [
     {
         id: "homestead", phase: "Homestead", date: "2016年3月", status: "completed",
         title: "第一個穩定版本", description: "移除早期的安全性免責聲明，以太坊正式宣告進入穩定可用階段。",
-        painPoints: [],
+        painPoints: ["網路穩定性", "早期安全風險"],
         highlights: [
             { title: '穩定性宣告', desc: '官方移除了「這是實驗性軟體」的免責聲明，正式進入生產環境。同年 DAO 被駭事件也促使社群更重視智慧合約安全審計。' }
         ]
@@ -18,7 +18,7 @@ export const roadmapNodesZh = [
     {
         id: "byzantium", phase: "Byzantium", date: "2017年10月", status: "completed",
         title: "ZK 技術埋伏筆", description: "加入了 ZK 密碼學所需的底層運算元件；開始控制通膨。",
-        painPoints: [],
+        painPoints: ["交易隱私", "節點運算效率"],
         highlights: [
             { title: '隱私技術基礎建立', desc: '加入 ZK-SNARK 所需的預編譯合約（EIP-196、EIP-197），為日後的隱私交易與 ZK Rollup 鋪路。' },
             { title: '通膨開始控制', desc: '區塊獎勵從 5 ETH 降至 3 ETH，首次展現社群對 ETH 經濟模型的主動管理。' }
@@ -27,7 +27,7 @@ export const roadmapNodesZh = [
     {
         id: "constantinople", phase: "Constantinople", date: "2019年2月", status: "completed",
         title: "效率與經濟模型調整", description: "區塊獎勵從 3 ETH 減至 2 ETH、Gas 優化。",
-        painPoints: [],
+        painPoints: ["Gas 成本", "貨幣通膨"],
         highlights: [
             { title: 'Gas 成本初步下降', desc: '引入更便宜的位元操作指令（EIP-1052、EIP-1283），但整體鏈上操作費用依然偏高。' },
             { title: 'ETH 發行量再降', desc: '區塊獎勵從 3 ETH 降至 2 ETH，持續壓低通膨，為後來的「超音速貨幣」敘事埋下伏筆。' }
@@ -36,7 +36,7 @@ export const roadmapNodesZh = [
     {
         id: "istanbul", phase: "Istanbul", date: "2019年12月", status: "completed",
         title: "為 L2 鋪路", description: "降低 Rollup 相關操作的 Gas 費用，大幅降低未來 L2 的運作成本。",
-        painPoints: [],
+        painPoints: ["L2 擴容成本", "智慧合約相容性"],
         highlights: [
             { title: 'L2 擴容的起點', desc: 'EIP-2028 大幅降低 calldata 費用，讓未來的 Rollup 方案（Optimism、Arbitrum 等）可以用更低成本在 L1 上提交資料。' },
             { title: '跨鏈互通基礎', desc: '加入 ChainID 操作碼（EIP-1344），讓智慧合約能辨識自己在哪條鏈上，為日後的多鏈生態打下基礎。' }
@@ -45,7 +45,7 @@ export const roadmapNodesZh = [
     {
         id: "muir-glacier", phase: "Muir Glacier", date: "2020年1月", status: "completed",
         title: "難度炸彈延遲", description: "再次延遲難度炸彈，讓 PoW 挖礦能維持到 The Merge。",
-        painPoints: [],
+        painPoints: ["出塊穩定性", "挖礦難度過快增長"],
         highlights: [
             { title: '維持網路穩定', desc: '難度炸彈會讓出塊時間越來越長，甚至導致網路癱瘓。延遲它確保了在轉向 PoS 之前，網路能持續正常運作。' }
         ]
@@ -53,7 +53,7 @@ export const roadmapNodesZh = [
     {
         id: "berlin", phase: "Berlin", date: "2021年4月", status: "completed",
         title: "Gas 效率調整", description: "降低讀取儲存資料的操作費用，修復安全漏洞。",
-        painPoints: [],
+        painPoints: ["DoS 攻擊風險", "儲存讀取開銷"],
         highlights: [
             { title: 'Gas 計費更合理', desc: 'EIP-2929 讓首次存取新地址的 Gas 較高（防 DoS），但後續存取同一地址變便宜。整體讓合約互動費用更可預期。' },
             { title: '交易類型擴展', desc: 'EIP-2718 引入統一的交易類型封裝，讓未來新增交易功能（如 EIP-1559）更容易，而不需要硬分叉。' }
@@ -129,7 +129,7 @@ export const roadmapNodesEn = [
     {
         id: "frontier", phase: "Frontier", date: "July 2015", status: "completed",
         title: "Genesis Release", description: "Ethereum mainnet launched. For developers only, no graphical interface.",
-        painPoints: [],
+        painPoints: ["Blockchain Programmability", "Decentralized Computing"],
         highlights: [
             { title: 'Birth of Ethereum', desc: 'Mainnet went live but was operated entirely through command line. Focused on proving the viability of a "smart contract platform".' }
         ]
@@ -137,7 +137,7 @@ export const roadmapNodesEn = [
     {
         id: "homestead", phase: "Homestead", date: "March 2016", status: "completed",
         title: "First Stable Release", description: "Early safety warnings removed, entering the stable production phase.",
-        painPoints: [],
+        painPoints: ["Network Stability", "Early Security Risks"],
         highlights: [
             { title: 'Stability Declaration', desc: 'Official removal of the "experimental software" warning. The DAO hack occurred this year, pushing the community to emphasize smart contract audits.' }
         ]
@@ -145,7 +145,7 @@ export const roadmapNodesEn = [
     {
         id: "byzantium", phase: "Byzantium", date: "Oct 2017", status: "completed",
         title: "ZK Tech Foundation", description: "Added base components for ZK cryptography; began controlling inflation.",
-        painPoints: [],
+        painPoints: ["Transaction Privacy", "Node Efficiency"],
         highlights: [
             { title: 'Privacy Tech Foundations', desc: 'Added precompiled contracts for ZK-SNARKs (EIP-196, EIP-197), paving the way for future privacy transactions and ZK Rollups.' },
             { title: 'Inflation Control', desc: 'Block reward reduced from 5 ETH to 3 ETH, demonstrating proactive management of ETH economics.' }
@@ -154,7 +154,7 @@ export const roadmapNodesEn = [
     {
         id: "constantinople", phase: "Constantinople", date: "Feb 2019", status: "completed",
         title: "Efficiency & Economics", description: "Block reward reduced from 3 ETH to 2 ETH; Gas optimizations.",
-        painPoints: [],
+        painPoints: ["Gas Costs", "Monetary Inflation"],
         highlights: [
             { title: 'Initial Gas Cost Reduction', desc: 'Introduced cheaper bitwise operation instructions (EIP-1052, EIP-1283), though overall chain costs remained high.' },
             { title: 'ETH Issuance Dropped Again', desc: 'Block reward reduced from 3 ETH to 2 ETH, consistently compressing inflation in preparation for the "ultrasound money" narrative.' }
@@ -163,7 +163,7 @@ export const roadmapNodesEn = [
     {
         id: "istanbul", phase: "Istanbul", date: "Dec 2019", status: "completed",
         title: "Paving the Way for L2", description: "Lowered Gas fees for Rollup operations, significantly dropping future L2 costs.",
-        painPoints: [],
+        painPoints: ["L2 Scaling Costs", "Smart Contract Compatibility"],
         highlights: [
             { title: 'Starting Point for L2 Scaling', desc: 'EIP-2028 greatly reduced calldata costs, allowing future Rollups (Optimism, Arbitrum, etc.) to post data on L1 much more cheaply.' },
             { title: 'Cross-chain Interop Foundation', desc: 'Added the ChainID Opcode (EIP-1344), letting contracts know which chain they are on, forming the basis for a multichain ecosystem.' }
@@ -172,7 +172,7 @@ export const roadmapNodesEn = [
     {
         id: "muir-glacier", phase: "Muir Glacier", date: "Jan 2020", status: "completed",
         title: "Difficulty Bomb Delay", description: "Delayed the difficulty bomb to keep PoW mining viable until The Merge.",
-        painPoints: [],
+        painPoints: ["Block Time Stability", "Mining Difficulty"],
         highlights: [
             { title: 'Maintaining Network Stability', desc: 'The difficulty bomb exponentially delays block times. Delaying it ensured the network ran smoothly before transitioning to PoS.' }
         ]
@@ -180,7 +180,7 @@ export const roadmapNodesEn = [
     {
         id: "berlin", phase: "Berlin", date: "April 2021", status: "completed",
         title: "Gas Efficiency Adjustments", description: "Lowered costs of accessing stored data; fixed security vulnerabilities.",
-        painPoints: [],
+        painPoints: ["DoS Attack Risks", "Storage Overheads"],
         highlights: [
             { title: 'Logical Gas Billing', desc: 'EIP-2929 increased gas costs for first-time address access (preventing DoS), but made subsequent accesses cheaper, stabilizing contract interaction fees.' },
             { title: 'Expanded Transaction Types', desc: 'EIP-2718 introduced a unified transaction envelope, making it easier to add new transaction types (like EIP-1559) without requiring hard forks.' }

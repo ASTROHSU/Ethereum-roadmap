@@ -111,7 +111,7 @@ export default function ConsumerUpgradeCarousel({
           ${isExpanded ? (darkMode ? 'border-indigo-500/60 shadow-lg ring-1 ring-indigo-500/30' : 'border-indigo-300 shadow-lg ring-1 ring-indigo-300/30') : ''}
         `}
             >
-                <div className="p-5 flex flex-col h-full min-h-[200px]">
+                <div className="p-5 flex flex-col">
                     {/* Header row */}
                     <div className="flex items-start justify-between gap-2 mb-3">
                         <div className="flex items-center gap-2">
@@ -163,7 +163,7 @@ export default function ConsumerUpgradeCarousel({
                 {hasHighlights && (
                     <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[800px] border-t' : 'max-h-0'} ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
                         <div className="px-5 pb-5 space-y-3">
-                            <p className={`text-[10px] uppercase font-bold tracking-wider pt-4 mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                            <p className={`text-[10px] uppercase font-bold tracking-wider pt-3 mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                                 {HIGHLIGHTS_LABEL[language]}
                             </p>
                             {node.highlights?.map((h, i) => (
