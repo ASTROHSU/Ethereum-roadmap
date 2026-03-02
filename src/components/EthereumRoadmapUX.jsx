@@ -655,82 +655,93 @@ export default function EthereumRoadmapUX() {
       </aside>
 
       {/* ── Header ── */}
-      <header className="bg-slate-50/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10">
+      <header className={`${darkMode ? 'bg-slate-900/80 border-slate-700' : 'bg-slate-50/80 border-slate-200'} backdrop-blur-md border-b sticky top-0 z-10 transition-colors duration-300`}>
         <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-2">
+            <h1 className={`text-2xl md:text-4xl font-bold mb-1 md:mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
               以太坊升級地圖
             </h1>
 
-            <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl mt-2">
+            <p className={`hidden md:block leading-relaxed max-w-2xl mt-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
               以太坊升級到哪了？未來還有哪些改進？能解決我的問題嗎？
             </p>
           </div>
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="flex-shrink-0 flex flex-col items-center gap-1 group"
-            title="路線圖全貌"
-          >
-            {/* Ethereum Diamond with water-fill progress */}
-            {(() => {
-              const progress = 42; // 主觀進度百分比；可隨路線圖變動調整
-              const fillY = 100 - progress; // SVG 座標：0=頂部, 100=底部
-              return (
-                <div className="relative w-14 h-14 md:w-16 md:h-16">
-                  <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
-                    <defs>
-                      {/* Ethereum diamond shape as clip path */}
-                      <clipPath id="eth-diamond">
-                        <path d="M50 5 L85 50 L50 95 L15 50 Z" />
-                      </clipPath>
-                      {/* Animated water gradient */}
-                      <linearGradient id="water-fill" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="transparent" />
-                        <stop offset={`${fillY}%`} stopColor="transparent" />
-                        <stop offset={`${fillY}%`} stopColor="#818cf8" />
-                        <stop offset="100%" stopColor="#6366f1" />
-                      </linearGradient>
-                      {/* Subtle wave pattern */}
-                      <linearGradient id="wave-sheen" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-                        <stop offset="50%" stopColor="rgba(255,255,255,0.15)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                      </linearGradient>
-                    </defs>
-                    {/* Background diamond outline */}
-                    <path d="M50 5 L85 50 L50 95 L15 50 Z" fill="none" stroke="#cbd5e1" strokeWidth="2"
-                      className="group-hover:stroke-indigo-300 transition-colors" />
-                    {/* Filled water area */}
-                    <g clipPath="url(#eth-diamond)">
-                      <rect x="0" y="0" width="100" height="100" fill="url(#water-fill)" />
-                      {/* Sheen overlay */}
-                      <rect x="0" y={fillY} width="100" height={100 - fillY} fill="url(#wave-sheen)" opacity="0.6" />
-                      {/* Water surface wave line */}
-                      <path d={`M10 ${fillY} Q30 ${fillY - 3} 50 ${fillY} Q70 ${fillY + 3} 90 ${fillY}`}
-                        fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"
-                        className="animate-pulse" />
-                    </g>
-                    {/* Inner diamond cross lines (Ethereum logo detail) */}
-                    <g clipPath="url(#eth-diamond)" opacity="0.15">
-                      <line x1="50" y1="5" x2="50" y2="95" stroke="white" strokeWidth="1" />
-                      <line x1="15" y1="50" x2="85" y2="50" stroke="white" strokeWidth="0.8" />
-                    </g>
-                  </svg>
-                </div>
-              );
-            })()}
-            <span className="text-xs font-bold text-indigo-600 tabular-nums">42%</span>
-            <span className="text-[10px] text-slate-400 -mt-0.5">路線圖進度</span>
-          </button>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Dark mode toggle */}
+            <button
+              onClick={() => setDarkMode(d => !d)}
+              className={`p-2.5 rounded-xl border transition-all ${darkMode ? 'border-slate-700 bg-slate-800 text-amber-400 hover:bg-slate-700' : 'border-slate-200 bg-white text-slate-500 hover:bg-slate-100'}`}
+              title={darkMode ? '切換淺色模式' : '切換深色模式'}
+            >
+              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            {/* Ethereum Diamond progress button */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex-shrink-0 flex flex-col items-center gap-1 group"
+              title="路線圖全貌"
+            >
+              {/* Ethereum Diamond with water-fill progress */}
+              {(() => {
+                const progress = 42; // 主觀進度百分比；可隨路線圖變動調整
+                const fillY = 100 - progress; // SVG 座標：0=頂部, 100=底部
+                return (
+                  <div className="relative w-14 h-14 md:w-16 md:h-16">
+                    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
+                      <defs>
+                        {/* Ethereum diamond shape as clip path */}
+                        <clipPath id="eth-diamond">
+                          <path d="M50 5 L85 50 L50 95 L15 50 Z" />
+                        </clipPath>
+                        {/* Animated water gradient */}
+                        <linearGradient id="water-fill" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="transparent" />
+                          <stop offset={`${fillY}%`} stopColor="transparent" />
+                          <stop offset={`${fillY}%`} stopColor="#818cf8" />
+                          <stop offset="100%" stopColor="#6366f1" />
+                        </linearGradient>
+                        {/* Subtle wave pattern */}
+                        <linearGradient id="wave-sheen" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+                          <stop offset="50%" stopColor="rgba(255,255,255,0.15)" />
+                          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+                        </linearGradient>
+                      </defs>
+                      {/* Background diamond outline */}
+                      <path d="M50 5 L85 50 L50 95 L15 50 Z" fill="none" stroke="#cbd5e1" strokeWidth="2"
+                        className="group-hover:stroke-indigo-300 transition-colors" />
+                      {/* Filled water area */}
+                      <g clipPath="url(#eth-diamond)">
+                        <rect x="0" y="0" width="100" height="100" fill="url(#water-fill)" />
+                        {/* Sheen overlay */}
+                        <rect x="0" y={fillY} width="100" height={100 - fillY} fill="url(#wave-sheen)" opacity="0.6" />
+                        {/* Water surface wave line */}
+                        <path d={`M10 ${fillY} Q30 ${fillY - 3} 50 ${fillY} Q70 ${fillY + 3} 90 ${fillY}`}
+                          fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"
+                          className="animate-pulse" />
+                      </g>
+                      {/* Inner diamond cross lines (Ethereum logo detail) */}
+                      <g clipPath="url(#eth-diamond)" opacity="0.15">
+                        <line x1="50" y1="5" x2="50" y2="95" stroke="white" strokeWidth="1" />
+                        <line x1="15" y1="50" x2="85" y2="50" stroke="white" strokeWidth="0.8" />
+                      </g>
+                    </svg>
+                  </div>
+                );
+              })()}
+              <span className="text-xs font-bold text-indigo-600 tabular-nums">42%</span>
+              <span className="text-[10px] text-slate-400 -mt-0.5">路線圖進度</span>
+            </button>
+          </div>
         </div>
       </header>
 
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-5 md:py-8">
-        <VisualRoadmap roadmapData={roadmapData} />
+        <VisualRoadmap roadmapData={roadmapData} darkMode={darkMode} />
       </main>
 
       {/* ── Footer ── */}
-      <footer className="relative z-10 max-w-4xl mx-auto px-4 py-8 md:py-12 mt-8 text-center text-slate-500 border-t border-slate-200">
+      <footer className={`relative z-10 max-w-4xl mx-auto px-4 py-8 md:py-12 mt-8 text-center border-t transition-colors duration-300 ${darkMode ? 'border-slate-700 text-slate-500' : 'border-slate-200 text-slate-500'}`}>
         <p className="text-sm leading-relaxed mb-3">
           這是一個開放協作的開源專案。歡迎大家一起幫忙更新與完善！
         </p>

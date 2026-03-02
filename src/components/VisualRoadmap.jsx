@@ -120,7 +120,7 @@ const maturityLabels = {
 const getSeverityLabel = (n) => { if (n <= 3) return '低'; if (n <= 6) return '中'; return '高'; };
 const getSeverityColor = (n) => { if (n <= 3) return 'bg-emerald-400'; if (n <= 6) return 'bg-amber-400'; return 'bg-rose-500'; };
 
-export default function VisualRoadmap({ roadmapData = [] }) {
+export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -187,18 +187,18 @@ export default function VisualRoadmap({ roadmapData = [] }) {
 
   return (
     <div>
-      {/* Timeline Card - Light Theme */}
-      <div className="bg-white rounded-3xl p-6 md:p-10 mb-0 border border-slate-200 shadow-sm relative overflow-hidden">
+      {/* Timeline Card */}
+      <div className={`rounded-3xl p-6 md:p-10 mb-0 border shadow-sm relative overflow-hidden transition-colors duration-300 ${darkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
 
         {/* 滾動按鈕 */}
         <div className="flex justify-end mb-4">
           <div className="hidden md:flex items-center gap-2">
             <button onClick={() => scroll('left')} disabled={!canScrollLeft}
-              className="p-2 rounded-full border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm">
+              className={`p-2 rounded-full border transition-all shadow-sm disabled:opacity-30 disabled:cursor-not-allowed ${darkMode ? 'border-slate-700 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white' : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700'}`}>
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button onClick={() => scroll('right')} disabled={!canScrollRight}
-              className="p-2 rounded-full border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm">
+              className={`p-2 rounded-full border transition-all shadow-sm disabled:opacity-30 disabled:cursor-not-allowed ${darkMode ? 'border-slate-700 bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white' : 'border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700'}`}>
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
@@ -210,7 +210,7 @@ export default function VisualRoadmap({ roadmapData = [] }) {
             className="flex overflow-x-auto pb-8 pt-4 snap-x snap-mandatory scrollbar-hide"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {/* Connector Line */}
-            <div className="hidden md:block absolute top-[64px] left-[5%] right-0 w-[4400px] h-1 bg-gradient-to-r from-emerald-300/60 via-indigo-300/60 to-slate-200/60 rounded-full z-0" />
+            <div className={`hidden md:block absolute top-[64px] left-[5%] right-0 w-[4400px] h-1 rounded-full z-0 ${darkMode ? 'bg-gradient-to-r from-emerald-500/40 via-indigo-500/40 to-slate-700/40' : 'bg-gradient-to-r from-emerald-300/60 via-indigo-300/60 to-slate-200/60'}`} />
 
             <div className="flex gap-4 md:gap-8 relative z-10 w-max px-4">
               {roadmapNodes.map((node) => {
@@ -222,30 +222,34 @@ export default function VisualRoadmap({ roadmapData = [] }) {
                     className={`relative flex flex-col items-start md:items-center w-[260px] md:w-[280px] snap-start group shrink-0 transition-all duration-200 ${clickable ? 'cursor-pointer' : ''} ${isSelected ? 'scale-[1.03]' : ''}`}>
 
                     {/* Node Dot */}
-                    <div className={`relative z-20 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-white md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${node.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.5)]' :
-                        node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_16px_rgba(99,102,241,0.4)] animate-pulse group-hover:shadow-[0_0_24px_rgba(99,102,241,0.6)]' :
-                          'bg-slate-400 group-hover:bg-slate-500 shadow-sm'
-                      } ${isSelected ? 'ring-2 ring-offset-2 ring-offset-white ring-indigo-400' : ''}`}>
+                    <div className={`relative z-20 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${darkMode ? 'border-slate-900' : 'border-white'} ${node.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.5)]' :
+                      node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_16px_rgba(99,102,241,0.4)] animate-pulse group-hover:shadow-[0_0_24px_rgba(99,102,241,0.6)]' :
+                        'bg-slate-400 group-hover:bg-slate-500 shadow-sm'
+                      } ${isSelected ? `ring-2 ring-offset-2 ${darkMode ? 'ring-offset-slate-900' : 'ring-offset-white'} ring-indigo-400` : ''}`}>
                       {node.status === 'completed' ? <CheckCircle2 className="w-5 h-5 text-white" /> :
                         node.status === 'in_progress' ? <CircleDashed className="w-5 h-5 text-white animate-spin-slow" /> :
                           <Circle className="w-4 h-4 text-white group-hover:text-slate-100 transition-colors" />}
                     </div>
 
                     {/* Content */}
-                    <div className={`mt-3 md:mt-0 text-left md:text-center w-full transition-all duration-300 transform group-hover:-translate-y-1 p-4 md:p-3 rounded-2xl border ${isSelected ? 'bg-indigo-50 border-indigo-200 shadow-md' : 'bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none'
+                    <div className={`mt-3 md:mt-0 text-left md:text-center w-full transition-all duration-300 transform group-hover:-translate-y-1 p-4 md:p-3 rounded-2xl border ${isSelected
+                      ? darkMode ? 'bg-indigo-900/40 border-indigo-500/50 shadow-md' : 'bg-indigo-50 border-indigo-200 shadow-md'
+                      : darkMode ? 'bg-slate-800/70 border-slate-700 md:bg-transparent md:border-none shadow-md md:shadow-none' : 'bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none'
                       }`}>
-                      <div className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${isSelected ? 'bg-indigo-100 text-indigo-600 border-indigo-200' : 'bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300'
+                      <div className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${isSelected
+                        ? darkMode ? 'bg-indigo-800 text-indigo-300 border-indigo-600' : 'bg-indigo-100 text-indigo-600 border-indigo-200'
+                        : darkMode ? 'bg-slate-700 text-slate-400 border-slate-600 group-hover:border-slate-500' : 'bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300'
                         }`}>
                         {node.date}
                       </div>
-                      <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-600 group-hover:text-emerald-700' :
-                          node.status === 'in_progress' ? 'text-indigo-600 group-hover:text-indigo-700' :
-                            'text-slate-500 group-hover:text-slate-600'
+                      <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-500 group-hover:text-emerald-400' :
+                        node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
+                          'text-slate-500 group-hover:text-slate-400'
                         }`}>
                         {node.phase}
                       </h3>
-                      <div className="text-slate-800 font-bold text-sm mb-2">{node.title}</div>
-                      <p className="text-slate-500 text-xs leading-relaxed mb-4 md:px-2 group-hover:text-slate-600 transition-colors">
+                      <div className={`font-bold text-sm mb-2 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.title}</div>
+                      <p className={`text-xs leading-relaxed mb-4 md:px-2 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-500 group-hover:text-slate-600'}`}>
                         {node.description}
                       </p>
 
@@ -275,19 +279,19 @@ export default function VisualRoadmap({ roadmapData = [] }) {
           </div>
 
           {/* Scroll Gradients */}
-          <div className="pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-white to-transparent z-20" />
-          <div className="pointer-events-none absolute top-0 left-0 h-full w-12 bg-gradient-to-r from-white to-transparent z-20" />
+          <div className={`pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l ${darkMode ? 'from-slate-900/90' : 'from-white'} to-transparent z-20`} />
+          <div className={`pointer-events-none absolute top-0 left-0 h-full w-12 bg-gradient-to-r ${darkMode ? 'from-slate-900/90' : 'from-white'} to-transparent z-20`} />
         </div>
       </div>
 
       {/* Expandable Detail Panel */}
       <div className={`overflow-hidden transition-all duration-500 ease-in-out ${selectedNode ? 'max-h-[5000px] opacity-100 mt-6' : 'max-h-0 opacity-0 mt-0'}`}>
         {selectedNode && (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-6 md:p-8">
+          <div className={`rounded-2xl border shadow-lg p-6 md:p-8 transition-colors duration-300 ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-white border-slate-200'}`}>
             <div className="flex items-center justify-between mb-6">
               <div>
                 <span className={`text-xs font-bold uppercase tracking-widest ${selectedNode.status === 'completed' ? 'text-emerald-600' :
-                    selectedNode.status === 'in_progress' ? 'text-indigo-600' : 'text-slate-500'
+                  selectedNode.status === 'in_progress' ? 'text-indigo-600' : 'text-slate-500'
                   }`}>{selectedNode.date}</span>
                 <h3 className="text-xl md:text-2xl font-bold text-slate-800 mt-1">
                   {selectedNode.phase}：{selectedNode.title}
@@ -295,7 +299,7 @@ export default function VisualRoadmap({ roadmapData = [] }) {
                 <p className="text-slate-500 text-sm mt-1">{selectedNode.description}</p>
               </div>
               <button onClick={() => { setSelectedNode(null); setExpandedCard(null); }}
-                className="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors shrink-0">
+                className={`p-2 rounded-full transition-colors shrink-0 ${darkMode ? 'hover:bg-slate-700 text-slate-400 hover:text-slate-200' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-700'}`}>
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -308,9 +312,9 @@ export default function VisualRoadmap({ roadmapData = [] }) {
                   這次升級的重點
                 </h4>
                 {selectedNode.highlights.map((h, i) => (
-                  <div key={i} className="bg-slate-50 rounded-xl border border-slate-200 p-5">
-                    <h5 className="font-bold text-slate-800 mb-2">{h.title}</h5>
-                    <p className="text-slate-600 text-sm leading-relaxed">{h.desc}</p>
+                  <div key={i} className={`rounded-xl border p-5 ${darkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+                    <h5 className={`font-bold mb-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{h.title}</h5>
+                    <p className={`text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
                   </div>
                 ))}
               </div>
