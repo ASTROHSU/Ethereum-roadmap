@@ -151,7 +151,7 @@ const DATA_SOURCES = [
 
 
 const RECENT_UPDATES =
-  'Pectra 已於 2025/5 上線主網（EIP-7702 帳戶抽象、Blob 空間加倍）；Glamsterdam 現正 Devnet 測試中，預計 2026 上半年主網。';
+  'Pectra 已於 2025/5 上線主網（EIP-7702 帳戶抽象、EOF）；預計 2025 年 12 月進行 Fusaka 升級（PeerDAS）；Glamsterdam 現正 Devnet 測試中。';
 
 const roadmapData = [
   {
@@ -174,10 +174,10 @@ const roadmapData = [
             impact: 8,
             difficulty: 6,
             solution:
-              '已有重大進展！2024 年 3 月的 Dencun 升級（EIP-4844）引入 Blob 資料，讓 L2 Rollup 費用瞬間降低了 10～100 倍。2025 年 5 月的 Pectra 升級再把 Blob 空間加倍（PeerDAS）。正在測試中的 Glamsterdam（預計 2026 上半年）將引入區塊級別訪問列表（EIP-7928）與 ePBS（EIP-7732），預計讓 L1 執行效率再大幅提升，Gas 費用進一步下降。',
-            techTerms: ['EIP-4844 (Proto-Danksharding)', 'PeerDAS / EIP-7594', 'Block Access Lists (EIP-7928)', 'ePBS (EIP-7732)'],
-            eta: 'Dencun ✅ 已完成 (2024/3)、Pectra ✅ 已完成 (2025/5)、Glamsterdam 🔄 預計 2026 上半年',
-            maturity: 'Mainnet',
+              '已有重大進展！2024 年 3 月的 Dencun 升級（EIP-4844）讓 L2 費用瞬間降低了數十倍。2025 年的 Pectra 升級已備妥 Blob 擴容基礎；緊接著預計 2025 年 12 月的 Fusaka 升級將正式引入 PeerDAS (EIP-7594)，讓節點能用「抽樣」方式處理資料，大幅增加 Blob 容量，L2 費用有望再暴跌。而測試中的 Glamsterdam 將進一步引入區塊級別訪問列表與 ePBS，讓 L1 執行效率再提升。',
+            techTerms: ['PeerDAS / EIP-7594', 'Block Access Lists (EIP-7928)', 'ePBS (EIP-7732)'],
+            eta: 'Dencun ✅ 已完成、Pectra ✅ 已完成、Fusaka 🔄 預計 2025/12、Glamsterdam 🔄 預計 2026',
+            maturity: 'Testnet',
             confidence: 'high',
             links: [],
           },

@@ -100,8 +100,17 @@ const roadmapNodes = [
   },
   {
     id: "pectra", phase: "Pectra", date: "2025年5月", status: "completed",
-    title: "無 ETH 也能付 Gas", description: "帳戶抽象（EIP-7702）上線主網。",
-    painPoints: ["新手入門門檻", "助記詞與帳戶恢復", "智慧合約授權風險"]
+    title: "無 ETH 也能付 Gas", description: "帳戶抽象（EIP-7702）與 EOF 架構升級上線主網。",
+    painPoints: ["新手入門門檻", "助記詞與帳戶恢復", "智慧合約授權風險"],
+    highlights: [
+      { title: 'EOF (EVM 虛擬機改版)', desc: '以太坊誕生以來最大的智能合約架構改版，讓開發者撰寫合約更安全、執行效率更高，為後續效能提升大舉鋪路。' },
+      { title: '質押者體驗改善 (EIP-7251)', desc: '提高節點的質押上限（從 32 ETH 大幅提高至 2048 ETH），並優化存款與退出機制，減輕信標鏈整體的運算負擔。' }
+    ]
+  },
+  {
+    id: "fusaka", phase: "Fusaka", date: "預計 2025 年 12 月", status: "in_progress",
+    title: "PeerDAS 數據滿載", description: "讓節點能用「抽樣」方式處理資料，大幅增加 Blobs 數量。",
+    painPoints: ["L1 手續費與吞吐"]
   },
   {
     id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
@@ -125,7 +134,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [selectedNode, setSelectedNode] = useState(roadmapNodes.find(n => n.id === 'glamsterdam') || null);
+  const [selectedNode, setSelectedNode] = useState(roadmapNodes.find(n => n.id === 'pectra') || null);
   const [expandedCard, setExpandedCard] = useState(null);
 
   const checkScroll = () => {
@@ -383,8 +392,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                                     解決方案成熟度
                                   </div>
                                   <span className={`text-sm px-2.5 py-1 rounded-full ${item.maturity === 'Mainnet'
-                                      ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
-                                      : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                    ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
+                                    : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
                                     }`}>
                                     {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
                                   </span>
