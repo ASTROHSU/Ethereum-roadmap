@@ -1,0 +1,103 @@
+# 當 ethereum/forkcast 有更新時，開一則 Issue 提醒你「需手動檢視與轉譯」
+# 本專案內容經過轉譯／在地化，不宜直接 merge 上游，故只通知、不自動合併
+name: Sync upstream Forkcast
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream Forkcast
+        run: |
+          git remote add upstream https://github.com/ethereum/forkcast.git 2>/dev/null || git remote set-url upstream https://github.com/ethereum/forkcast.git
+          git fetch upstream main --no-tags
+
+      - name: Check for new upstream commits
+        id: check
+        run: |
+          BASE=$(git merge-base main upstream/main 2>/dev/null || echo "")
+          if [ -z "$BASE" ]; then
+            echo "new_commits=0" >> $GITHUB_OUTPUT
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            echo "compare_url=" >> $GITHUB_OUTPUT
+            echo "commit_list=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          NEW=$(git rev-list $BASE..upstream/main --count 2>/dev/null || echo 0)
+          echo "new_commits=$NEW" >> $GITHUB_OUTPUT
+          if [ "$NEW" -gt 0 ]; then
+            echo "has_new=true" >> $GITHUB_OUTPUT
+            echo "compare_url=https://github.com/ethereum/forkcast/compare/${BASE}...upstream/main" >> $GITHUB_OUTPUT
+            LIST=$(git log --oneline $BASE..upstream/main | head -30)
+            echo "commit_list<<EOF" >> $GITHUB_OUTPUT
+            echo "$LIST" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_new=false" >> $GITHUB_OUTPUT
+            echo "compare_url=" >> $GITHUB_OUTPUT
+            echo "commit_list=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Find or create upstream-sync issue
+        if: steps.check.outputs.has_new == 'true'
+        id: issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LABEL="upstream-sync"
+          # 確保 label 存在
+          gh label create "$LABEL" --color "ededed" --description "Forkcast 上游同步提醒" 2>/dev/null || true
+          # 找一則開著的、有 upstream-sync 的 issue
+          EXISTING=$(gh issue list --label "$LABEL" --state open --limit 1 --json number --jq '.[0].number' 2>/dev/null || echo "")
+          if [ -n "$EXISTING" ]; then
+            echo "issue_number=$EXISTING" >> $GITHUB_OUTPUT
+            echo "is_new=false" >> $GITHUB_OUTPUT
+          else
+            TITLE="【同步提醒】Forkcast 上游有 ${{ steps.check.outputs.new_commits }} 個新 commit（請手動檢視與轉譯）"
+            BODY="本專案內容**經過轉譯／在地化**，不宜直接 merge 上游。
+
+請手動檢視下列變更，並將需要的部分**轉譯後**合併進本專案。
+
+- **差異連結**：${{ steps.check.outputs.compare_url }}
+- **新 commit 數**：${{ steps.check.outputs.new_commits }}
+
+\`\`\`
+${{ steps.check.outputs.commit_list }}
+\`\`\`
+
+處理完成後可關閉本 Issue；若上游再次更新，會再開新的一則。"
+            NUM=$(gh issue create --title "$TITLE" --body "$BODY" --label "$LABEL" --json number --jq '.number')
+            echo "issue_number=$NUM" >> $GITHUB_OUTPUT
+            echo "is_new=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on existing upstream-sync issue
+        if: steps.check.outputs.has_new == 'true' && steps.issue.outputs.is_new == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BODY="🔔 又有 **${{ steps.check.outputs.new_commits }}** 個上游 commit，請記得檢視與轉譯。
+
+- **差異連結**：${{ steps.check.outputs.compare_url }}
+
+\`\`\`
+${{ steps.check.outputs.commit_list }}
+\`\`\`"
+          gh issue comment ${{ steps.issue.outputs.issue_number }} --body "$BODY"
+
+      - name: Skip (no new commits)
+        if: steps.check.outputs.has_new == 'false'
+        run: echo "Upstream has no new commits, nothing to do."

@@ -44,3 +44,16 @@ Forkcast:
 * makes accessible the "state of the world" - the current process timeline, what's being proposed, and the impacts of proposals
 * provides tools for stakeholders to understand and communicate preferences
 * is a collection of social experiments and will evolve quickly in response to the needs of the upgrade process
+
+### 與上游 Forkcast 同步（本專案維護用）
+
+本專案衍生自 [ethereum/forkcast](https://github.com/ethereum/forkcast)，**內容經過轉譯／在地化**，因此不宜直接 merge 上游程式碼，否則會覆蓋譯文與在地內容。
+
+- **自動提醒**：GitHub Action「Sync upstream Forkcast」每天會檢查 [ethereum/forkcast](https://github.com/ethereum/forkcast) 的 `main`。若有新 commit，會**開一則 Issue**（或在同一則 Issue 下留言），附上上游差異連結與 commit 列表，提醒你手動檢視、轉譯後再合併需要的變更。也可在 Actions 頁手動執行該 workflow。
+- **手動**：本機設定 upstream 後自行檢視差異，再決定要 port 哪些並轉譯：
+  ```bash
+  git remote add upstream https://github.com/ethereum/forkcast.git   # 只需做一次
+  git fetch upstream main
+  # 檢視差異，手動挑選並轉譯後再合併到本專案
+  git log main..upstream/main --oneline
+  ```

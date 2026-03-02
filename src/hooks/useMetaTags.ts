@@ -12,7 +12,7 @@ export const useMetaTags = ({
   title,
   description,
   url = window.location.href,
-  image = '/ethereum-icon.svg',
+  image = '/og-cover.png',
   type = 'website'
 }: MetaTagsProps) => {
   useEffect(() => {
@@ -49,7 +49,7 @@ export const useMetaTags = ({
     updateMetaTag('og:url', url);
     updateMetaTag('og:type', type);
     updateMetaTag('og:image', image);
-    updateMetaTag('og:site_name', 'Forkcast');
+    updateMetaTag('og:site_name', '以太坊升級地圖');
 
     // Twitter tags
     updateMetaTag('twitter:title', title);
@@ -60,16 +60,17 @@ export const useMetaTags = ({
     // Cleanup function to restore original meta tags when component unmounts
     return () => {
       // Restore default title
-      document.title = 'Forkcast - Ethereum Upgrade Tracker';
+      document.title = '以太坊升級地圖';
 
       // Restore default meta tags
-      updateNameTag('description', 'See what\'s on the horizon and how it impacts you. Track Ethereum network upgrades and explore how changes affect users, developers, and the ecosystem.');
-      updateMetaTag('og:title', 'Forkcast - Ethereum Upgrade Tracker');
-      updateMetaTag('og:description', 'See what\'s on the horizon and how it impacts you. Track Ethereum network upgrades and explore how changes affect users, developers, and the ecosystem.');
-      updateMetaTag('og:url', 'https://forkcast.org/');
-      updateMetaTag('twitter:title', 'Forkcast - Ethereum Upgrade Tracker');
-      updateMetaTag('twitter:description', 'See what\'s on the horizon and how it impacts you. Track Ethereum network upgrades and explore how changes affect users, developers, and the ecosystem.');
-      updateMetaTag('twitter:url', 'https://forkcast.org/');
+      updateNameTag('description', '對照以太坊升級藍圖與你的痛點，了解每個解法與預計實現時間。升級到哪了？一次看懂。');
+      updateMetaTag('og:title', '以太坊升級地圖');
+      updateMetaTag('og:description', '對照以太坊升級藍圖與你的痛點，了解每個解法與預計實現時間。升級到哪了？一次看懂。');
+      updateMetaTag('og:url', 'https://astrophsu.github.io/Ethereum-roadmap/');
+      updateMetaTag('og:image', '/og-cover.png');
+      updateMetaTag('twitter:title', '以太坊升級地圖');
+      updateMetaTag('twitter:description', '對照以太坊升級藍圖與你的痛點，了解每個解法與預計實現時間。升級到哪了？一次看懂。');
+      updateMetaTag('twitter:url', 'https://astrophsu.github.io/Ethereum-roadmap/');
     };
   }, [title, description, url, image, type]);
 };
