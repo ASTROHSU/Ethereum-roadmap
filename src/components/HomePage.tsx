@@ -171,20 +171,20 @@ const HomePage = () => {
       </aside>
 
       <div className="max-w-5xl mx-auto px-6 py-6 border-b border-slate-200 dark:border-slate-800 mb-8">
-        {/* Header */}
-        <div className="mb-4 text-center relative flex justify-between items-center">
-          <div className="flex items-center gap-4 text-left">
-            <Logo size="xl" />
-            <div>
+        {/* Header：手機版改為垂直堆疊，避免 logo 與標題重疊 */}
+        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 text-left min-w-0">
+            <Logo size="xl" className="flex-shrink-0 self-start sm:self-center" />
+            <div className="min-w-0">
               <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                 {t.siteTitle}
               </h2>
-              <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mt-0.5">
                 {t.siteSubtitle}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             {/* Language toggle */}
             <button
               onClick={() => setLanguage(language === "zh" ? "en" : "zh")}
