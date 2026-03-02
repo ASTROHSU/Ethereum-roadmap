@@ -2,21 +2,9 @@
 // Native horizontal scroll for trackpad support and simplified logic
 import { useState, useRef, useEffect } from 'react';
 import { CheckCircle2, CircleDashed, Circle, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
-import { roadmapNodesZh, roadmapNodesEn } from '../data/roadmapNodes';
+import { getOrderedCarouselNodes, type CarouselNode, type NodeStatus } from '../data/carouselNodes';
 
 type Language = 'zh' | 'en';
-type NodeStatus = 'completed' | 'in_progress' | 'future';
-
-interface RoadmapNode {
-    id: string;
-    phase: string;
-    date: string;
-    status: NodeStatus;
-    title: string;
-    description: string;
-    painPoints: string[];
-    highlights?: { title: string; desc: string }[];
-}
 
 interface ConsumerUpgradeCarouselProps {
     language?: Language;
@@ -48,7 +36,7 @@ export default function ConsumerUpgradeCarousel({
     language = 'zh',
     darkMode = false,
 }: ConsumerUpgradeCarouselProps) {
-    const nodes: RoadmapNode[] = (language === 'zh' ? roadmapNodesZh : roadmapNodesEn) as RoadmapNode[];
+    const nodes: CarouselNode[] = getOrderedCarouselNodes(language);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const pectraCardRef = useRef<HTMLDivElement>(null);
@@ -104,7 +92,7 @@ export default function ConsumerUpgradeCarousel({
         return <Circle className="w-4 h-4 text-purple-400 flex-shrink-0" />;
     };
 
-    const renderCard = (node: RoadmapNode) => {
+    const renderCard = (node: CarouselNode) => {
         const isExpanded = expandedId === node.id;
         const statusLabel = STATUS_LABELS[language][node.status];
         const statusColor = STATUS_COLORS[node.status];

@@ -106,6 +106,15 @@ export const roadmapNodesZh = [
         ]
     },
     {
+        id: "fusaka", phase: "Fusaka", date: "2025年12月", status: "completed",
+        title: "PeerDAS 與 L2 容量再升級", description: "節點可分工儲存 Blob 子集，L2 資料空間與吞吐再提升。",
+        painPoints: ["L1 手續費與吞吐", "L2 碎片化與跨鏈麻煩"],
+        highlights: [
+            { title: 'PeerDAS 上線', desc: 'EIP-7594 讓節點可以只儲存部分 Blob 資料並透過點對點取得其餘部分，大幅降低單節點儲存需求，同時提高 L2 可用的資料空間。' },
+            { title: 'Blob 數量與 Gas 上限提升', desc: '每區塊 Blob 數量與 Gas limit 提高，L2 成本與吞吐進一步優化。' }
+        ]
+    },
+    {
         id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
         title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險。",
         painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"],
@@ -229,6 +238,15 @@ export const roadmapNodesEn = [
         highlights: [
             { title: 'Pay Gas in Stablecoins', desc: 'EIP-7702 lets you pay gas with USDC or other tokens — no need to hold ETH just to transact.' },
             { title: 'Safer, Smarter Wallets', desc: 'Supports social recovery and batch transactions: lose your phone, not your money. Complete DeFi flows in one click.' }
+        ]
+    },
+    {
+        id: "fusaka", phase: "Fusaka", date: "Dec 2025", status: "completed",
+        title: "PeerDAS & L2 Capacity Boost", description: "Nodes can specialize in storing blob subsets; L2 data space and throughput increase.",
+        painPoints: ["L1 Fees & Throughput", "L2 Fragmentation & Bridging"],
+        highlights: [
+            { title: 'PeerDAS Live', desc: 'EIP-7594 lets nodes store a subset of blob data and fetch the rest peer-to-peer, lowering per-node storage while increasing L2 data capacity.' },
+            { title: 'Higher Blob Count & Gas Limit', desc: 'More blobs per block and higher gas limit improve L2 cost and throughput.' }
         ]
     },
     {
