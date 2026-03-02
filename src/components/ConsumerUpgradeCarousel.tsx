@@ -39,23 +39,22 @@ export default function ConsumerUpgradeCarousel({
     const nodes: CarouselNode[] = getOrderedCarouselNodes(language);
 
     const containerRef = useRef<HTMLDivElement>(null);
-    const pectraCardRef = useRef<HTMLDivElement>(null);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
 
     const [scrollPosition, setScrollPosition] = useState(0);
 
-    // 預設捲動到 Pectra，讓畫面一開始就顯示 Pectra、Glamsterdam、Hegotá 三個方塊
+    // 預設捲動到最右邊，讓畫面一開始就顯示最後三個方塊（不寫死某個升級）
     useEffect(() => {
-        const scrollToPectra = () => {
-            if (containerRef.current && pectraCardRef.current) {
-                const scrollTarget = pectraCardRef.current.offsetLeft;
-                containerRef.current.scrollLeft = scrollTarget;
+        const scrollToEnd = () => {
+            if (containerRef.current) {
+                const { scrollWidth, clientWidth } = containerRef.current;
+                containerRef.current.scrollLeft = Math.max(0, scrollWidth - clientWidth);
                 checkScroll();
             }
         };
-        const t = setTimeout(scrollToPectra, 150);
+        const t = setTimeout(scrollToEnd, 150);
         return () => clearTimeout(t);
     }, [nodes]);
 
@@ -213,7 +212,6 @@ export default function ConsumerUpgradeCarousel({
                 {nodes.map((node) => (
                     <div
                         key={node.id}
-                        ref={node.id === 'pectra' ? pectraCardRef : undefined}
                         className="snap-start shrink-0 w-[85vw] md:w-[45vw] lg:w-[calc(33.333%-16px)]"
                     >
                         {renderCard(node)}
