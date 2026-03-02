@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
   CheckCircle2, CircleDashed, Circle, ChevronRight, ChevronLeft,
-  ChevronDown, ChevronUp, X, ExternalLink, AlertCircle, Clock, Code
+  ChevronDown, ChevronUp, X, ExternalLink, AlertCircle, Clock, Code,
+  MousePointerClick
 } from 'lucide-react';
 
 const roadmapNodes = [
@@ -234,28 +235,28 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                       ? darkMode ? 'bg-indigo-900/40 border-indigo-500/50 shadow-md' : 'bg-indigo-50 border-indigo-200 shadow-md'
                       : darkMode ? 'bg-slate-800/70 border-slate-700 md:bg-transparent md:border-none shadow-md md:shadow-none' : 'bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none'
                       }`}>
-                      <div className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${isSelected
+                      <div className={`inline-block px-3 py-1.5 rounded text-xs font-bold mb-3 border tracking-wider ${isSelected
                         ? darkMode ? 'bg-indigo-800 text-indigo-300 border-indigo-600' : 'bg-indigo-100 text-indigo-600 border-indigo-200'
                         : darkMode ? 'bg-slate-700 text-slate-400 border-slate-600 group-hover:border-slate-500' : 'bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300'
                         }`}>
                         {node.date}
                       </div>
-                      <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-500 group-hover:text-emerald-400' :
+                      <h3 className={`text-xl font-bold mb-2 transition-colors ${node.status === 'completed' ? 'text-emerald-500 group-hover:text-emerald-400' :
                         node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
                           'text-slate-500 group-hover:text-slate-400'
                         }`}>
                         {node.phase}
                       </h3>
-                      <div className={`font-bold text-sm mb-2 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.title}</div>
-                      <p className={`text-xs leading-relaxed mb-4 md:px-2 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-500 group-hover:text-slate-600'}`}>
+                      <div className={`font-bold text-base mb-2.5 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.title}</div>
+                      <p className={`text-sm leading-relaxed mb-5 md:px-2 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-500 group-hover:text-slate-600'}`}>
                         {node.description}
                       </p>
 
                       {/* Pain Point Tags */}
                       {node.painPoints && node.painPoints.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 md:justify-center mt-auto border-t border-slate-100 pt-3 md:border-none md:pt-0">
+                        <div className="flex flex-wrap gap-2 md:justify-center mt-auto border-t border-slate-100 pt-4 md:border-none md:pt-0">
                           {node.painPoints.map((pp, i) => (
-                            <span key={i} className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${isSelected ? 'bg-indigo-100 text-indigo-600 border border-indigo-200' : 'bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100'
+                            <span key={i} className={`text-xs px-2.5 py-1 rounded-full font-medium transition-colors ${isSelected ? 'bg-indigo-100 text-indigo-600 border border-indigo-200' : 'bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100'
                               }`}>
                               {pp}
                             </span>
@@ -263,11 +264,15 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                         </div>
                       )}
 
-                      {/* Clickable hint */}
+                      {/* Clickable hint (Icon only) */}
                       {clickable && (
-                        <span className={`block w-full text-center text-[10px] mt-2 font-medium ${isSelected ? (darkMode ? 'text-indigo-400' : 'text-indigo-500') : (darkMode ? 'text-slate-500 group-hover:text-slate-400' : 'text-slate-400 group-hover:text-slate-500')}`}>
-                          {isSelected ? '▲ 目前查看中' : '▼ 點擊查看'}
-                        </span>
+                        <div className={`w-full flex justify-center mt-4 transition-all duration-300 ${isSelected ? (darkMode ? 'text-indigo-400' : 'text-indigo-500') : (darkMode ? 'text-slate-500 group-hover:text-slate-400' : 'text-slate-300 group-hover:text-slate-400')}`}>
+                          {isSelected ? (
+                            <div className="w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]" />
+                          ) : (
+                            <MousePointerClick className="w-5 h-5 animate-bounce-slow opacity-60 group-hover:opacity-100" strokeWidth={1.5} />
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -301,14 +306,14 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
             {/* Highlights (for earlier upgrades without full roadmapData) */}
             {selectedNode.highlights && selectedNode.highlights.length > 0 && (
               <div className="space-y-4 mb-6">
-                <h4 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                <h4 className={`text-base font-bold uppercase tracking-wider flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                   這次升級的重點
                 </h4>
                 {selectedNode.highlights.map((h, i) => (
-                  <div key={i} className={`rounded-xl border p-5 ${darkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
-                    <h5 className={`font-bold mb-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{h.title}</h5>
-                    <p className={`text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
+                  <div key={i} className={`rounded-2xl border p-6 ${darkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+                    <h5 className={`font-bold text-lg mb-2.5 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{h.title}</h5>
+                    <p className={`text-base leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
                   </div>
                 ))}
               </div>
@@ -331,60 +336,60 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                         : (darkMode ? 'border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400' : 'border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md')
                         }`}>
                         <button onClick={() => setExpandedCard(expandedCard === item.id ? null : item.id)}
-                          className="w-full text-left px-6 py-5 flex items-start justify-between focus:outline-none">
+                          className="w-full text-left px-6 py-6 flex items-start justify-between focus:outline-none">
                           <div className="flex-1 pr-4">
-                            <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-3 ${darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-700'}`}>{item.topicTitle}</span>
-                            <h3 className="text-lg md:text-xl font-medium leading-snug">{item.question}</h3>
+                            <span className={`inline-block px-3 py-1.5 text-xs font-bold rounded mb-3 ${darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-700'}`}>{item.topicTitle}</span>
+                            <h3 className={`text-xl md:text-2xl font-bold leading-snug ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{item.question}</h3>
                           </div>
                           <div className={`flex-shrink-0 mt-2 p-2 rounded-full ${darkMode ? 'text-slate-400 bg-slate-700/50' : 'text-slate-400 bg-slate-50'}`}>
-                            {expandedCard === item.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            {expandedCard === item.id ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
                           </div>
                         </button>
 
                         <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1800px] pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
-                          <div className={`border-t pt-5 space-y-5 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                          <div className={`border-t pt-6 space-y-6 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
                             {item.breakingNews && (
-                              <div className={`rounded-xl border px-4 py-3.5 ${darkMode ? 'bg-amber-900/20 border-amber-800/50' : 'bg-amber-50 border-amber-300'}`}>
-                                <div className="flex items-center gap-2 mb-1.5">
-                                  <span className={`font-bold text-sm ${darkMode ? 'text-amber-500' : 'text-amber-600'}`}>⚡ 路線圖重大轉向</span>
-                                  <span className={`text-xs ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>{item.breakingNews.date}</span>
+                              <div className={`rounded-xl border px-5 py-4 ${darkMode ? 'bg-amber-900/20 border-amber-800/50' : 'bg-amber-50 border-amber-300'}`}>
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className={`font-bold text-base ${darkMode ? 'text-amber-500' : 'text-amber-600'}`}>⚡ 路線圖重大轉向</span>
+                                  <span className={`text-sm ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>{item.breakingNews.date}</span>
                                 </div>
-                                <p className={`text-sm leading-relaxed mb-2.5 ${darkMode ? 'text-amber-200/80' : 'text-amber-900'}`}>{item.breakingNews.summary}</p>
+                                <p className={`text-base leading-relaxed mb-3 ${darkMode ? 'text-amber-200/80' : 'text-amber-900'}`}>{item.breakingNews.summary}</p>
                                 <div className="flex flex-wrap gap-2">
                                   {item.breakingNews.links.map((l, i) => (
                                     <a key={i} href={l.url} target="_blank" rel="noopener noreferrer"
-                                      className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors ${darkMode ? 'bg-amber-900/30 text-amber-300 border-amber-800/50 hover:bg-amber-900/60' : 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'}`}>
-                                      {l.label} <ExternalLink className="w-3 h-3" />
+                                      className={`inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border transition-colors ${darkMode ? 'bg-amber-900/30 text-amber-300 border-amber-800/50 hover:bg-amber-900/60' : 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'}`}>
+                                      {l.label} <ExternalLink className="w-3.5 h-3.5" />
                                     </a>
                                   ))}
                                 </div>
                               </div>
                             )}
 
-                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl p-4 border mb-4 ${darkMode ? 'bg-slate-900/40 border-slate-700/50' : 'bg-slate-50/50 border-slate-100'}`}>
+                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl p-5 border mb-5 ${darkMode ? 'bg-slate-900/40 border-slate-700/50' : 'bg-slate-50/50 border-slate-100'}`}>
                               <div>
-                                <div className="flex items-center justify-between text-sm font-medium mb-3">
+                                <div className="flex items-center justify-between text-base font-bold mb-4">
                                   <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><AlertCircle className="w-4 h-4" /> 問題嚴重程度</div>
-                                  <span className={`font-bold ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
+                                  <span className={`${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
                                 </div>
-                                <div className={`h-2 rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                                <div className={`h-2.5 rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
                                   <div className={`h-full rounded-full transition-all ${getSeverityColor(item.severity)}`} style={{ width: `${(item.severity / 10) * 100}%` }} />
                                 </div>
                               </div>
                               <div>
-                                <div className="flex items-center justify-between text-sm font-medium mb-3">
+                                <div className="flex items-center justify-between text-base font-bold mb-4">
                                   <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                                     {item.maturity === 'Mainnet' ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4" />}
                                     解決方案成熟度
                                   </div>
-                                  <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet'
-                                    ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
-                                    : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
+                                  <span className={`text-sm px-2.5 py-1 rounded-full ${item.maturity === 'Mainnet'
+                                      ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
+                                      : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
                                     }`}>
                                     {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
                                   </span>
                                 </div>
-                                <div className="flex gap-1 h-2">
+                                <div className="flex gap-1.5 h-2.5">
                                   {['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].map((stage, idx) => {
                                     const currentIdx = ['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].indexOf(item.maturity);
                                     const isPassed = idx <= currentIdx;
@@ -396,48 +401,48 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                             </div>
 
                             <div>
-                              <div className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>風險在哪</div>
-                              <p className={`leading-relaxed text-sm rounded-lg p-3 border ${darkMode ? 'bg-amber-900/10 border-amber-900/30 text-slate-300' : 'bg-amber-50/80 border-amber-100 text-slate-600'}`}>{item.riskSummary}</p>
+                              <div className={`text-base font-bold mb-2.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>風險在哪？</div>
+                              <p className={`text-base leading-relaxed rounded-xl p-4 border ${darkMode ? 'bg-amber-900/10 border-amber-900/30 text-slate-300' : 'bg-amber-50/80 border-amber-100 text-slate-700'}`}>{item.riskSummary}</p>
                             </div>
 
-                            <div className="mt-5">
-                              <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-2 ${darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>以太坊解法</span>
-                              <p className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{item.solution}</p>
+                            <div className="mt-6">
+                              <span className={`inline-block px-3 py-1.5 text-sm font-bold rounded mb-3 ${darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>以太坊解法</span>
+                              <p className={`text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.solution}</p>
                               {(item.termExplainers?.length ?? 0) > 0 && (
-                                <div className="mt-3 space-y-1.5">
-                                  <p className={`text-xs uppercase tracking-wider font-medium ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>名詞速解</p>
+                                <div className="mt-4 space-y-2">
+                                  <p className={`text-sm uppercase tracking-wider font-bold ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>名詞速解</p>
                                   {item.termExplainers.map((te, i) => (
-                                    <div key={i} className={`flex items-start gap-2 text-xs border rounded-lg px-3 py-2 ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-                                      <span className={`font-semibold whitespace-nowrap flex-shrink-0 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>{te.term}</span>
-                                      <span className={`leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{te.explanation}</span>
-                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className={`ml-auto flex-shrink-0 hover:text-indigo-500 ${darkMode ? 'text-slate-500' : 'text-indigo-500'}`}><ExternalLink className="w-3 h-3" /></a>}
+                                    <div key={i} className={`flex items-start gap-2 text-sm border rounded-xl px-4 py-3 ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                                      <span className={`font-bold whitespace-nowrap flex-shrink-0 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>{te.term}</span>
+                                      <span className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{te.explanation}</span>
+                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className={`ml-auto flex-shrink-0 hover:text-indigo-500 ${darkMode ? 'text-slate-400' : 'text-indigo-500'}`}><ExternalLink className="w-4 h-4" /></a>}
                                     </div>
                                   ))}
                                 </div>
                               )}
                             </div>
 
-                            <div className={`mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4 border ${darkMode ? 'bg-slate-900/50 border-slate-700/50' : 'bg-slate-50 border-slate-100'}`}>
+                            <div className={`mt-6 grid grid-cols-1 md:grid-cols-2 gap-5 rounded-2xl p-5 border ${darkMode ? 'bg-slate-900/50 border-slate-700/50' : 'bg-slate-50 border-slate-100'}`}>
                               <div>
-                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Code className="w-4 h-4 mr-1.5" /> 對應技術名詞</div>
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                  {item.techTerms.map((term, i) => <span key={i} className={`px-2.5 py-1 text-sm rounded-md font-mono border ${darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'}`}>{term}</span>)}
+                                <div className={`flex items-center text-base font-bold mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Code className="w-4 h-4 mr-2" /> 對應技術名詞</div>
+                                <div className="flex flex-wrap gap-2.5 mt-2">
+                                  {item.techTerms.map((term, i) => <span key={i} className={`px-3 py-1.5 text-sm font-medium rounded-lg font-mono border ${darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'}`}>{term}</span>)}
                                 </div>
                               </div>
                               <div>
-                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 mr-1.5" /> 預計實現時間 (ETA)</div>
-                                <div className={`font-medium mt-2 text-sm leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{item.eta}</div>
+                                <div className={`flex items-center text-base font-bold mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 mr-2" /> 預計實現時間 (ETA)</div>
+                                <div className={`font-bold mt-2 text-base leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{item.eta}</div>
                               </div>
                             </div>
 
                             {(item.links?.filter(l => l.type === 'tool').length > 0) && (
-                              <div className={`mt-5 pt-4 border-t space-y-2 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
-                                <span className={`text-xs font-bold uppercase tracking-wider mb-2 block ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>相關推薦工具</span>
-                                <div className="flex flex-wrap gap-2">
+                              <div className={`mt-6 pt-5 border-t space-y-3 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                                <span className={`text-sm font-bold uppercase tracking-wider mb-2 block ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>相關推薦工具</span>
+                                <div className="flex flex-wrap gap-2.5">
                                   {item.links.filter(l => l.type === 'tool').map((link, i) => (
                                     <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
-                                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors border shadow-sm ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100'}`}>
-                                      <ExternalLink className="w-3.5 h-3.5" /> {link.label}
+                                      className={`inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl transition-colors border shadow-sm ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100'}`}>
+                                      <ExternalLink className="w-4 h-4" /> {link.label}
                                     </a>
                                   ))}
                                 </div>
