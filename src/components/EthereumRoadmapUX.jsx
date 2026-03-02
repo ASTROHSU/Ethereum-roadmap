@@ -795,15 +795,7 @@ export default function EthereumRoadmapUX() {
             <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-2">
               以太坊升級地圖
             </h1>
-            <a
-              href="https://www.blocktrend.today"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-indigo-500 transition-colors"
-            >
-              by 區塊勢
-              <ExternalLink className="w-2.5 h-2.5" />
-            </a>
+
             <p className="hidden md:block text-slate-600 leading-relaxed max-w-2xl mt-2">
               以太坊升級了什麼？未來還有哪些？能解決我的問題嗎？
             </p>
@@ -1079,6 +1071,49 @@ export default function EthereumRoadmapUX() {
           ))}
         </div>
       </main>
+
+      {/* ── Footer ── */}
+      <footer className="relative z-10 max-w-4xl mx-auto px-4 py-12 md:py-16 text-center border-t border-slate-200 mt-12 text-slate-500">
+        <div className="flex flex-col items-center justify-center gap-4">
+
+          {/* Logo / Brand */}
+          <a
+            href="https://www.blocktrend.today"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-slate-800 hover:text-indigo-600 transition-colors group"
+          >
+            <span className="text-sm font-medium">by</span>
+            <span className="text-lg font-bold tracking-wide">區塊勢</span>
+            <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors" />
+          </a>
+
+          {/* Links */}
+          <div className="flex flex-wrap justify-center gap-4 text-sm mt-2">
+            <a href="https://ethereum.org/roadmap" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
+              Ethereum.org 官方路線圖
+            </a>
+            <span className="text-slate-300 hidden md:inline">|</span>
+            <a href="https://strawmap.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
+              Strawmap
+            </a>
+            <span className="text-slate-300 hidden md:inline">|</span>
+            <a href="https://github.com/ASTROHSU/Ethereum-roadmap" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
+              GitHub 開源協作
+            </a>
+          </div>
+
+          {/* AI Message & Collaboration */}
+          <div className="mt-4 max-w-lg mx-auto bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-slate-100 shadow-sm">
+            <p className="text-sm leading-relaxed text-slate-600">
+              這是一個開放協作的開源專案。我們相信知識的傳遞能讓生態更強大。
+              <br className="hidden md:block" />
+              本網站是在人類設計與 <span className="font-semibold text-indigo-500">AI 開發助手</span> 的緊密合作下打造而成。鼓勵大家善用 AI 工具，一起創造對社群有益的產品！
+            </p>
+          </div>
+
+        </div>
+      </footer>
     </div>
   );
 }
