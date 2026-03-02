@@ -162,12 +162,15 @@ export default function VisualRoadmap() {
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
-  // 初始滾動到比較後面的節點 (Dencun附近)
+  // 初始滾動到 Pectra 節點，讓畫面顯示 Pectra → Glamsterdam → Hegotá
   useEffect(() => {
     if (scrollContainerRef.current) {
-      // 大約滾動到 Pectra 節點的相對位置
+      const pectraIndex = roadmapNodes.findIndex(n => n.id === 'pectra');
+      // 每個節點寬度 280px + gap 32px = 312px (md), 加上 px-4 padding
+      const nodeWidth = window.innerWidth > 768 ? 312 : 292;
+      const scrollTarget = pectraIndex * nodeWidth;
       setTimeout(() => {
-        scrollContainerRef.current.scrollTo({ left: 2400, behavior: 'smooth' });
+        scrollContainerRef.current.scrollTo({ left: scrollTarget, behavior: 'smooth' });
       }, 300);
     }
   }, []);
@@ -235,8 +238,8 @@ export default function VisualRoadmap() {
 
                   {/* Node Dot with Hover Glow - Dark Theme */}
                   <div className={`relative z-20 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-slate-900 md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${node.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:shadow-[0_0_30px_rgba(16,185,129,0.8)]' :
-                      node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)] animate-pulse group-hover:shadow-[0_0_30px_rgba(99,102,241,1)]' :
-                        'bg-slate-700 group-hover:bg-slate-600 shadow-sm'
+                    node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)] animate-pulse group-hover:shadow-[0_0_30px_rgba(99,102,241,1)]' :
+                      'bg-slate-700 group-hover:bg-slate-600 shadow-sm'
                     }`}>
                     {node.status === 'completed' ? <CheckCircle2 className="w-5 h-5 text-slate-900" /> :
                       node.status === 'in_progress' ? <CircleDashed className="w-5 h-5 text-white animate-spin-slow" /> :
@@ -249,8 +252,8 @@ export default function VisualRoadmap() {
                       {node.date}
                     </div>
                     <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-400 group-hover:text-emerald-300' :
-                        node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
-                          'text-slate-400 group-hover:text-slate-300'
+                      node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
+                        'text-slate-400 group-hover:text-slate-300'
                       }`}>
                       {node.phase}
                     </h3>
