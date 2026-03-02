@@ -51,11 +51,25 @@ export default function ConsumerUpgradeCarousel({
     const nodes: RoadmapNode[] = (language === 'zh' ? roadmapNodesZh : roadmapNodesEn) as RoadmapNode[];
 
     const containerRef = useRef<HTMLDivElement>(null);
+    const pectraCardRef = useRef<HTMLDivElement>(null);
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(true);
 
     const [scrollPosition, setScrollPosition] = useState(0);
+
+    // 預設捲動到 Pectra，讓畫面一開始就顯示 Pectra、Glamsterdam、Hegotá 三個方塊
+    useEffect(() => {
+        const scrollToPectra = () => {
+            if (containerRef.current && pectraCardRef.current) {
+                const scrollTarget = pectraCardRef.current.offsetLeft;
+                containerRef.current.scrollLeft = scrollTarget;
+                checkScroll();
+            }
+        };
+        const t = setTimeout(scrollToPectra, 150);
+        return () => clearTimeout(t);
+    }, [nodes]);
 
     const checkScroll = () => {
         if (containerRef.current) {
@@ -100,6 +114,7 @@ export default function ConsumerUpgradeCarousel({
             <div
                 onClick={() => {
                     if (hasHighlights) {
+                        // 只展開點擊的那張，其他保持收合（單一展開）
                         setExpandedId(isExpanded ? null : node.id);
                     }
                 }}
@@ -225,6 +240,7 @@ export default function ConsumerUpgradeCarousel({
                 {nodes.map((node) => (
                     <div
                         key={node.id}
+                        ref={node.id === 'pectra' ? pectraCardRef : undefined}
                         className="snap-start shrink-0 w-[85vw] md:w-[45vw] lg:w-[calc(33.333%-16px)]"
                     >
                         {renderCard(node)}

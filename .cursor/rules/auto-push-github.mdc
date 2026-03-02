@@ -1,0 +1,13 @@
+---
+description: 完成程式變更後自動推送到 GitHub (origin main)
+alwaysApply: true
+---
+
+# 自動推送到 GitHub
+
+- 當使用者未特別要求「不要推送」時，在完成對本專案的程式修改後，**自動執行**：
+  1. `git add -A`
+  2. `git commit -m "適當的 commit 訊息"`（依本次變更摘要撰寫）
+  3. `git push origin main`
+- 若使用者明確說「不要推」或「先不要 push」，則跳過推送。
+- 推送前可簡短告知將推送的 commit 訊息，推送完成後可簡短確認。
