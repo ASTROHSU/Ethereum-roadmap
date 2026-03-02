@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import VisualRoadmap from './VisualRoadmap';
 import {
   Wallet,
   ShieldAlert,
@@ -748,6 +749,8 @@ export default function EthereumRoadmapUX() {
       </header>
 
       <main className="relative z-10 max-w-4xl mx-auto px-4 py-5 md:py-8">
+        <VisualRoadmap />
+
         {/* Category Tabs */}
         <div className="relative mb-6">
           <div className="flex overflow-x-auto space-x-2 pb-4 scrollbar-hide">
