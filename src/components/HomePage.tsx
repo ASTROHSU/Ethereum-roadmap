@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 // Our consumer-focused data and components
 import ConsumerUpgradeCarousel from './ConsumerUpgradeCarousel';
+import ConsumerEIPSection from './ConsumerEIPSection';
 import { officialRoadmapPhasesZh, officialRoadmapPhasesEn } from '../data/officialRoadmapPhases';
 import { translations } from '../data/translations';
 
@@ -307,33 +308,55 @@ const HomePage = () => {
         {/* Consumer-focused Upgrade Carousel with Pain Points + History */}
         <ConsumerUpgradeCarousel language={language} darkMode={darkMode} />
 
+        {/* Consumer-friendly Recently Updated EIPs */}
+        <ConsumerEIPSection language={language} darkMode={darkMode} />
 
         {/* Footer */}
-        <div className="mt-16 text-center text-sm text-slate-500 dark:text-slate-400">
+        <div className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-10 pb-8 text-center text-sm">
+
+          {/* Forkcast attribution */}
+          <div className={`mb-8 pb-8 border-b ${darkMode ? 'border-slate-800' : 'border-slate-200'}`}>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mb-3 uppercase tracking-widest font-semibold">
+              {language === 'zh' ? '本站架構參考並修改自' : 'Built on top of'}
+            </p>
+            <a
+              href="https://forkcast.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 group"
+            >
+              <img
+                src="/forkcast-logo.svg"
+                alt="Forkcast"
+                className="h-8 w-auto opacity-70 group-hover:opacity-100 transition-opacity dark:invert"
+              />
+              <span className="text-base font-semibold text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                forkcast.org
+              </span>
+            </a>
+          </div>
+
+          {/* EF Protocol Support */}
           <div className="mb-6">
-            <div className="w-16 h-16 mx-auto mb-3 flex items-center justify-center">
+            <div className="w-14 h-14 mx-auto mb-3 flex items-center justify-center">
               <img
                 src="/blobby-gradient-red.svg"
                 alt="Ethereum Foundation Protocol Support team logo"
-                className="w-16 h-16 hover:invert dark:invert dark:hover:invert-0 transition-all duration-500"
+                className="w-14 h-14 hover:invert dark:invert dark:hover:invert-0 transition-all duration-500"
               />
             </div>
-            <div className="text-center">
-              <p className="text-sm italic text-slate-500 dark:text-slate-400">
-                An experiment by
-              </p>
-              <p className="text-lg font-light text-slate-700 dark:text-slate-300">
-                EF Protocol Support
-              </p>
-            </div>
+            <p className="text-xs italic text-slate-400 dark:text-slate-500">An experiment by</p>
+            <p className="text-sm font-light text-slate-600 dark:text-slate-400">EF Protocol Support</p>
           </div>
-          <div className="flex items-center justify-center gap-4">
+
+          {/* Social links */}
+          <div className="flex items-center justify-center gap-5 mt-4">
             <a
               href="https://ps.ethereum.foundation"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleExternalLinkClick('team_website', 'https://ps.ethereum.foundation')}
-              className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors duration-200"
+              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
               aria-label="EF Protocol Support website"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -347,7 +370,7 @@ const HomePage = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleExternalLinkClick('source_code', 'https://github.com/ethereum/forkcast')}
-              className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors duration-200"
+              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
               aria-label="View source code on GitHub"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -359,7 +382,7 @@ const HomePage = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => handleExternalLinkClick('twitter', 'https://x.com/EFProtocol')}
-              className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors duration-200"
+              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
               aria-label="EF Protocol Support on X"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

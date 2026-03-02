@@ -1,7 +1,7 @@
 export const translations = {
     zh: {
         siteTitle: '以太坊升級地圖',
-        siteSubtitle: '以太坊升級到哪了？未來還有哪些改進？能解決我的問題嗎？',
+        siteSubtitle: '區塊鏈升級到哪了？未來還有哪些改進？能解決我的問題嗎？',
         roadmapFullView: '路線圖全貌',
         darkModeToggle: '切換深/淺色模式',
         roadmapProgress: '路線圖進度',

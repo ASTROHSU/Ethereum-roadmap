@@ -1,6 +1,7 @@
-// Consumer-oriented Upgrade Carousel: zh-first, with pain point tags, full upgrade history
-import { useState } from 'react';
-import { CheckCircle2, CircleDashed, Circle, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
+// Consumer-oriented Upgrade Carousel
+// Native horizontal scroll for trackpad support and simplified logic
+import { useState, useRef, useEffect } from 'react';
+import { CheckCircle2, CircleDashed, Circle, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { roadmapNodesZh, roadmapNodesEn } from '../data/roadmapNodes';
 
 type Language = 'zh' | 'en';
@@ -49,16 +50,39 @@ export default function ConsumerUpgradeCarousel({
 }: ConsumerUpgradeCarouselProps) {
     const nodes: RoadmapNode[] = (language === 'zh' ? roadmapNodesZh : roadmapNodesEn) as RoadmapNode[];
 
-    const visibleCount = 3;
-    const maxIndex = Math.max(0, nodes.length - visibleCount);
-    const [currentIndex, setCurrentIndex] = useState(maxIndex);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [expandedId, setExpandedId] = useState<string | null>(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
 
-    const visibleNodes = nodes.slice(currentIndex, currentIndex + visibleCount);
-    const dotCount = Math.max(1, nodes.length - visibleCount + 1);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
-    const goToPrevious = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
-    const goToNext = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+    const checkScroll = () => {
+        if (containerRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
+            setCanScrollLeft(scrollLeft > 10);
+            setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+            setScrollPosition(scrollLeft);
+        }
+    };
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener('scroll', checkScroll);
+            // Initial check after content is rendered
+            setTimeout(checkScroll, 100);
+            return () => container.removeEventListener('scroll', checkScroll);
+        }
+    }, [nodes]);
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (containerRef.current) {
+            const { clientWidth } = containerRef.current;
+            const scrollAmount = direction === 'left' ? -clientWidth : clientWidth;
+            containerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
 
     const renderStatusDot = (status: NodeStatus) => {
         if (status === 'completed') return <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />;
@@ -70,132 +94,85 @@ export default function ConsumerUpgradeCarousel({
         const isExpanded = expandedId === node.id;
         const statusLabel = STATUS_LABELS[language][node.status];
         const statusColor = STATUS_COLORS[node.status];
-        const hasDetail = (node.highlights && node.highlights.length > 0) || (node.painPoints && node.painPoints.length > 0);
+        const hasHighlights = !!(node.highlights && node.highlights.length > 0);
 
         return (
             <div
-                key={node.id}
-                className={`flex flex-col rounded-xl border transition-all duration-200 overflow-hidden h-full
+                onClick={() => {
+                    if (hasHighlights) {
+                        setExpandedId(isExpanded ? null : node.id);
+                    }
+                }}
+                className={`flex flex-col h-full rounded-xl border transition-all duration-300 overflow-hidden
+          ${hasHighlights ? 'cursor-pointer active:scale-[0.98]' : ''}
           ${darkMode
                         ? 'bg-slate-800 border-slate-700 hover:border-indigo-500/50'
                         : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-md'}
-          ${isExpanded ? (darkMode ? 'border-indigo-500/60 shadow-lg' : 'border-indigo-300 shadow-lg') : ''}
+          ${isExpanded ? (darkMode ? 'border-indigo-500/60 shadow-lg ring-1 ring-indigo-500/30' : 'border-indigo-300 shadow-lg ring-1 ring-indigo-300/30') : ''}
         `}
             >
-                <div className="p-5 flex flex-col flex-1">
+                <div className="p-5 flex flex-col h-full min-h-[200px]">
                     {/* Header row */}
                     <div className="flex items-start justify-between gap-2 mb-3">
                         <div className="flex items-center gap-2">
                             {renderStatusDot(node.status)}
-                            <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${statusColor}`}>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${statusColor}`}>
                                 {statusLabel}
                             </span>
                         </div>
-                        <span className={`text-xs shrink-0 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                            {node.date}
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className={`text-[10px] shrink-0 font-medium ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                                {node.date}
+                            </span>
+                            {hasHighlights && (
+                                <span className={`flex-shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''} ${darkMode ? 'text-slate-400' : 'text-slate-400'}`}>
+                                    <ChevronDown className="w-4 h-4" />
+                                </span>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Phase name */}
-                    <h3 className={`text-lg font-bold mb-1 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                    <h3 className={`text-lg font-bold mb-1 leading-tight ${darkMode ? 'text-white' : 'text-slate-900'}`}>
                         {node.phase}
                     </h3>
-
-                    {/* Consumer-friendly title */}
-                    <p className={`text-sm font-medium mb-2 ${darkMode ? 'text-indigo-300' : 'text-indigo-600'}`}>
+                    <p className={`text-sm font-semibold mb-2 ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>
                         {node.title}
                     </p>
-
-                    {/* Short description */}
-                    <p className={`text-sm leading-relaxed flex-1 mb-4 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                    <p className={`text-sm leading-relaxed mb-4 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                         {node.description}
                     </p>
 
-                    {/* Pain point tags */}
-                    {node.painPoints?.length > 0 && (
-                        <div className="mb-3">
-                            <p className={`text-[10px] uppercase font-bold tracking-wider mb-1.5 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                    {node.painPoints && node.painPoints.length > 0 && (
+                        <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                            <p className={`text-[10px] uppercase font-bold tracking-wider mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                                 {PAIN_POINT_SOLVED_LABEL[language]}
                             </p>
                             <div className="flex flex-wrap gap-1.5">
                                 {node.painPoints.map((pp, i) => (
-                                    <span
-                                        key={i}
-                                        className={`text-[11px] px-2 py-0.5 rounded-full font-medium border
-                      ${darkMode
-                                                ? 'bg-rose-900/30 text-rose-300 border-rose-800/50'
-                                                : 'bg-rose-50 text-rose-600 border-rose-200'}`}
-                                    >
+                                    <span key={i} className={`text-[11px] px-2 py-0.5 rounded-full font-medium border
+                      ${darkMode ? 'bg-rose-950/40 text-rose-300 border-rose-800/30' : 'bg-rose-50 text-rose-600 border-rose-100'}`}>
                                         {pp}
                                     </span>
                                 ))}
                             </div>
                         </div>
                     )}
-
-                    {/* Expand button */}
-                    {hasDetail && (
-                        <button
-                            onClick={() => setExpandedId(isExpanded ? null : node.id)}
-                            className={`mt-auto flex items-center gap-1 text-xs font-medium transition-colors
-                ${darkMode
-                                    ? 'text-slate-400 hover:text-indigo-300'
-                                    : 'text-slate-500 hover:text-indigo-600'}`}
-                        >
-                            {isExpanded
-                                ? <><ChevronUp className="w-3.5 h-3.5" />{language === 'zh' ? '收起' : 'Collapse'}</>
-                                : <><ChevronDown className="w-3.5 h-3.5" />{language === 'zh' ? '展開亮點' : 'Show Highlights'}</>
-                            }
-                        </button>
-                    )}
                 </div>
 
                 {/* Expandable highlights */}
-                <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-[600px]' : 'max-h-0'}`}>
-                    {node.highlights && node.highlights.length > 0 && (
-                        <div className={`px-5 pb-5 space-y-3 border-t ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
-                            <p className={`text-[10px] uppercase font-bold tracking-wider pt-3 mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                {hasHighlights && (
+                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-[800px] border-t' : 'max-h-0'} ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                        <div className="px-5 pb-5 space-y-3">
+                            <p className={`text-[10px] uppercase font-bold tracking-wider pt-4 mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                                 {HIGHLIGHTS_LABEL[language]}
                             </p>
-                            {node.highlights.map((h, i) => (
-                                <div
-                                    key={i}
-                                    className={`rounded-lg p-3 text-sm ${darkMode ? 'bg-slate-700/50' : 'bg-slate-50'}`}
-                                >
-                                    <p className={`font-semibold mb-1 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{h.title}</p>
-                                    <p className={`leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
+                            {node.highlights?.map((h, i) => (
+                                <div key={i} className={`rounded-xl p-3.5 text-sm ${darkMode ? 'bg-slate-700/40 border border-slate-600/30' : 'bg-slate-50 border border-slate-100'}`}>
+                                    <p className={`font-bold mb-1.5 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{h.title}</p>
+                                    <p className={`leading-relaxed text-[13px] ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
                                 </div>
                             ))}
                         </div>
-                    )}
-                </div>
-            </div>
-        );
-    };
-
-    const renderCompactCard = (node: RoadmapNode) => {
-        const statusLabel = STATUS_LABELS[language][node.status];
-        const statusColor = STATUS_COLORS[node.status];
-
-        return (
-            <div
-                key={node.id}
-                className={`rounded-lg border px-4 py-3 ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'}`}
-            >
-                <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                        {renderStatusDot(node.status)}
-                        <span className={`font-medium text-sm ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.phase}</span>
-                        <span className={`text-xs font-medium px-1.5 py-0.5 rounded border ${statusColor}`}>{statusLabel}</span>
-                    </div>
-                    <span className={`text-xs ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>{node.date}</span>
-                </div>
-                <p className={`text-xs font-medium ${darkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>{node.title}</p>
-                {node.painPoints?.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
-                        {node.painPoints.map((pp, i) => (
-                            <span key={i} className={`text-[10px] px-1.5 py-0.5 rounded-full border ${darkMode ? 'bg-rose-900/30 text-rose-300 border-rose-800/50' : 'bg-rose-50 text-rose-600 border-rose-200'}`}>{pp}</span>
-                        ))}
                     </div>
                 )}
             </div>
@@ -203,62 +180,83 @@ export default function ConsumerUpgradeCarousel({
     };
 
     return (
-        <>
-            {/* Desktop carousel */}
-            <div className="hidden lg:block">
-                <div className="relative">
-                    <button
-                        onClick={goToPrevious}
-                        disabled={currentIndex === 0}
-                        aria-label="Previous upgrades"
-                        className={`absolute left-0 top-1/3 -translate-y-1/2 -translate-x-12 z-10 w-10 h-10 flex items-center justify-center rounded-full border shadow-md transition-all
-              ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:shadow-lg'}
-              ${currentIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
+        <div className="relative group/carousel py-6 mt-4">
+            {/* Navigation buttons - shown on hover on desktop */}
+            <button
+                onClick={() => scroll('left')}
+                className={`absolute -left-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center rounded-full border shadow-xl transition-all duration-300 scale-90 hover:scale-100
+          ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}
+          ${canScrollLeft ? 'opacity-0 lg:group-hover/carousel:opacity-100' : 'hidden'}
+          active:scale-90`}
+            >
+                <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+                onClick={() => scroll('right')}
+                className={`absolute -right-5 top-1/2 -translate-y-1/2 z-30 w-11 h-11 flex items-center justify-center rounded-full border shadow-xl transition-all duration-300 scale-90 hover:scale-100
+          ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'}
+          ${canScrollRight ? 'opacity-0 lg:group-hover/carousel:opacity-100' : 'hidden'}
+          active:scale-90`}
+            >
+                <ChevronRight className="w-5 h-5" />
+            </button>
+
+            {/* Scrollable Container */}
+            <div
+                ref={containerRef}
+                className="flex gap-6 overflow-x-auto snap-x snap-mandatory px-4 -mx-4 pb-4 no-scrollbar scroll-smooth"
+                style={{
+                    msOverflowStyle: 'none',
+                    scrollbarWidth: 'none',
+                    WebkitOverflowScrolling: 'touch'
+                }}
+            >
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .no-scrollbar::-webkit-scrollbar {
+                        display: none;
+                    }
+                    .no-scrollbar {
+                        -ms-overflow-style: none;
+                        scrollbar-width: none;
+                    }
+                `}} />
+                {nodes.map((node) => (
+                    <div
+                        key={node.id}
+                        className="snap-start shrink-0 w-[85vw] md:w-[45vw] lg:w-[calc(33.333%-16px)]"
                     >
-                        <ChevronLeft className="w-5 h-5" />
-                    </button>
-
-                    <div className="grid grid-cols-3 gap-6 items-start">
-                        {visibleNodes.map((node) => (
-                            <div key={node.id} className="min-h-[260px]">
-                                {renderCard(node)}
-                            </div>
-                        ))}
+                        {renderCard(node)}
                     </div>
-
-                    <button
-                        onClick={goToNext}
-                        disabled={currentIndex >= maxIndex}
-                        aria-label="Next upgrades"
-                        className={`absolute right-0 top-1/3 -translate-y-1/2 translate-x-12 z-10 w-10 h-10 flex items-center justify-center rounded-full border shadow-md transition-all
-              ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:shadow-lg'}
-              ${currentIndex >= maxIndex ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
-                    >
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
-                </div>
-
-                {nodes.length > visibleCount && (
-                    <div className="flex justify-center gap-2 mt-6">
-                        {Array.from({ length: dotCount }).map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => setCurrentIndex(Math.min(i, maxIndex))}
-                                className={`h-2 rounded-full transition-all duration-200 ${currentIndex === i
-                                        ? `${darkMode ? 'bg-slate-200' : 'bg-slate-700'} w-5`
-                                        : `${darkMode ? 'bg-slate-600 hover:bg-slate-500' : 'bg-slate-300 hover:bg-slate-400'} w-2`
-                                    }`}
-                                aria-label={`Go to slide ${i + 1}`}
-                            />
-                        ))}
-                    </div>
-                )}
+                ))}
             </div>
 
-            {/* Mobile compact list */}
-            <div className="lg:hidden space-y-3">
-                {[...nodes].reverse().map((node) => renderCompactCard(node))}
+            {/* Scroll Indicator Dots */}
+            <div className="flex justify-center gap-2.5 mt-6">
+                {Array.from({ length: Math.ceil(nodes.length / (window.innerWidth > 1024 ? 3 : window.innerWidth > 768 ? 2 : 1)) }).map((_, i) => {
+                    const itemsPerPage = containerRef.current ? (containerRef.current.clientWidth + 24) : 1;
+                    const isActive = Math.round(scrollPosition / itemsPerPage) === i;
+
+                    return (
+                        <button
+                            key={i}
+                            onClick={() => {
+                                if (containerRef.current) {
+                                    containerRef.current.scrollTo({
+                                        left: i * itemsPerPage,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }}
+                            className={`h-1.5 rounded-full transition-all duration-500 ${isActive
+                                ? `${darkMode ? 'bg-indigo-400 w-8' : 'bg-indigo-600 w-8'}`
+                                : `${darkMode ? 'bg-slate-700 w-1.5' : 'bg-slate-200 w-1.5'} hover:bg-slate-300 dark:hover:bg-slate-600`
+                                }`}
+                        />
+                    );
+                })}
             </div>
-        </>
+        </div>
     );
 }

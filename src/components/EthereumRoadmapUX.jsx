@@ -136,12 +136,13 @@ export default function EthereumRoadmapUX() {
               {officialRoadmapPhases.map((phase) => (
                 <div
                   key={phase.id}
-                  className={`rounded-xl border p-3 ${phase.status === "completed"
+                  className={`rounded-xl border p-3 ${
+                    phase.status === "completed"
                       ? "bg-emerald-50 border-emerald-200"
                       : phase.status === "in_progress"
                         ? "bg-indigo-50 border-indigo-200"
                         : "bg-white border-slate-200"
-                    }`}
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <div className="flex items-center gap-2">
@@ -167,12 +168,13 @@ export default function EthereumRoadmapUX() {
                   <div className="ml-6 mb-2">
                     <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full ${phase.status === "completed"
+                        className={`h-full rounded-full ${
+                          phase.status === "completed"
                             ? "bg-emerald-500"
                             : phase.status === "in_progress"
                               ? "bg-indigo-500"
                               : "bg-slate-300"
-                          }`}
+                        }`}
                         style={{ width: `${phase.progress}%` }}
                       />
                     </div>
@@ -405,10 +407,14 @@ export default function EthereumRoadmapUX() {
             className="w-14 h-14 rounded-2xl shadow-sm"
           />
           <div className="text-center">
-            <p className={`text-base font-bold mb-1 ${darkMode ? "text-slate-200" : "text-slate-800"}`}>
+            <p
+              className={`text-base font-bold mb-1 ${darkMode ? "text-slate-200" : "text-slate-800"}`}
+            >
               區塊勢
             </p>
-            <p className={`text-sm leading-relaxed max-w-sm mx-auto ${darkMode ? "text-slate-400" : "text-slate-500"}`}>
+            <p
+              className={`text-sm leading-relaxed max-w-sm mx-auto ${darkMode ? "text-slate-400" : "text-slate-500"}`}
+            >
               {t.footerText}
             </p>
           </div>
@@ -424,7 +430,9 @@ export default function EthereumRoadmapUX() {
         </div>
 
         {/* Fork attribution */}
-        <div className={`border-t pt-6 text-center text-sm ${darkMode ? "border-slate-700/60 text-slate-500" : "border-slate-200 text-slate-400"}`}>
+        <div
+          className={`border-t pt-6 text-center text-sm ${darkMode ? "border-slate-700/60 text-slate-500" : "border-slate-200 text-slate-400"}`}
+        >
           <p className="leading-relaxed mb-2">
             本頁面 fork 自{" "}
             <a
