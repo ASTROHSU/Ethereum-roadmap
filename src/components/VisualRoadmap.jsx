@@ -1,141 +1,23 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
   CheckCircle2, CircleDashed, Circle, ChevronRight, ChevronLeft,
-  ChevronDown, ChevronUp, X, ExternalLink, AlertCircle, Clock, Code,
-  MousePointerClick
+  ChevronDown, ChevronUp, X, ExternalLink, AlertCircle, Clock, Code
 } from 'lucide-react';
+import { roadmapNodesZh, roadmapNodesEn } from '../data/roadmapNodes';
 
-const roadmapNodes = [
-  {
-    id: "frontier", phase: "Frontier", date: "2015年7月", status: "completed",
-    title: "創世發佈", description: "以太坊主網正式發佈，當時僅限開發者使用，尚無圖形介面。",
-    painPoints: [],
-    highlights: [
-      { title: '以太坊誕生', desc: '主網正式上線，但僅能透過命令列操作，普通使用者幾乎無法使用。這個階段的重點是驗證「智慧合約平台」的概念是否可行。' }
-    ]
-  },
-  {
-    id: "homestead", phase: "Homestead", date: "2016年3月", status: "completed",
-    title: "第一個穩定版本", description: "移除早期的安全性免責聲明，以太坊正式宣告進入穩定可用階段。",
-    painPoints: [],
-    highlights: [
-      { title: '穩定性宣告', desc: '官方移除了「這是實驗性軟體」的免責聲明，正式進入生產環境。同年 DAO 被駭事件也促使社群更重視智慧合約安全審計。' }
-    ]
-  },
-  {
-    id: "byzantium", phase: "Byzantium", date: "2017年10月", status: "completed",
-    title: "ZK 技術埋伏筆", description: "加入了 ZK 密碼學所需的底層運算元件；開始控制通膨。",
-    painPoints: [],
-    highlights: [
-      { title: '隱私技術基礎建立', desc: '加入 ZK-SNARK 所需的預編譯合約（EIP-196、EIP-197），為日後的隱私交易與 ZK Rollup 鋪路。' },
-      { title: '通膨開始控制', desc: '區塊獎勵從 5 ETH 降至 3 ETH，首次展現社群對 ETH 經濟模型的主動管理。' }
-    ]
-  },
-  {
-    id: "constantinople", phase: "Constantinople", date: "2019年2月", status: "completed",
-    title: "效率與經濟模型調整", description: "區塊獎勵從 3 ETH 減至 2 ETH、Gas 優化。",
-    painPoints: [],
-    highlights: [
-      { title: 'Gas 成本初步下降', desc: '引入更便宜的位元操作指令（EIP-1052、EIP-1283），但整體鏈上操作費用依然偏高。' },
-      { title: 'ETH 發行量再降', desc: '區塊獎勵從 3 ETH 降至 2 ETH，持續壓低通膨，為後來的「超音速貨幣」敘事埋下伏筆。' }
-    ]
-  },
-  {
-    id: "istanbul", phase: "Istanbul", date: "2019年12月", status: "completed",
-    title: "為 L2 鋪路", description: "降低 Rollup 相關操作的 Gas 費用，大幅降低未來 L2 的運作成本。",
-    painPoints: [],
-    highlights: [
-      { title: 'L2 擴容的起點', desc: 'EIP-2028 大幅降低 calldata 費用，讓未來的 Rollup 方案（Optimism、Arbitrum 等）可以用更低成本在 L1 上提交資料。' },
-      { title: '跨鏈互通基礎', desc: '加入 ChainID 操作碼（EIP-1344），讓智慧合約能辨識自己在哪條鏈上，為日後的多鏈生態打下基礎。' }
-    ]
-  },
-  {
-    id: "muir-glacier", phase: "Muir Glacier", date: "2020年1月", status: "completed",
-    title: "難度炸彈延遲", description: "再次延遲難度炸彈，讓 PoW 挖礦能維持到 The Merge。",
-    painPoints: [],
-    highlights: [
-      { title: '維持網路穩定', desc: '難度炸彈會讓出塊時間越來越長，甚至導致網路癱瘓。延遲它確保了在轉向 PoS 之前，網路能持續正常運作。' }
-    ]
-  },
-  {
-    id: "berlin", phase: "Berlin", date: "2021年4月", status: "completed",
-    title: "Gas 效率調整", description: "降低讀取儲存資料的操作費用，修復安全漏洞。",
-    painPoints: [],
-    highlights: [
-      { title: 'Gas 計費更合理', desc: 'EIP-2929 讓首次存取新地址的 Gas 較高（防 DoS），但後續存取同一地址變便宜。整體讓合約互動費用更可預期。' },
-      { title: '交易類型擴展', desc: 'EIP-2718 引入統一的交易類型封裝，讓未來新增交易功能（如 EIP-1559）更容易，而不需要硬分叉。' }
-    ]
-  },
-  {
-    id: "london", phase: "London (EIP-1559)", date: "2021年8月", status: "completed",
-    title: "Gas 機制改革", description: "引入基礎費 + 小費，開始銷毀部分 ETH，費用可預期。",
-    painPoints: ["L1 手續費與吞吐"],
-    highlights: [
-      { title: 'Gas 費用終於可預期', desc: '告別了「盲目競價」的舊機制。EIP-1559 讓每個區塊有明確的基礎費，你只需決定小費多寡。錢包可以自動估算費用，大幅降低了「Gas 設太低導致交易卡住」的焦慮。' },
-      { title: 'ETH 開始通縮', desc: '每筆交易的基礎費會被銷毀，而非付給礦工。在交易量高時，銷毀的 ETH 甚至可能超過新發行量，讓 ETH 成為「通縮貨幣」。' }
-    ]
-  },
-  {
-    id: "merge", phase: "The Merge", date: "2022年9月", status: "completed",
-    title: "共識層合併", description: "將挖礦切換為質押，以太坊能耗降低 99.95%。",
-    painPoints: ["質押集中化"],
-    highlights: [
-      { title: '告別挖礦，轉向質押', desc: '以太坊從 PoW（工作量證明）無縫切換至 PoS（權益證明），能源消耗瞬間降低 99.95%。這是加密貨幣史上最大規模的共識機制遷移，過程中零停機。' },
-      { title: 'ETH 發行量大降 90%', desc: '不再需要支付高額挖礦獎勵，ETH 新增發行量從每天約 13,000 ETH 降至約 1,600 ETH。搭配 EIP-1559 的銷毀機制，ETH 正式進入「淨通縮」時代。' }
-    ]
-  },
-  {
-    id: "shanghai", phase: "Shanghai", date: "2023年4月", status: "completed",
-    title: "開放質押提款", description: "質押者終於能提回 ETH，PoS 證明實際可行。",
-    painPoints: ["質押集中化"],
-    highlights: [
-      { title: '質押的 ETH 終於能提出來了', desc: '自 2020 年 12 月信標鏈上線以來，質押者的 ETH 被鎖了整整 2.5 年。Shanghai 升級讓提款成為可能，證明 PoS 不是「進得去出不來」的陷阱，大幅提升市場對質押的信心。' },
-      { title: '質押參與率飆升', desc: '提款功能上線後，更多人願意參與質押（因為知道可以退出），驗證者數量從 56 萬增至超過 100 萬，網路安全性大幅提升。' }
-    ]
-  },
-  {
-    id: "dencun", phase: "Dencun", date: "2024年3月", status: "completed",
-    title: "L2 手續費大降", description: "引入 Blob 空間讓 Rollup 費用降低數十倍。",
-    painPoints: ["L1 手續費與吞吐", "L2 碎片化與跨鏈麻煩"]
-  },
-  {
-    id: "pectra", phase: "Pectra", date: "2025年5月", status: "completed",
-    title: "無 ETH 也能付 Gas", description: "帳戶抽象（EIP-7702）與 EOF 架構升級上線主網。",
-    painPoints: ["新手入門門檻", "助記詞與帳戶恢復", "智慧合約授權風險"],
-    highlights: [
-      { title: 'EOF (EVM 虛擬機改版)', desc: '以太坊誕生以來最大的智能合約架構改版，讓開發者撰寫合約更安全、執行效率更高，為後續效能提升大舉鋪路。' },
-      { title: '質押者體驗改善 (EIP-7251)', desc: '提高節點的質押上限（從 32 ETH 大幅提高至 2048 ETH），並優化存款與退出機制，減輕信標鏈整體的運算負擔。' }
-    ]
-  },
-  {
-    id: "fusaka", phase: "Fusaka", date: "預計 2025 年 12 月", status: "in_progress",
-    title: "PeerDAS 數據滿載", description: "讓節點能用「抽樣」方式處理資料，大幅增加 Blobs 數量。",
-    painPoints: ["L1 手續費與吞吐"]
-  },
-  {
-    id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
-    title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險。",
-    painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"]
-  },
-  {
-    id: "hegota", phase: "Hegotá", date: "預計 2026 下半年+", status: "future",
-    title: "輕量節點與無縫跨鏈", description: "無縫跨鏈體驗、私有隱形地址、降低節點硬碟門檻。",
-    painPoints: ["節點硬體門檻", "質押集中化", "資產持有隱私"]
-  }
-];
-
-const maturityLabels = {
-  Research: '研究階段', Draft: '草案', Spec: '規格', Testnet: '測試網', Mainnet: '主網已上線',
-};
-const getSeverityLabel = (n) => { if (n <= 3) return '低'; if (n <= 6) return '中'; return '高'; };
+const getSeverityLabel = (n, t) => { if (n <= 3) return t.severityLabels.low; if (n <= 6) return t.severityLabels.medium; return t.severityLabels.high; };
 const getSeverityColor = (n) => { if (n <= 3) return 'bg-emerald-400'; if (n <= 6) return 'bg-amber-400'; return 'bg-rose-500'; };
 
-export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
+export default function VisualRoadmap({ roadmapData = [], darkMode = false, language = 'zh', t }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [selectedNode, setSelectedNode] = useState(roadmapNodes.find(n => n.id === 'pectra') || null);
+
+  const roadmapNodes = language === 'zh' ? roadmapNodesZh : roadmapNodesEn;
+  const [selectedNodeId, setSelectedNodeId] = useState('glamsterdam');
   const [expandedCard, setExpandedCard] = useState(null);
+
+  const selectedNode = roadmapNodes.find(n => n.id === selectedNodeId) || roadmapNodes[0];
 
   const checkScroll = () => {
     if (scrollContainerRef.current) {
@@ -170,9 +52,8 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
   };
 
   const handleNodeClick = (node) => {
-    // 只能切換不能收起
-    if (selectedNode?.id !== node.id) {
-      setSelectedNode(node);
+    if (selectedNodeId !== node.id) {
+      setSelectedNodeId(node.id);
       setExpandedCard(null);
     }
   };
@@ -222,7 +103,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
 
             <div className="flex gap-4 md:gap-8 relative z-10 w-max px-4">
               {roadmapNodes.map((node) => {
-                const isSelected = selectedNode?.id === node.id;
+                const isSelected = selectedNodeId === node.id;
                 const clickable = hasContent(node);
                 return (
                   <div key={node.id}
@@ -244,28 +125,28 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                       ? darkMode ? 'bg-indigo-900/40 border-indigo-500/50 shadow-md' : 'bg-indigo-50 border-indigo-200 shadow-md'
                       : darkMode ? 'bg-slate-800/70 border-slate-700 md:bg-transparent md:border-none shadow-md md:shadow-none' : 'bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none'
                       }`}>
-                      <div className={`inline-block px-3 py-1.5 rounded text-xs font-bold mb-3 border tracking-wider ${isSelected
+                      <div className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${isSelected
                         ? darkMode ? 'bg-indigo-800 text-indigo-300 border-indigo-600' : 'bg-indigo-100 text-indigo-600 border-indigo-200'
                         : darkMode ? 'bg-slate-700 text-slate-400 border-slate-600 group-hover:border-slate-500' : 'bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300'
                         }`}>
                         {node.date}
                       </div>
-                      <h3 className={`text-xl font-bold mb-2 transition-colors ${node.status === 'completed' ? 'text-emerald-500 group-hover:text-emerald-400' :
+                      <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-500 group-hover:text-emerald-400' :
                         node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
                           'text-slate-500 group-hover:text-slate-400'
                         }`}>
                         {node.phase}
                       </h3>
-                      <div className={`font-bold text-base mb-2.5 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.title}</div>
-                      <p className={`text-sm leading-relaxed mb-5 md:px-2 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-500 group-hover:text-slate-600'}`}>
+                      <div className={`font-bold text-sm mb-2 ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{node.title}</div>
+                      <p className={`text-xs leading-relaxed mb-4 md:px-2 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-slate-300' : 'text-slate-500 group-hover:text-slate-600'}`}>
                         {node.description}
                       </p>
 
                       {/* Pain Point Tags */}
                       {node.painPoints && node.painPoints.length > 0 && (
-                        <div className="flex flex-wrap gap-2 md:justify-center mt-auto border-t border-slate-100 pt-4 md:border-none md:pt-0">
+                        <div className="flex flex-wrap gap-1.5 md:justify-center mt-auto border-t border-slate-100 pt-3 md:border-none md:pt-0">
                           {node.painPoints.map((pp, i) => (
-                            <span key={i} className={`text-xs px-2.5 py-1 rounded-full font-medium transition-colors ${isSelected ? 'bg-indigo-100 text-indigo-600 border border-indigo-200' : 'bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100'
+                            <span key={i} className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${isSelected ? 'bg-indigo-100 text-indigo-600 border border-indigo-200' : 'bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100'
                               }`}>
                               {pp}
                             </span>
@@ -273,15 +154,11 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                         </div>
                       )}
 
-                      {/* Clickable hint (Icon only) */}
+                      {/* Clickable hint */}
                       {clickable && (
-                        <div className={`w-full flex justify-center mt-4 transition-all duration-300 ${isSelected ? (darkMode ? 'text-indigo-400' : 'text-indigo-500') : (darkMode ? 'text-slate-500 group-hover:text-slate-400' : 'text-slate-300 group-hover:text-slate-400')}`}>
-                          {isSelected ? (
-                            <div className="w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]" />
-                          ) : (
-                            <MousePointerClick className="w-5 h-5 animate-bounce-slow opacity-60 group-hover:opacity-100" strokeWidth={1.5} />
-                          )}
-                        </div>
+                        <span className={`block w-full text-center text-[10px] mt-2 font-medium ${isSelected ? (darkMode ? 'text-indigo-400' : 'text-indigo-500') : (darkMode ? 'text-slate-500 group-hover:text-slate-400' : 'text-slate-400 group-hover:text-slate-500')}`}>
+                          {isSelected ? t.currentlyViewing : t.clickToView}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -312,23 +189,23 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
               </div>
             </div>
 
-            {/* Highlights (for earlier upgrades without full roadmapData) */}
+            {/* Highlights */}
             {selectedNode.highlights && selectedNode.highlights.length > 0 && (
               <div className="space-y-4 mb-6">
-                <h4 className={`text-base font-bold uppercase tracking-wider flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                  這次升級的重點
+                <h4 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  {t.upgradeHighlights}
                 </h4>
                 {selectedNode.highlights.map((h, i) => (
-                  <div key={i} className={`rounded-2xl border p-6 ${darkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
-                    <h5 className={`font-bold text-lg mb-2.5 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{h.title}</h5>
-                    <p className={`text-base leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
+                  <div key={i} className={`rounded-xl border p-5 ${darkMode ? 'bg-slate-700/50 border-slate-600' : 'bg-slate-50 border-slate-200'}`}>
+                    <h5 className={`font-bold mb-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{h.title}</h5>
+                    <p className={`text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>{h.desc}</p>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* Full Pain Point Cards (for Dencun+) */}
+            {/* Full Pain Point Cards */}
             {selectedNode.painPoints && selectedNode.painPoints.length > 0 && (() => {
               const matchedItems = getMatchedItems(selectedNode.painPoints);
               if (matchedItems.length === 0) return null;
@@ -336,7 +213,7 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                 <>
                   <h4 className={`text-sm font-bold uppercase tracking-wider mb-4 flex items-center gap-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                     <AlertCircle className="w-4 h-4 text-rose-400" />
-                    這次升級解決的痛點
+                    {t.upgradePainPoints}
                   </h4>
                   <div className="space-y-4">
                     {matchedItems.map((item) => (
@@ -345,113 +222,113 @@ export default function VisualRoadmap({ roadmapData = [], darkMode = false }) {
                         : (darkMode ? 'border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400' : 'border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md')
                         }`}>
                         <button onClick={() => setExpandedCard(expandedCard === item.id ? null : item.id)}
-                          className="w-full text-left px-6 py-6 flex items-start justify-between focus:outline-none">
+                          className="w-full text-left px-6 py-5 flex items-start justify-between focus:outline-none">
                           <div className="flex-1 pr-4">
-                            <span className={`inline-block px-3 py-1.5 text-xs font-bold rounded mb-3 ${darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-700'}`}>{item.topicTitle}</span>
-                            <h3 className={`text-xl md:text-2xl font-bold leading-snug ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{item.question}</h3>
+                            <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-3 ${darkMode ? 'bg-rose-900/40 text-rose-300' : 'bg-rose-100 text-rose-700'}`}>{item.topicTitle}</span>
+                            <h3 className="text-lg md:text-xl font-medium leading-snug">{item.question}</h3>
                           </div>
                           <div className={`flex-shrink-0 mt-2 p-2 rounded-full ${darkMode ? 'text-slate-400 bg-slate-700/50' : 'text-slate-400 bg-slate-50'}`}>
-                            {expandedCard === item.id ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
+                            {expandedCard === item.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                           </div>
                         </button>
 
                         <div className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${expandedCard === item.id ? 'max-h-[1800px] pb-6 opacity-100' : 'max-h-0 opacity-0'}`}>
-                          <div className={`border-t pt-6 space-y-6 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                          <div className={`border-t pt-5 space-y-5 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
                             {item.breakingNews && (
-                              <div className={`rounded-xl border px-5 py-4 ${darkMode ? 'bg-amber-900/20 border-amber-800/50' : 'bg-amber-50 border-amber-300'}`}>
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className={`font-bold text-base ${darkMode ? 'text-amber-500' : 'text-amber-600'}`}>⚡ 路線圖重大轉向</span>
-                                  <span className={`text-sm ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>{item.breakingNews.date}</span>
+                              <div className={`rounded-xl border px-4 py-3.5 ${darkMode ? 'bg-amber-900/20 border-amber-800/50' : 'bg-amber-50 border-amber-300'}`}>
+                                <div className="flex items-center gap-2 mb-1.5">
+                                  <span className={`font-bold text-sm ${darkMode ? 'text-amber-500' : 'text-amber-600'}`}>{t.roadmapMajorShift}</span>
+                                  <span className={`text-xs ${darkMode ? 'text-amber-400' : 'text-amber-500'}`}>{item.breakingNews.date}</span>
                                 </div>
-                                <p className={`text-base leading-relaxed mb-3 ${darkMode ? 'text-amber-200/80' : 'text-amber-900'}`}>{item.breakingNews.summary}</p>
+                                <p className={`text-sm leading-relaxed mb-2.5 ${darkMode ? 'text-amber-200/80' : 'text-amber-900'}`}>{item.breakingNews.summary}</p>
                                 <div className="flex flex-wrap gap-2">
                                   {item.breakingNews.links.map((l, i) => (
                                     <a key={i} href={l.url} target="_blank" rel="noopener noreferrer"
-                                      className={`inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full border transition-colors ${darkMode ? 'bg-amber-900/30 text-amber-300 border-amber-800/50 hover:bg-amber-900/60' : 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'}`}>
-                                      {l.label} <ExternalLink className="w-3.5 h-3.5" />
+                                      className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors ${darkMode ? 'bg-amber-900/30 text-amber-300 border-amber-800/50 hover:bg-amber-900/60' : 'bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200'}`}>
+                                      {l.label} <ExternalLink className="w-3 h-3" />
                                     </a>
                                   ))}
                                 </div>
                               </div>
                             )}
 
-                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-2xl p-5 border mb-5 ${darkMode ? 'bg-slate-900/40 border-slate-700/50' : 'bg-slate-50/50 border-slate-100'}`}>
+                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 rounded-xl p-4 border mb-4 ${darkMode ? 'bg-slate-900/40 border-slate-700/50' : 'bg-slate-50/50 border-slate-100'}`}>
                               <div>
-                                <div className="flex items-center justify-between text-base font-bold mb-4">
-                                  <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><AlertCircle className="w-4 h-4" /> 問題嚴重程度</div>
-                                  <span className={`${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
+                                <div className="flex items-center justify-between text-sm font-medium mb-3">
+                                  <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><AlertCircle className="w-4 h-4" /> {t.problemSeverity}</div>
+                                  <span className={`font-bold ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.severity}/10 · {getSeverityLabel(item.severity, t)}</span>
                                 </div>
-                                <div className={`h-2.5 rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
+                                <div className={`h-2 rounded-full overflow-hidden ${darkMode ? 'bg-slate-800' : 'bg-slate-200'}`}>
                                   <div className={`h-full rounded-full transition-all ${getSeverityColor(item.severity)}`} style={{ width: `${(item.severity / 10) * 100}%` }} />
                                 </div>
                               </div>
                               <div>
-                                <div className="flex items-center justify-between text-base font-bold mb-4">
+                                <div className="flex items-center justify-between text-sm font-medium mb-3">
                                   <div className={`flex items-center gap-1.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                                     {item.maturity === 'Mainnet' ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4" />}
-                                    解決方案成熟度
+                                    {t.solutionMaturity}
                                   </div>
-                                  <span className={`text-sm px-2.5 py-1 rounded-full ${item.maturity === 'Mainnet'
+                                  <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet'
                                     ? (darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700')
                                     : (darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700')
                                     }`}>
-                                    {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
+                                    {item.maturity === 'Mainnet' ? t.mainnetLive : (t.maturityLabels[item.maturity] ?? item.maturity)}
                                   </span>
                                 </div>
-                                <div className="flex gap-1.5 h-2.5">
+                                <div className="flex gap-1 h-2">
                                   {['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].map((stage, idx) => {
                                     const currentIdx = ['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].indexOf(item.maturity);
                                     const isPassed = idx <= currentIdx;
                                     let bgClass = isPassed ? (item.maturity === 'Mainnet' ? (darkMode ? 'bg-emerald-500' : 'bg-emerald-400') : (darkMode ? 'bg-indigo-500' : 'bg-indigo-400')) : (darkMode ? 'bg-slate-700' : 'bg-slate-200');
-                                    return <div title={maturityLabels[stage]} key={stage} className={`flex-1 rounded-full transition-all ${bgClass} ${isPassed ? 'opacity-100' : 'opacity-40'}`} />;
+                                    return <div title={t.maturityLabels[stage]} key={stage} className={`flex-1 rounded-full transition-all ${bgClass} ${isPassed ? 'opacity-100' : 'opacity-40'}`} />;
                                   })}
                                 </div>
                               </div>
                             </div>
 
                             <div>
-                              <div className={`text-base font-bold mb-2.5 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>風險在哪？</div>
-                              <p className={`text-base leading-relaxed rounded-xl p-4 border ${darkMode ? 'bg-amber-900/10 border-amber-900/30 text-slate-300' : 'bg-amber-50/80 border-amber-100 text-slate-700'}`}>{item.riskSummary}</p>
+                              <div className={`text-sm font-medium mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{t.whereIsTheRisk}</div>
+                              <p className={`leading-relaxed text-sm rounded-lg p-3 border ${darkMode ? 'bg-amber-900/10 border-amber-900/30 text-slate-300' : 'bg-amber-50/80 border-amber-100 text-slate-600'}`}>{item.riskSummary}</p>
                             </div>
 
-                            <div className="mt-6">
-                              <span className={`inline-block px-3 py-1.5 text-sm font-bold rounded mb-3 ${darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>以太坊解法</span>
-                              <p className={`text-base leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{item.solution}</p>
+                            <div className="mt-5">
+                              <span className={`inline-block px-2 py-1 text-xs font-bold rounded mb-2 ${darkMode ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>{t.ethSolution}</span>
+                              <p className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{item.solution}</p>
                               {(item.termExplainers?.length ?? 0) > 0 && (
-                                <div className="mt-4 space-y-2">
-                                  <p className={`text-sm uppercase tracking-wider font-bold ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>名詞速解</p>
+                                <div className="mt-3 space-y-1.5">
+                                  <p className={`text-xs uppercase tracking-wider font-medium ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>{t.termQuickConcept}</p>
                                   {item.termExplainers.map((te, i) => (
-                                    <div key={i} className={`flex items-start gap-2 text-sm border rounded-xl px-4 py-3 ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
-                                      <span className={`font-bold whitespace-nowrap flex-shrink-0 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>{te.term}</span>
-                                      <span className={`leading-relaxed ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{te.explanation}</span>
-                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className={`ml-auto flex-shrink-0 hover:text-indigo-500 ${darkMode ? 'text-slate-400' : 'text-indigo-500'}`}><ExternalLink className="w-4 h-4" /></a>}
+                                    <div key={i} className={`flex items-start gap-2 text-xs border rounded-lg px-3 py-2 ${darkMode ? 'bg-slate-800/80 border-slate-700' : 'bg-slate-50 border-slate-200'}`}>
+                                      <span className={`font-semibold whitespace-nowrap flex-shrink-0 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>{te.term}</span>
+                                      <span className={`leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>{te.explanation}</span>
+                                      {te.url && <a href={te.url} target="_blank" rel="noopener noreferrer" className={`ml-auto flex-shrink-0 hover:text-indigo-500 ${darkMode ? 'text-slate-500' : 'text-indigo-500'}`}><ExternalLink className="w-3 h-3" /></a>}
                                     </div>
                                   ))}
                                 </div>
                               )}
                             </div>
 
-                            <div className={`mt-6 grid grid-cols-1 md:grid-cols-2 gap-5 rounded-2xl p-5 border ${darkMode ? 'bg-slate-900/50 border-slate-700/50' : 'bg-slate-50 border-slate-100'}`}>
+                            <div className={`mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4 border ${darkMode ? 'bg-slate-900/50 border-slate-700/50' : 'bg-slate-50 border-slate-100'}`}>
                               <div>
-                                <div className={`flex items-center text-base font-bold mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Code className="w-4 h-4 mr-2" /> 對應技術名詞</div>
-                                <div className="flex flex-wrap gap-2.5 mt-2">
-                                  {item.techTerms.map((term, i) => <span key={i} className={`px-3 py-1.5 text-sm font-medium rounded-lg font-mono border ${darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'}`}>{term}</span>)}
+                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Code className="w-4 h-4 mr-1.5" /> {t.techTermMapping}</div>
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                  {item.techTerms.map((term, i) => <span key={i} className={`px-2.5 py-1 text-sm rounded-md font-mono border ${darkMode ? 'bg-indigo-900/30 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border-indigo-100'}`}>{term}</span>)}
                                 </div>
                               </div>
                               <div>
-                                <div className={`flex items-center text-base font-bold mb-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 mr-2" /> 預計實現時間 (ETA)</div>
-                                <div className={`font-bold mt-2 text-base leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{item.eta}</div>
+                                <div className={`flex items-center text-sm mb-1 font-medium ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}><Clock className="w-4 h-4 mr-1.5" /> {t.eta}</div>
+                                <div className={`font-medium mt-2 text-sm leading-relaxed ${darkMode ? 'text-slate-200' : 'text-slate-800'}`}>{item.eta}</div>
                               </div>
                             </div>
 
                             {(item.links?.filter(l => l.type === 'tool').length > 0) && (
-                              <div className={`mt-6 pt-5 border-t space-y-3 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
-                                <span className={`text-sm font-bold uppercase tracking-wider mb-2 block ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>相關推薦工具</span>
-                                <div className="flex flex-wrap gap-2.5">
+                              <div className={`mt-5 pt-4 border-t space-y-2 ${darkMode ? 'border-slate-700' : 'border-slate-100'}`}>
+                                <span className={`text-xs font-bold uppercase tracking-wider mb-2 block ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>{t.recommendedTools}</span>
+                                <div className="flex flex-wrap gap-2">
                                   {item.links.filter(l => l.type === 'tool').map((link, i) => (
                                     <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
-                                      className={`inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl transition-colors border shadow-sm ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100'}`}>
-                                      <ExternalLink className="w-4 h-4" /> {link.label}
+                                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors border shadow-sm ${darkMode ? 'bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100'}`}>
+                                      <ExternalLink className="w-3.5 h-3.5" /> {link.label}
                                     </a>
                                   ))}
                                 </div>
