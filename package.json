@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "homepage": "https://wolovim.github.io/forkcast",
   "scripts": {
     "compile-eips": "node scripts/compile-eips.mjs",

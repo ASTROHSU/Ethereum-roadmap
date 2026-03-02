@@ -75,7 +75,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <Router basename="">
+      <Router basename={import.meta.env.BASE_URL}>
         <RedirectHandler />
         <AnalyticsTracker />
         <ScrollToTop />
