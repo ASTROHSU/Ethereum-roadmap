@@ -61,47 +61,45 @@ export default function VisualRoadmap() {
         <div className="relative">
           {/* Main Connector Line (Desktop) */}
           <div className="hidden md:block absolute top-[45px] left-[5%] right-[5%] h-1 bg-gradient-to-r from-emerald-500/50 via-indigo-500 to-slate-800 rounded-full" />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 relative">
             {roadmapNodes.map((node, idx) => (
-              <div key={node.id} className="relative flex md:flex-col items-start md:items-center gap-4 md:gap-0">
-                {/* Node Dot */}
-                <div className={`relative z-10 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-slate-900 md:mb-5 shrink-0 ${
-                  node.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]' :
-                  node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)] animate-pulse' :
-                  'bg-slate-700'
-                }`}>
+              <div key={node.id} className="relative flex md:flex-col items-start md:items-center gap-4 md:gap-0 group">
+                {/* Node Dot with Hover Glow */}
+                <div className={`relative z-10 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-slate-900 md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${node.status === 'completed' ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:shadow-[0_0_30px_rgba(16,185,129,0.8)]' :
+                    node.status === 'in_progress' ? 'bg-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.6)] animate-pulse group-hover:shadow-[0_0_30px_rgba(99,102,241,1)]' :
+                      'bg-slate-700 group-hover:bg-slate-600'
+                  }`}>
                   {node.status === 'completed' ? <CheckCircle2 className="w-5 h-5 text-slate-900" /> :
-                   node.status === 'in_progress' ? <CircleDashed className="w-5 h-5 text-white animate-spin-slow" /> :
-                   <Circle className="w-4 h-4 text-slate-400" />}
+                    node.status === 'in_progress' ? <CircleDashed className="w-5 h-5 text-white animate-spin-slow" /> :
+                      <Circle className="w-4 h-4 text-slate-400 group-hover:text-slate-300 transition-colors" />}
                 </div>
 
                 {/* Mobile Connector Line */}
                 {idx !== roadmapNodes.length - 1 && (
-                  <div className="md:hidden absolute left-5 top-10 bottom-[-24px] w-0.5 bg-gradient-to-b from-emerald-500/50 to-slate-700" />
+                  <div className="md:hidden absolute left-5 top-10 bottom-[-24px] w-0.5 bg-gradient-to-b from-emerald-500/50 to-slate-700 group-hover:from-emerald-400 transition-colors" />
                 )}
 
-                {/* Content */}
-                <div className="md:text-center mt-1 md:mt-0 pb-6 md:pb-0 w-full">
-                  <div className="inline-block px-2.5 py-1 rounded bg-slate-800/80 text-xs font-medium text-slate-300 mb-2 border border-slate-700/50">
+                {/* Content with Hover Lift */}
+                <div className="md:text-center mt-1 md:mt-0 pb-6 md:pb-0 w-full transition-all duration-300 transform group-hover:-translate-y-1">
+                  <div className="inline-block px-2.5 py-1 rounded bg-slate-800/80 text-xs font-medium text-slate-300 mb-2 border border-slate-700/50 group-hover:border-slate-600 transition-colors">
                     {node.date}
                   </div>
-                  <h3 className={`text-lg font-bold mb-1 ${
-                    node.status === 'completed' ? 'text-emerald-400' :
-                    node.status === 'in_progress' ? 'text-indigo-400' :
-                    'text-slate-400'
-                  }`}>
+                  <h3 className={`text-lg font-bold mb-1 transition-colors ${node.status === 'completed' ? 'text-emerald-400 group-hover:text-emerald-300' :
+                      node.status === 'in_progress' ? 'text-indigo-400 group-hover:text-indigo-300' :
+                        'text-slate-400 group-hover:text-slate-200'
+                    }`}>
                     {node.phase}
                   </h3>
                   <div className="text-white font-medium text-sm mb-2">{node.title}</div>
-                  <p className="text-slate-400 text-xs leading-relaxed mb-3 md:px-2">
+                  <p className="text-slate-400 text-xs leading-relaxed mb-3 md:px-2 group-hover:text-slate-300 transition-colors">
                     {node.description}
                   </p>
-                  
+
                   {/* Target Pain Points */}
                   <div className="flex flex-wrap gap-1.5 md:justify-center">
                     {node.painPoints.map((pp, i) => (
-                      <span key={i} className="text-[10px] px-2 py-0.5 bg-rose-500/10 text-rose-300 border border-rose-500/20 rounded-full">
+                      <span key={i} className="text-[10px] px-2 py-0.5 bg-rose-500/10 text-rose-300 border border-rose-500/20 rounded-full transition-colors group-hover:bg-rose-500/20 group-hover:border-rose-500/40">
                         {pp}
                       </span>
                     ))}
