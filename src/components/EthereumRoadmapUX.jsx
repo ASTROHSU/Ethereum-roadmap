@@ -963,11 +963,6 @@ export default function EthereumRoadmapUX() {
                       <div className="flex items-center text-slate-500 text-sm mb-1 font-medium">
                         <Clock className="w-4 h-4 mr-1.5" />
                         預計實現時間 (ETA)
-                        {item.confidence && (
-                          <span className="ml-2 px-1.5 py-0.5 bg-white text-slate-400 text-[10px] rounded border border-slate-200 shadow-sm leading-none flex items-center">
-                            推測準度：{confidenceLabels[item.confidence] ?? item.confidence}
-                          </span>
-                        )}
                       </div>
                       <div className="text-slate-800 font-medium mt-2 text-sm leading-relaxed">{item.eta}</div>
                     </div>
