@@ -197,14 +197,7 @@ const roadmapData = [
             eta: 'Dencun ✅ 已完成 (2024/3)、Pectra ✅ 已完成 (2025/5)、Glamsterdam 🔄 預計 2026 上半年',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'Ethereum.org 升級歷史', url: 'https://ethereum.org/history' },
-              { label: 'EIP-4844', url: 'https://eips.ethereum.org/EIPS/eip-4844' },
-              { label: 'EIP-7928 (Block Access Lists)', url: 'https://eips.ethereum.org/EIPS/eip-7928' },
-            ],
-            links: [
-              { type: 'external', label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
-            ],
+            links: [],
           },
         ],
       },
@@ -236,13 +229,7 @@ const roadmapData = [
             eta: '生態層方案（Superchain、AggLayer）部分已上線；協議層原生互通性 2026-2027；長期：L1 擴容可能直接取代 L2 的角色',
             maturity: 'Testnet',
             confidence: 'medium',
-            sources: [
-              { label: 'ERC-7683', url: 'https://eips.ethereum.org/EIPS/eip-7683' },
-              { label: 'Ethereum.org 路線圖', url: 'https://ethereum.org/roadmap' },
-            ],
-            links: [
-              { type: 'external', label: 'Vitalik：L2 互通性說明', url: 'https://vitalik.eth.limo' },
-            ],
+            links: [],
           },
 
           {
@@ -259,9 +246,6 @@ const roadmapData = [
             eta: 'Paymaster（穩定幣付 Gas）✅ Pectra 已上線；跨鏈地址統一 2026-2027',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
-            ],
             links: [],
           },
         ],
@@ -293,13 +277,7 @@ const roadmapData = [
             eta: '✅ Paymaster 已在 Pectra (2025/5) 上線；社交登入錢包 2026-2027',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
-              { label: 'Ethereum.org 智慧錢包', url: 'https://ethereum.org/wallets/smart-contract-wallets' },
-            ],
-            links: [
-              { type: 'external', label: 'Ethereum.org：帳戶說明', url: 'https://ethereum.org/wallets' },
-            ],
+            links: [],
           },
         ],
       },
@@ -328,13 +306,7 @@ const roadmapData = [
             eta: '✅ 主網已上線（Pectra, 2025 年 5 月）',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
-              { label: 'EIP-4337 (ERC-4337)', url: 'https://eips.ethereum.org/EIPS/eip-4337' },
-            ],
-            links: [
-              { type: 'external', label: 'Ethereum.org：帳戶抽象說明', url: 'https://ethereum.org/wallets/smart-contract-wallets' },
-            ],
+            links: [],
           },
           {
             id: 'p9',
@@ -350,9 +322,6 @@ const roadmapData = [
             eta: 'EIP-7702 ✅ 已上線；統一多鏈帳戶體驗 2026-2027',
             maturity: 'Draft',
             confidence: 'medium',
-            sources: [
-              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
-            ],
             links: [],
           },
         ],
@@ -384,13 +353,7 @@ const roadmapData = [
             eta: '部分工具（Rabby、Revoke.cash）✅ 現已可用；協議層細粒度授權 ✅ EIP-7702 已在 Pectra 上線',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'EIP-7702', url: 'https://eips.ethereum.org/EIPS/eip-7702' },
-              { label: 'EIP-2612 (Permit)', url: 'https://eips.ethereum.org/EIPS/eip-2612' },
-            ],
-            links: [
-              { type: 'external', label: 'Revoke.cash（撤銷授權工具）', url: 'https://revoke.cash' },
-            ],
+            links: [{ type: 'tool', label: 'Revoke.cash (撤銷授權工具)', url: 'https://revoke.cash' }],
           },
         ],
       },
@@ -415,7 +378,6 @@ const roadmapData = [
             eta: '研究 & 規劃中 → 預計 Hegotá 開始落地 (2026 下半年)',
             maturity: 'Research',
             confidence: 'low',
-            sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
             links: [{ type: 'external', label: 'Vitalik：隱形地址概述', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' }],
             termExplainers: [
               { term: '隱形地址', explanation: '每次有人轉幣給你時，自動幫仿產生一個全新的一次性地址來收款；外界只能看到地址，無法确認就是「你」在收。', url: 'https://vitalik.eth.limo/general/2023/01/20/stealth.html' },
@@ -437,10 +399,7 @@ const roadmapData = [
             eta: 'Helios 🔄 持續開發中；完整無狀態節點 Hegotá+ (2026 下半年以後)',
             maturity: 'Research',
             confidence: 'medium',
-            sources: [{ label: 'Strawmap', url: 'https://ethereum.org/roadmap' }],
-            links: [
-              { type: 'external', label: 'Helios 輕節點 (GitHub)', url: 'https://github.com/a16z/helios' },
-            ],
+            links: [{ type: 'tool', label: 'Helios 輕節點 (GitHub)', url: 'https://github.com/a16z/helios' }],
             termExplainers: [
               { term: 'Helios', explanation: '以太坊基金會支援的輕節點客戶端，讓瀏覽器 / 手機可以直接驗證區塊鏈資料，不需要信任任何中心化 RPC。', url: 'https://github.com/a16z/helios' },
               { term: 'RPC', explanation: '「Remote Procedure Call」。你的錢包 App 讀取區塊鏈資料時通常不是自己計算，而是跳加問 Infura、Alchemy 等中心化伺服器。', url: null },
@@ -470,13 +429,7 @@ const roadmapData = [
             eta: 'ePBS 🔄 Glamsterdam 預計 2026 上半年；Flashbots Protect ✅ 現已可用',
             maturity: 'Testnet',
             confidence: 'medium',
-            sources: [
-              { label: 'EIP-7732 (ePBS)', url: 'https://eips.ethereum.org/EIPS/eip-7732' },
-              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
-            ],
-            links: [
-              { type: 'external', label: 'MEV Blocker（現可使用）', url: 'https://mevblocker.io' },
-            ],
+            links: [{ type: 'tool', label: 'MEV Blocker (防搶跑工具)', url: 'https://mevblocker.io' }],
           },
         ],
       },
@@ -507,10 +460,6 @@ const roadmapData = [
             eta: 'Verkle Trees 🔄 Hegotá 預計 2026 下半年；後量子 2027+ 規劃中',
             maturity: 'Testnet',
             confidence: 'medium',
-            sources: [
-              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
-              { label: 'Ethereum Foundation 部落格', url: 'https://blog.ethereum.org/' },
-            ],
             links: [],
           },
         ],
@@ -535,10 +484,6 @@ const roadmapData = [
             eta: 'DVT 🔄 持續推進中；Scourge 完整方案 2027+',
             maturity: 'Research',
             confidence: 'medium',
-            sources: [
-              { label: 'Ethereum.org Scourge', url: 'https://ethereum.org/roadmap/scourge' },
-              { label: 'Strawmap', url: 'https://ethereum.org/roadmap' },
-            ],
             links: [],
           },
           {
@@ -555,13 +500,7 @@ const roadmapData = [
             eta: 'EIP-7251 ✅ Pectra 已上線 (2025/5)；去中心化質押池 ✅ 現已可用',
             maturity: 'Mainnet',
             confidence: 'high',
-            sources: [
-              { label: 'EIP-7251', url: 'https://eips.ethereum.org/EIPS/eip-7251' },
-              { label: 'Ethereum.org Staking', url: 'https://ethereum.org/staking' },
-            ],
-            links: [
-              { type: 'external', label: 'Ethereum.org 質押選項比較', url: 'https://ethereum.org/staking' },
-            ],
+            links: [{ type: 'tool', label: '質押選項比較 (Ethereum.org)', url: 'https://ethereum.org/staking' }],
           },
         ],
       },
@@ -574,7 +513,6 @@ export default function EthereumRoadmapUX() {
   const [activeTab, setActiveTab] = useState(roadmapData[0].id);
   const [activeTopic, setActiveTopic] = useState(null);
   const [expandedCard, setExpandedCard] = useState(null);
-  const [sourcesOpen, setSourcesOpen] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showPastUpgrades, setShowPastUpgrades] = useState(false);
 
@@ -595,10 +533,6 @@ export default function EthereumRoadmapUX() {
 
   const toggleCard = (id) => {
     setExpandedCard(expandedCard === id ? null : id);
-  };
-
-  const toggleSources = (itemId) => {
-    setSourcesOpen((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
   };
 
   // 關閉 sidebar 時鎖定 body scroll
@@ -922,22 +856,53 @@ export default function EthereumRoadmapUX() {
                       </div>
                     </div>
                   )}
-                  {/* 1. 嚴重度 */}
-                  <div>
-                    <div className="flex items-center gap-2 text-slate-500 text-sm font-medium mb-2">
-                      <AlertCircle className="w-4 h-4" />
-                      這個問題有多嚴重
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 h-3 bg-slate-100 rounded-full overflow-hidden">
+                  {/* 1. 嚴重度與成熟度 */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50 rounded-xl p-4 border border-slate-100 mb-4">
+                    {/* 嚴重度 */}
+                    <div>
+                      <div className="flex items-center justify-between text-slate-500 text-sm font-medium mb-3">
+                        <div className="flex items-center gap-1.5">
+                          <AlertCircle className="w-4 h-4" />
+                          問題嚴重程度
+                        </div>
+                        <span className="text-slate-700 font-bold">{item.severity}/10 · {getSeverityLabel(item.severity)}</span>
+                      </div>
+                      <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all ${getSeverityColor(item.severity)}`}
                           style={{ width: `${(item.severity / 10) * 100}%` }}
                         />
                       </div>
-                      <span className="text-sm font-medium text-slate-700 whitespace-nowrap">
-                        {item.severity}/10 · {getSeverityLabel(item.severity)}
-                      </span>
+                    </div>
+
+                    {/* 成熟度 */}
+                    <div>
+                      <div className="flex items-center justify-between text-slate-500 text-sm font-medium mb-3">
+                        <div className="flex items-center gap-1.5">
+                          {item.maturity === 'Mainnet' ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Clock className="w-4 h-4" />}
+                          解決方案成熟度
+                        </div>
+                        <span className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === 'Mainnet' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-700'}`}>
+                          {item.maturity === 'Mainnet' ? '✅ 主網已上線' : (maturityLabels[item.maturity] ?? item.maturity)}
+                        </span>
+                      </div>
+                      <div className="flex gap-1 h-2">
+                        {['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'].map((stage, idx) => {
+                          const stages = ['Research', 'Draft', 'Spec', 'Testnet', 'Mainnet'];
+                          const currentIdx = stages.indexOf(item.maturity);
+                          const isPassed = idx <= currentIdx;
+
+                          let bgClass = 'bg-slate-200';
+                          if (isPassed) {
+                            if (item.maturity === 'Mainnet') bgClass = 'bg-emerald-400';
+                            else bgClass = 'bg-indigo-400';
+                          }
+
+                          return (
+                            <div title={maturityLabels[stage]} key={stage} className={`flex-1 rounded-full transition-all ${bgClass} ${isPassed ? 'opacity-100' : 'opacity-40'}`} />
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 
@@ -952,7 +917,7 @@ export default function EthereumRoadmapUX() {
                   </div>
 
                   {/* 3. 以太坊解法 */}
-                  <div>
+                  <div className="mt-5">
                     <span className="inline-block px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded mb-2">
                       以太坊解法
                     </span>
@@ -977,7 +942,7 @@ export default function EthereumRoadmapUX() {
                   </div>
 
                   {/* 4. 技術名詞 + ETA */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                  <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 rounded-xl p-4 border border-slate-100">
                     <div>
                       <div className="flex items-center text-slate-500 text-sm mb-1 font-medium">
                         <Code className="w-4 h-4 mr-1.5" />
@@ -998,73 +963,36 @@ export default function EthereumRoadmapUX() {
                       <div className="flex items-center text-slate-500 text-sm mb-1 font-medium">
                         <Clock className="w-4 h-4 mr-1.5" />
                         預計實現時間 (ETA)
+                        {item.confidence && (
+                          <span className="ml-2 px-1.5 py-0.5 bg-white text-slate-400 text-[10px] rounded border border-slate-200 shadow-sm leading-none flex items-center">
+                            推測準度：{confidenceLabels[item.confidence] ?? item.confidence}
+                          </span>
+                        )}
                       </div>
                       <div className="text-slate-800 font-medium mt-2 text-sm leading-relaxed">{item.eta}</div>
                     </div>
                   </div>
 
-                  {/* 5. 成熟度 + 不確定性 */}
-                  <div className="flex flex-wrap gap-2">
-                    <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-700 text-xs rounded-md">
-                      成熟度：{maturityLabels[item.maturity] ?? item.maturity}
-                    </span>
-                    <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-700 text-xs rounded-md">
-                      {confidenceLabels[item.confidence] ?? item.confidence}
-                    </span>
-                  </div>
-
-
-                  {/* 6. 連結 */}
-                  {(item.links?.length ?? 0) > 0 && (
-                    <div className="pt-4 border-t border-slate-100 space-y-2">
-                      {item.links
-                        .filter((l) => l.type === 'external')
-                        .map((link, i) => (
-                          <a
-                            key={i}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-slate-600 hover:text-slate-800 text-sm flex items-center gap-1"
-                          >
-                            <ExternalLink className="w-3.5 h-3.5" />
-                            {link.label}
-                          </a>
-                        ))}
-                    </div>
-                  )}
-
-                  {/* 7. 來源引用（可折疊） */}
-                  {(item.sources?.length ?? 0) > 0 && (
-                    <div className="pt-2 border-t border-slate-100">
-                      <button
-                        type="button"
-                        onClick={() => toggleSources(item.id)}
-                        className="text-xs text-slate-500 hover:text-slate-700 flex items-center gap-1"
-                      >
-                        {sourcesOpen[item.id] ? '收起' : '展開'}來源引用
-                        {sourcesOpen[item.id] ? (
-                          <ChevronUp className="w-3 h-3" />
-                        ) : (
-                          <ChevronDown className="w-3 h-3" />
-                        )}
-                      </button>
-                      {sourcesOpen[item.id] && (
-                        <ul className="mt-2 space-y-1 text-xs text-slate-500">
-                          {item.sources.map((s, i) => (
-                            <li key={i}>
-                              <a
-                                href={s.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-indigo-600"
-                              >
-                                {s.label}
-                              </a>
-                            </li>
+                  {/* 6. 連結 (只顯示工具類) */}
+                  {(item.links?.filter(l => l.type === 'tool').length > 0) && (
+                    <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 block">相關推薦工具</span>
+                      <div className="flex flex-wrap gap-2">
+                        {item.links
+                          .filter((l) => l.type === 'tool')
+                          .map((link, i) => (
+                            <a
+                              key={i}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-medium rounded-lg transition-colors border border-indigo-100 shadow-sm"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              {link.label}
+                            </a>
                           ))}
-                        </ul>
-                      )}
+                      </div>
                     </div>
                   )}
                 </div>
