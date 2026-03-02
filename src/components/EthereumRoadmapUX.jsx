@@ -1103,14 +1103,6 @@ export default function EthereumRoadmapUX() {
             </a>
           </div>
 
-          {/* AI Message & Collaboration */}
-          <div className="mt-4 max-w-lg mx-auto bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-slate-100 shadow-sm">
-            <p className="text-sm leading-relaxed text-slate-600">
-              這是一個開放協作的開源專案。我們相信知識的傳遞能讓生態更強大。
-              <br className="hidden md:block" />
-              本網站是在人類設計與 <span className="font-semibold text-indigo-500">AI 開發助手</span> 的緊密合作下打造而成。鼓勵大家善用 AI 工具，一起創造對社群有益的產品！
-            </p>
-          </div>
 
         </div>
       </footer>
