@@ -765,26 +765,7 @@ export default function EthereumRoadmapUX() {
             </a>
           </div>
 
-          {/* 資料來源 */}
-          <div>
-            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">資料來源</span>
-            <div className="mt-2 space-y-2">
-              {DATA_SOURCES.map((s, i) => (
-                <div key={i} className="rounded-xl border border-slate-200 bg-white p-3">
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1 font-medium text-sm"
-                  >
-                    {s.label}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+
         </div>
       </aside>
 
@@ -1083,24 +1064,35 @@ export default function EthereumRoadmapUX() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-slate-800 hover:text-indigo-600 transition-colors group"
           >
-            <span className="text-sm font-medium">by</span>
             <span className="text-lg font-bold tracking-wide">區塊勢</span>
             <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors" />
           </a>
 
-          {/* Links */}
-          <div className="flex flex-wrap justify-center gap-4 text-sm mt-2">
-            <a href="https://ethereum.org/roadmap" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
-              Ethereum.org 官方路線圖
-            </a>
-            <span className="text-slate-300 hidden md:inline">|</span>
-            <a href="https://strawmap.org/" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
-              Strawmap
-            </a>
-            <span className="text-slate-300 hidden md:inline">|</span>
-            <a href="https://github.com/ASTROHSU/Ethereum-roadmap" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
-              GitHub 開源協作
-            </a>
+          {/* 資料來源 (Data Sources) */}
+          <div className="w-full max-w-2xl mt-8 text-left">
+            <h3 className="font-semibold text-slate-700 text-sm mb-4 text-center">參考資料與來源</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {DATA_SOURCES.map((s, i) => (
+                <div key={i} className="rounded-2xl border border-slate-200 bg-white/50 p-4 hover:border-indigo-200 transition-colors">
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 hover:text-indigo-800 inline-flex items-center gap-1 font-medium text-sm mb-1.5"
+                  >
+                    {s.label}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <p className="text-xs text-slate-500 leading-relaxed">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 text-center">
+              <a href="https://github.com/ASTROHSU/Ethereum-roadmap" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-slate-400 hover:text-indigo-500 transition-colors underline underline-offset-4 decoration-slate-200 hover:decoration-indigo-300">
+                GitHub 開源協作
+              </a>
+            </div>
           </div>
 
 
