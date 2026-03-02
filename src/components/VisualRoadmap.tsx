@@ -1,4 +1,51 @@
-import React, { useRef, useState, useEffect } from "react";
+/* eslint-disable */
+
+interface TranslationStrings {
+  severityLabels: { low: string; medium: string; high: string };
+  upgradeHighlights: string;
+  upgradePainPoints: string;
+  currentlyViewing: string;
+  clickToView: string;
+  roadmapMajorShift: string;
+  problemSeverity: string;
+  solutionMaturity: string;
+  mainnetLive: string;
+  maturityLabels: Record<string, string>;
+  whereIsTheRisk: string;
+  ethSolution: string;
+  termQuickConcept: string;
+  techTermMapping: string;
+  eta: string;
+  recommendedTools: string;
+}
+
+interface RoadmapItem {
+  id: string;
+  question: string;
+  riskSummary: string;
+  severity: number;
+  maturity: string;
+  solution: string;
+  eta: string;
+  topicTitle?: string;
+  breakingNews?: { date: string; summary: string; links: { label: string; url: string }[] };
+  termExplainers?: { term: string; explanation: string; url?: string }[];
+  techTerms: string[];
+  links?: { type: string; label: string; url: string }[];
+}
+
+interface RoadmapTopic {
+  id: string;
+  title: string;
+  items: RoadmapItem[];
+}
+
+interface RoadmapCategory {
+  id: string;
+  topics: RoadmapTopic[];
+}
+
+import { useRef, useState, useEffect } from "react";
 import {
   CheckCircle2,
   CircleDashed,
@@ -7,7 +54,6 @@ import {
   ChevronLeft,
   ChevronDown,
   ChevronUp,
-  X,
   ExternalLink,
   AlertCircle,
   Clock,
@@ -15,12 +61,12 @@ import {
 } from "lucide-react";
 import { roadmapNodesZh, roadmapNodesEn } from "../data/roadmapNodes";
 
-const getSeverityLabel = (n, t) => {
+const getSeverityLabel = (n: number, t: TranslationStrings): string => {
   if (n <= 3) return t.severityLabels.low;
   if (n <= 6) return t.severityLabels.medium;
   return t.severityLabels.high;
 };
-const getSeverityColor = (n) => {
+const getSeverityColor = (n: number): string => {
   if (n <= 3) return "bg-emerald-400";
   if (n <= 6) return "bg-amber-400";
   return "bg-rose-500";
@@ -31,6 +77,11 @@ export default function VisualRoadmap({
   darkMode = false,
   language = "zh",
   t,
+}: {
+  roadmapData?: RoadmapCategory[];
+  darkMode?: boolean;
+  language?: "zh" | "en";
+  t?: TranslationStrings;
 }) {
   const scrollContainerRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -64,12 +115,13 @@ export default function VisualRoadmap({
       const nodeWidth = window.innerWidth > 768 ? 312 : 292;
       const scrollTarget = pectraIndex * nodeWidth;
       setTimeout(() => {
-        scrollContainerRef.current.scrollTo({
+        (scrollContainerRef.current as HTMLDivElement).scrollTo({
           left: scrollTarget,
           behavior: "smooth",
         });
       }, 300);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const scroll = (dir) => {
@@ -161,13 +213,12 @@ export default function VisualRoadmap({
                   >
                     {/* Node Dot */}
                     <div
-                      className={`relative z-20 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${darkMode ? "border-slate-900" : "border-white"} ${
-                        node.status === "completed"
-                          ? "bg-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.5)]"
-                          : node.status === "in_progress"
-                            ? "bg-indigo-500 shadow-[0_0_16px_rgba(99,102,241,0.4)] animate-pulse group-hover:shadow-[0_0_24px_rgba(99,102,241,0.6)]"
-                            : "bg-slate-400 group-hover:bg-slate-500 shadow-sm"
-                      } ${isSelected ? `ring-2 ring-offset-2 ${darkMode ? "ring-offset-slate-900" : "ring-offset-white"} ring-indigo-400` : ""}`}
+                      className={`relative z-20 flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border-4 md:mb-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${darkMode ? "border-slate-900" : "border-white"} ${node.status === "completed"
+                        ? "bg-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_24px_rgba(16,185,129,0.5)]"
+                        : node.status === "in_progress"
+                          ? "bg-indigo-500 shadow-[0_0_16px_rgba(99,102,241,0.4)] animate-pulse group-hover:shadow-[0_0_24px_rgba(99,102,241,0.6)]"
+                          : "bg-slate-400 group-hover:bg-slate-500 shadow-sm"
+                        } ${isSelected ? `ring-2 ring-offset-2 ${darkMode ? "ring-offset-slate-900" : "ring-offset-white"} ring-indigo-400` : ""}`}
                     >
                       {node.status === "completed" ? (
                         <CheckCircle2 className="w-5 h-5 text-white" />
@@ -180,37 +231,34 @@ export default function VisualRoadmap({
 
                     {/* Content */}
                     <div
-                      className={`mt-3 md:mt-0 text-left md:text-center w-full transition-all duration-300 transform group-hover:-translate-y-1 p-4 md:p-3 rounded-2xl border ${
-                        isSelected
-                          ? darkMode
-                            ? "bg-indigo-900/40 border-indigo-500/50 shadow-md"
-                            : "bg-indigo-50 border-indigo-200 shadow-md"
-                          : darkMode
-                            ? "bg-slate-800/70 border-slate-700 md:bg-transparent md:border-none shadow-md md:shadow-none"
-                            : "bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none"
-                      }`}
+                      className={`mt-3 md:mt-0 text-left md:text-center w-full transition-all duration-300 transform group-hover:-translate-y-1 p-4 md:p-3 rounded-2xl border ${isSelected
+                        ? darkMode
+                          ? "bg-indigo-900/40 border-indigo-500/50 shadow-md"
+                          : "bg-indigo-50 border-indigo-200 shadow-md"
+                        : darkMode
+                          ? "bg-slate-800/70 border-slate-700 md:bg-transparent md:border-none shadow-md md:shadow-none"
+                          : "bg-white md:bg-transparent border-slate-100 md:border-none shadow-sm md:shadow-none"
+                        }`}
                     >
                       <div
-                        className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${
-                          isSelected
-                            ? darkMode
-                              ? "bg-indigo-800 text-indigo-300 border-indigo-600"
-                              : "bg-indigo-100 text-indigo-600 border-indigo-200"
-                            : darkMode
-                              ? "bg-slate-700 text-slate-400 border-slate-600 group-hover:border-slate-500"
-                              : "bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300"
-                        }`}
+                        className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold mb-2 border tracking-wider ${isSelected
+                          ? darkMode
+                            ? "bg-indigo-800 text-indigo-300 border-indigo-600"
+                            : "bg-indigo-100 text-indigo-600 border-indigo-200"
+                          : darkMode
+                            ? "bg-slate-700 text-slate-400 border-slate-600 group-hover:border-slate-500"
+                            : "bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-300"
+                          }`}
                       >
                         {node.date}
                       </div>
                       <h3
-                        className={`text-lg font-bold mb-1 transition-colors ${
-                          node.status === "completed"
-                            ? "text-emerald-500 group-hover:text-emerald-400"
-                            : node.status === "in_progress"
-                              ? "text-indigo-400 group-hover:text-indigo-300"
-                              : "text-slate-500 group-hover:text-slate-400"
-                        }`}
+                        className={`text-lg font-bold mb-1 transition-colors ${node.status === "completed"
+                          ? "text-emerald-500 group-hover:text-emerald-400"
+                          : node.status === "in_progress"
+                            ? "text-indigo-400 group-hover:text-indigo-300"
+                            : "text-slate-500 group-hover:text-slate-400"
+                          }`}
                       >
                         {node.phase}
                       </h3>
@@ -231,11 +279,10 @@ export default function VisualRoadmap({
                           {node.painPoints.map((pp, i) => (
                             <span
                               key={i}
-                              className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${
-                                isSelected
-                                  ? "bg-indigo-100 text-indigo-600 border border-indigo-200"
-                                  : "bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100"
-                              }`}
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-medium transition-colors ${isSelected
+                                ? "bg-indigo-100 text-indigo-600 border border-indigo-200"
+                                : "bg-rose-50 text-rose-500 border border-rose-200 group-hover:bg-rose-100"
+                                }`}
                             >
                               {pp}
                             </span>
@@ -279,13 +326,12 @@ export default function VisualRoadmap({
             <div className="flex items-center justify-between mb-6">
               <div>
                 <span
-                  className={`text-xs font-bold uppercase tracking-widest ${
-                    selectedNode.status === "completed"
-                      ? "text-emerald-500"
-                      : selectedNode.status === "in_progress"
-                        ? "text-indigo-500"
-                        : "text-slate-500"
-                  }`}
+                  className={`text-xs font-bold uppercase tracking-widest ${selectedNode.status === "completed"
+                    ? "text-emerald-500"
+                    : selectedNode.status === "in_progress"
+                      ? "text-indigo-500"
+                      : "text-slate-500"
+                    }`}
                 >
                   {selectedNode.date}
                 </span>
@@ -349,15 +395,14 @@ export default function VisualRoadmap({
                       {matchedItems.map((item) => (
                         <div
                           key={item.id}
-                          className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                            expandedCard === item.id
-                              ? darkMode
-                                ? "border-indigo-500 shadow-lg bg-slate-900/50"
-                                : "border-indigo-400 shadow-lg bg-white"
-                              : darkMode
-                                ? "border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400"
-                                : "border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md"
-                          }`}
+                          className={`rounded-2xl border transition-all duration-300 overflow-hidden ${expandedCard === item.id
+                            ? darkMode
+                              ? "border-indigo-500 shadow-lg bg-slate-900/50"
+                              : "border-indigo-400 shadow-lg bg-white"
+                            : darkMode
+                              ? "border-slate-700 shadow-sm bg-slate-800 hover:border-indigo-400"
+                              : "border-slate-200 shadow-sm bg-white hover:border-indigo-200 hover:shadow-md"
+                            }`}
                         >
                           <button
                             onClick={() =>
@@ -474,15 +519,14 @@ export default function VisualRoadmap({
                                       {t.solutionMaturity}
                                     </div>
                                     <span
-                                      className={`font-bold text-xs px-2 py-0.5 rounded-full ${
-                                        item.maturity === "Mainnet"
-                                          ? darkMode
-                                            ? "bg-emerald-900/40 text-emerald-400"
-                                            : "bg-emerald-100 text-emerald-700"
-                                          : darkMode
-                                            ? "bg-slate-800 text-slate-300"
-                                            : "bg-slate-200 text-slate-700"
-                                      }`}
+                                      className={`font-bold text-xs px-2 py-0.5 rounded-full ${item.maturity === "Mainnet"
+                                        ? darkMode
+                                          ? "bg-emerald-900/40 text-emerald-400"
+                                          : "bg-emerald-100 text-emerald-700"
+                                        : darkMode
+                                          ? "bg-slate-800 text-slate-300"
+                                          : "bg-slate-200 text-slate-700"
+                                        }`}
                                     >
                                       {item.maturity === "Mainnet"
                                         ? t.mainnetLive
@@ -506,7 +550,7 @@ export default function VisualRoadmap({
                                         "Mainnet",
                                       ].indexOf(item.maturity);
                                       const isPassed = idx <= currentIdx;
-                                      let bgClass = isPassed
+                                      const bgClass = isPassed
                                         ? item.maturity === "Mainnet"
                                           ? darkMode
                                             ? "bg-emerald-500"
@@ -628,32 +672,32 @@ export default function VisualRoadmap({
 
                               {item.links?.filter((l) => l.type === "tool")
                                 .length > 0 && (
-                                <div
-                                  className={`mt-5 pt-4 border-t space-y-2 ${darkMode ? "border-slate-700" : "border-slate-100"}`}
-                                >
-                                  <span
-                                    className={`text-xs font-bold uppercase tracking-wider mb-2 block ${darkMode ? "text-slate-500" : "text-slate-400"}`}
+                                  <div
+                                    className={`mt-5 pt-4 border-t space-y-2 ${darkMode ? "border-slate-700" : "border-slate-100"}`}
                                   >
-                                    {t.recommendedTools}
-                                  </span>
-                                  <div className="flex flex-wrap gap-2">
-                                    {item.links
-                                      .filter((l) => l.type === "tool")
-                                      .map((link, i) => (
-                                        <a
-                                          key={i}
-                                          href={link.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors border shadow-sm ${darkMode ? "bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50" : "bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100"}`}
-                                        >
-                                          <ExternalLink className="w-3.5 h-3.5" />{" "}
-                                          {link.label}
-                                        </a>
-                                      ))}
+                                    <span
+                                      className={`text-xs font-bold uppercase tracking-wider mb-2 block ${darkMode ? "text-slate-500" : "text-slate-400"}`}
+                                    >
+                                      {t.recommendedTools}
+                                    </span>
+                                    <div className="flex flex-wrap gap-2">
+                                      {item.links
+                                        .filter((l) => l.type === "tool")
+                                        .map((link, i) => (
+                                          <a
+                                            key={i}
+                                            href={link.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors border shadow-sm ${darkMode ? "bg-indigo-900/30 hover:bg-indigo-900/60 text-indigo-300 border-indigo-800/50" : "bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-100"}`}
+                                          >
+                                            <ExternalLink className="w-3.5 h-3.5" />{" "}
+                                            {link.label}
+                                          </a>
+                                        ))}
+                                    </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
                             </div>
                           </div>
                         </div>

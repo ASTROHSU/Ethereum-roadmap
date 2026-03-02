@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import VisualRoadmap from './VisualRoadmap';
+import React, { useState, useEffect } from "react";
+import VisualRoadmap from "./VisualRoadmap";
 import {
   Wallet,
   ShieldAlert,
@@ -17,30 +17,37 @@ import {
   X,
   Sun,
   Moon,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { officialRoadmapPhasesZh, officialRoadmapPhasesEn } from '../data/officialRoadmapPhases';
-import { roadmapDataZh, roadmapDataEn } from '../data/roadmapData';
-import { translations } from '../data/translations';
+import {
+  officialRoadmapPhasesZh,
+  officialRoadmapPhasesEn,
+} from "../data/officialRoadmapPhases";
+import { roadmapDataZh, roadmapDataEn } from "../data/roadmapData";
+import { translations } from "../data/translations";
 
 export default function EthereumRoadmapUX() {
-  const [language, setLanguage] = useState('zh');
-  const [activeTab, setActiveTab] = useState('scale');
+  const [language, setLanguage] = useState("zh");
+  const [activeTab, setActiveTab] = useState("scale");
   const [activeTopic, setActiveTopic] = useState(null);
   const [expandedCard, setExpandedCard] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   const t = translations[language];
-  const roadmapData = language === 'zh' ? roadmapDataZh : roadmapDataEn;
-  const officialRoadmapPhases = language === 'zh' ? officialRoadmapPhasesZh : officialRoadmapPhasesEn;
+  const roadmapData = language === "zh" ? roadmapDataZh : roadmapDataEn;
+  const officialRoadmapPhases =
+    language === "zh" ? officialRoadmapPhasesZh : officialRoadmapPhasesEn;
 
-  const activeCategory = roadmapData.find((c) => c.id === activeTab) ?? roadmapData[0];
+  const activeCategory =
+    roadmapData.find((c) => c.id === activeTab) ?? roadmapData[0];
   const effectiveTopic =
     activeTopic && activeCategory.topics.some((t) => t.id === activeTopic)
       ? activeTopic
-      : activeCategory.topics[0]?.id ?? null;
-  const currentTopic = activeCategory.topics.find((t) => t.id === effectiveTopic);
+      : (activeCategory.topics[0]?.id ?? null);
+  const currentTopic = activeCategory.topics.find(
+    (t) => t.id === effectiveTopic
+  );
   const items = currentTopic?.items ?? [];
 
   const handleTabChange = (categoryId) => {
@@ -56,13 +63,16 @@ export default function EthereumRoadmapUX() {
 
   // 關閉 sidebar 時鎖定 body scroll
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [sidebarOpen]);
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-800'} font-sans relative overflow-hidden transition-colors duration-300`}>
-
+    <div
+      className={`min-h-screen ${darkMode ? "bg-slate-900 text-slate-100" : "bg-slate-50 text-slate-800"} font-sans relative overflow-hidden transition-colors duration-300`}
+    >
       {/* ── Background Glows (Option C) ── */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         {darkMode ? (
@@ -90,65 +100,96 @@ export default function EthereumRoadmapUX() {
 
       {/* ── Sidebar Panel ── */}
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-md z-50 ${darkMode ? 'bg-slate-900 text-slate-100' : 'bg-white'} shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 h-full w-full max-w-md z-50 ${darkMode ? "bg-slate-900 text-slate-100" : "bg-white"} shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "translate-x-full"}`}
       >
-        <div className={`flex items-center justify-between px-6 py-5 border-b ${darkMode ? 'border-slate-700' : 'border-slate-200'}`}>
-          <span className={`font-semibold text-lg ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>{t.roadmapFullView}</span>
+        <div
+          className={`flex items-center justify-between px-6 py-5 border-b ${darkMode ? "border-slate-700" : "border-slate-200"}`}
+        >
+          <span
+            className={`font-semibold text-lg ${darkMode ? "text-slate-100" : "text-slate-800"}`}
+          >
+            {t.roadmapFullView}
+          </span>
           <button
             onClick={() => setSidebarOpen(false)}
-            className={`transition-colors p-1 rounded-full ${darkMode ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-700' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'}`}
+            className={`transition-colors p-1 rounded-full ${darkMode ? "text-slate-400 hover:text-slate-200 hover:bg-slate-700" : "text-slate-400 hover:text-slate-700 hover:bg-slate-100"}`}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className={`flex-1 overflow-y-auto px-6 py-6 space-y-8 text-sm ${darkMode ? 'text-slate-300' : ''}`}>
+        <div
+          className={`flex-1 overflow-y-auto px-6 py-6 space-y-8 text-sm ${darkMode ? "text-slate-300" : ""}`}
+        >
           {/* 技術路線圖原貌 */}
           <div>
-            <span className={`font-semibold text-xs uppercase tracking-wider ${darkMode ? 'text-slate-300' : 'text-slate-700'}`}>{t.officialRoadmapTitle}</span>
-            <p className={`mt-1 text-xs italic ${darkMode ? 'text-slate-400' : 'text-slate-400'}`}>{t.officialRoadmapDesc}</p>
+            <span
+              className={`font-semibold text-xs uppercase tracking-wider ${darkMode ? "text-slate-300" : "text-slate-700"}`}
+            >
+              {t.officialRoadmapTitle}
+            </span>
+            <p
+              className={`mt-1 text-xs italic ${darkMode ? "text-slate-400" : "text-slate-400"}`}
+            >
+              {t.officialRoadmapDesc}
+            </p>
             <div className="grid grid-cols-1 gap-3 mt-3">
               {officialRoadmapPhases.map((phase) => (
                 <div
                   key={phase.id}
-                  className={`rounded-xl border p-3 ${phase.status === 'completed'
-                    ? 'bg-emerald-50 border-emerald-200'
-                    : phase.status === 'in_progress'
-                      ? 'bg-indigo-50 border-indigo-200'
-                      : 'bg-white border-slate-200'
-                    }`}
+                  className={`rounded-xl border p-3 ${
+                    phase.status === "completed"
+                      ? "bg-emerald-50 border-emerald-200"
+                      : phase.status === "in_progress"
+                        ? "bg-indigo-50 border-indigo-200"
+                        : "bg-white border-slate-200"
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <div className="flex items-center gap-2">
-                      {phase.status === 'completed' ? (
+                      {phase.status === "completed" ? (
                         <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                      ) : phase.status === 'in_progress' ? (
+                      ) : phase.status === "in_progress" ? (
                         <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse flex-shrink-0 ml-0.5" />
                       ) : (
                         <div className="w-2 h-2 rounded-full bg-slate-300 flex-shrink-0 ml-0.5" />
                       )}
                       <span className="font-semibold text-slate-800 text-sm">
                         {phase.name}
-                        <span className="text-slate-500 font-normal ml-1 text-xs">({phase.nameZh})</span>
+                        <span className="text-slate-500 font-normal ml-1 text-xs">
+                          ({phase.nameZh})
+                        </span>
                       </span>
                     </div>
-                    <span className="text-xs font-medium text-slate-500 flex-shrink-0">{phase.progress}%</span>
+                    <span className="text-xs font-medium text-slate-500 flex-shrink-0">
+                      {phase.progress}%
+                    </span>
                   </div>
                   {/* 進度條 */}
                   <div className="ml-6 mb-2">
                     <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div
-                        className={`h-full rounded-full ${phase.status === 'completed' ? 'bg-emerald-500'
-                          : phase.status === 'in_progress' ? 'bg-indigo-500'
-                            : 'bg-slate-300'
-                          }`}
+                        className={`h-full rounded-full ${
+                          phase.status === "completed"
+                            ? "bg-emerald-500"
+                            : phase.status === "in_progress"
+                              ? "bg-indigo-500"
+                              : "bg-slate-300"
+                        }`}
                         style={{ width: `${phase.progress}%` }}
                       />
                     </div>
                   </div>
-                  <p className="text-xs text-slate-500 ml-6 mb-1.5 italic">{phase.short}</p>
+                  <p className="text-xs text-slate-500 ml-6 mb-1.5 italic">
+                    {phase.short}
+                  </p>
                   <ul className="ml-6 space-y-0.5">
                     {phase.goals.map((g, i) => (
-                      <li key={i} className="text-xs text-slate-600 leading-relaxed">{g}</li>
+                      <li
+                        key={i}
+                        className="text-xs text-slate-600 leading-relaxed"
+                      >
+                        {g}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -167,10 +208,15 @@ export default function EthereumRoadmapUX() {
 
           {/* 資料來源 */}
           <div>
-            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">{t.sourcesTitle}</span>
+            <span className="font-semibold text-slate-700 text-xs uppercase tracking-wider">
+              {t.sourcesTitle}
+            </span>
             <div className="mt-2 space-y-2">
               {t.dataSources.map((s, i) => (
-                <div key={i} className="rounded-xl border border-slate-200 bg-white p-3">
+                <div
+                  key={i}
+                  className="rounded-xl border border-slate-200 bg-white p-3"
+                >
                   <a
                     href={s.url}
                     target="_blank"
@@ -180,44 +226,54 @@ export default function EthereumRoadmapUX() {
                     {s.label}
                     <ExternalLink className="w-3 h-3" />
                   </a>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">{s.desc}</p>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    {s.desc}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
-
-
         </div>
       </aside>
 
       {/* ── Header ── */}
-      <header className={`${darkMode ? 'bg-slate-900/80 border-slate-700' : 'bg-slate-50/80 border-slate-200'} backdrop-blur-md border-b sticky top-0 z-10 transition-colors duration-300`}>
+      <header
+        className={`${darkMode ? "bg-slate-900/80 border-slate-700" : "bg-slate-50/80 border-slate-200"} backdrop-blur-md border-b sticky top-0 z-10 transition-colors duration-300`}
+      >
         <div className="max-w-4xl mx-auto px-4 py-4 md:py-6 flex items-center justify-between gap-4">
           <div>
-            <h1 className={`text-2xl md:text-3xl font-bold mb-1 md:mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+            <h1
+              className={`text-2xl md:text-3xl font-bold mb-1 md:mb-2 ${darkMode ? "text-white" : "text-slate-900"}`}
+            >
               {t.siteTitle}
             </h1>
 
-            <p className={`hidden md:block leading-relaxed max-w-2xl mt-2 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p
+              className={`hidden md:block leading-relaxed max-w-2xl mt-2 ${darkMode ? "text-slate-400" : "text-slate-600"}`}
+            >
               {t.siteSubtitle}
             </p>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             {/* Language toggle */}
             <button
-              onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
-              className={`px-3 py-2 text-sm font-bold rounded-xl border transition-all ${darkMode ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700' : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100'}`}
+              onClick={() => setLanguage(language === "zh" ? "en" : "zh")}
+              className={`px-3 py-2 text-sm font-bold rounded-xl border transition-all ${darkMode ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700" : "border-slate-200 bg-white text-slate-600 hover:bg-slate-100"}`}
               title="Toggle Language"
             >
-              {language === 'zh' ? 'EN' : '中'}
+              {language === "zh" ? "EN" : "中"}
             </button>
             {/* Dark mode toggle */}
             <button
-              onClick={() => setDarkMode(d => !d)}
-              className={`p-2.5 rounded-xl border transition-all ${darkMode ? 'border-slate-700 bg-slate-800 text-amber-400 hover:bg-slate-700' : 'border-slate-200 bg-white text-slate-500 hover:bg-slate-100'}`}
+              onClick={() => setDarkMode((d) => !d)}
+              className={`p-2.5 rounded-xl border transition-all ${darkMode ? "border-slate-700 bg-slate-800 text-amber-400 hover:bg-slate-700" : "border-slate-200 bg-white text-slate-500 hover:bg-slate-100"}`}
               title={t.darkModeToggle}
             >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {darkMode ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
             {/* Ethereum Diamond progress button */}
             <button
@@ -231,56 +287,119 @@ export default function EthereumRoadmapUX() {
                 const fillY = 100 - progress; // SVG 座標：0=頂部, 100=底部
                 return (
                   <div className="relative w-14 h-14 md:w-16 md:h-16">
-                    <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">
+                    <svg
+                      viewBox="0 0 100 100"
+                      className="w-full h-full drop-shadow-md"
+                    >
                       <defs>
                         <clipPath id="eth-diamond">
                           <path d="M50 5 L85 50 L50 95 L15 50 Z" />
                         </clipPath>
-                        <linearGradient id="water-fill" x1="0" y1="0" x2="0" y2="1">
+                        <linearGradient
+                          id="water-fill"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
                           <stop offset="0%" stopColor="transparent" />
                           <stop offset={`${fillY}%`} stopColor="transparent" />
                           <stop offset={`${fillY}%`} stopColor="#818cf8" />
                           <stop offset="100%" stopColor="#6366f1" />
                         </linearGradient>
-                        <linearGradient id="wave-sheen" x1="0" y1="0" x2="1" y2="0">
+                        <linearGradient
+                          id="wave-sheen"
+                          x1="0"
+                          y1="0"
+                          x2="1"
+                          y2="0"
+                        >
                           <stop offset="0%" stopColor="rgba(255,255,255,0)" />
-                          <stop offset="50%" stopColor="rgba(255,255,255,0.15)" />
+                          <stop
+                            offset="50%"
+                            stopColor="rgba(255,255,255,0.15)"
+                          />
                           <stop offset="100%" stopColor="rgba(255,255,255,0)" />
                         </linearGradient>
                       </defs>
-                      <path d="M50 5 L85 50 L50 95 L15 50 Z" fill="none" stroke="#cbd5e1" strokeWidth="2"
-                        className="group-hover:stroke-indigo-300 transition-colors" />
+                      <path
+                        d="M50 5 L85 50 L50 95 L15 50 Z"
+                        fill="none"
+                        stroke="#cbd5e1"
+                        strokeWidth="2"
+                        className="group-hover:stroke-indigo-300 transition-colors"
+                      />
                       <g clipPath="url(#eth-diamond)">
-                        <rect x="0" y="0" width="100" height="100" fill="url(#water-fill)" />
-                        <rect x="0" y={fillY} width="100" height={100 - fillY} fill="url(#wave-sheen)" opacity="0.6" />
-                        <path d={`M10 ${fillY} Q30 ${fillY - 3} 50 ${fillY} Q70 ${fillY + 3} 90 ${fillY}`}
-                          fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5"
-                          className="animate-pulse" />
+                        <rect
+                          x="0"
+                          y="0"
+                          width="100"
+                          height="100"
+                          fill="url(#water-fill)"
+                        />
+                        <rect
+                          x="0"
+                          y={fillY}
+                          width="100"
+                          height={100 - fillY}
+                          fill="url(#wave-sheen)"
+                          opacity="0.6"
+                        />
+                        <path
+                          d={`M10 ${fillY} Q30 ${fillY - 3} 50 ${fillY} Q70 ${fillY + 3} 90 ${fillY}`}
+                          fill="none"
+                          stroke="rgba(255,255,255,0.4)"
+                          strokeWidth="1.5"
+                          className="animate-pulse"
+                        />
                       </g>
                       <g clipPath="url(#eth-diamond)" opacity="0.15">
-                        <line x1="50" y1="5" x2="50" y2="95" stroke="white" strokeWidth="1" />
-                        <line x1="15" y1="50" x2="85" y2="50" stroke="white" strokeWidth="0.8" />
+                        <line
+                          x1="50"
+                          y1="5"
+                          x2="50"
+                          y2="95"
+                          stroke="white"
+                          strokeWidth="1"
+                        />
+                        <line
+                          x1="15"
+                          y1="50"
+                          x2="85"
+                          y2="50"
+                          stroke="white"
+                          strokeWidth="0.8"
+                        />
                       </g>
                     </svg>
                   </div>
                 );
               })()}
-              <span className="text-xs font-bold text-indigo-600 tabular-nums">42%</span>
-              <span className="text-[10px] text-slate-400 -mt-0.5 whitespace-nowrap">{t.roadmapProgress}</span>
+              <span className="text-xs font-bold text-indigo-600 tabular-nums">
+                42%
+              </span>
+              <span className="text-[10px] text-slate-400 -mt-0.5 whitespace-nowrap">
+                {t.roadmapProgress}
+              </span>
             </button>
           </div>
         </div>
       </header>
 
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-5 md:py-8">
-        <VisualRoadmap roadmapData={roadmapData} darkMode={darkMode} language={language} t={t} />
+        <VisualRoadmap
+          roadmapData={roadmapData}
+          darkMode={darkMode}
+          language={language}
+          t={t}
+        />
       </main>
 
       {/* ── Footer ── */}
-      <footer className={`relative z-10 max-w-4xl mx-auto px-4 py-8 md:py-12 mt-8 text-center border-t transition-colors duration-300 ${darkMode ? 'border-slate-700 text-slate-500' : 'border-slate-200 text-slate-500'}`}>
-        <p className="text-sm leading-relaxed mb-3">
-          {t.footerText}
-        </p>
+      <footer
+        className={`relative z-10 max-w-4xl mx-auto px-4 py-8 md:py-12 mt-8 text-center border-t transition-colors duration-300 ${darkMode ? "border-slate-700 text-slate-500" : "border-slate-200 text-slate-500"}`}
+      >
+        <p className="text-sm leading-relaxed mb-3">{t.footerText}</p>
         <a
           href="https://github.com/ASTROHSU/Ethereum-roadmap"
           target="_blank"

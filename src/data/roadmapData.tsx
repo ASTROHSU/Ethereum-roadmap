@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Zap, Wallet, ShieldAlert, Server } from "lucide-react";
 
 export const roadmapDataZh = [

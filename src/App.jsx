@@ -1,7 +1,7 @@
-import EthereumRoadmapUX from './components/EthereumRoadmapUX'
+import EthereumRoadmapUX from "./components/EthereumRoadmapUX";
 
 function App() {
-  return <EthereumRoadmapUX />
+  return <EthereumRoadmapUX />;
 }
 
-export default App
+export default App;
