@@ -89,22 +89,39 @@ export const roadmapNodesZh = [
     {
         id: "dencun", phase: "Dencun", date: "2024年3月", status: "completed",
         title: "L2 手續費大降", description: "引入 Blob 空間讓 Rollup 費用降低數十倍。",
-        painPoints: ["L1 手續費與吞吐", "L2 碎片化與跨鏈麻煩"]
+        painPoints: ["L1 手續費與吞吐", "L2 碎片化與跨鏈麻煩"],
+        highlights: [
+            { title: 'Rollup 手續費降低 10～100 倍', desc: '透過 EIP-4844 引入「Blob 資料」，讓 Optimism、Arbitrum、zkSync 等 L2 可以用更低成本把資料送上以太坊。實際效果：Optimism 上的轉帳手續費從幾美元降至幾分錢。' },
+            { title: '奠定 L2 規模化基礎', desc: 'Blob 空間是「Proto-Danksharding」的第一步，讓以太坊本身的資料承載量大幅成長，為未來更多 Rollup 上鏈鋪路。' }
+        ]
     },
     {
         id: "pectra", phase: "Pectra", date: "2025年5月", status: "completed",
         title: "無 ETH 也能付 Gas", description: "帳戶抽象（EIP-7702）上線主網。",
-        painPoints: ["新手入門門檻", "助記詞與帳戶恢復", "智慧合約授權風險"]
+        painPoints: ["新手入門門檻", "助記詞與帳戶恢復", "智慧合約授權風險"],
+        highlights: [
+            { title: '用穩定幣付手續費', desc: 'EIP-7702 讓普通錢包暫時取得智慧合約能力，可以用 USDC 等代幣支付 Gas，不再需要先備一點 ETH 才能轉帳。' },
+            { title: '錢包更難被盜、更好用', desc: '支援「社群恢復」與批次交易：萬一手機丟失，不再只靠助記詞。一個操作就能完成多步驟的 DeFi 流程，省時省 Gas。' },
+            { title: '驗證者體驗升級', desc: '質押上限從 32 ETH 提高至 2048 ETH，讓大型驗證者合併帳戶，整體網路效率提升。' }
+        ]
     },
     {
         id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
         title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險。",
-        painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"]
+        painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"],
+        highlights: [
+            { title: '打包者與提議者分離（ePBS）', desc: '把「選擇哪些交易打包」與「提議區塊」分開由不同角色負責，降低驗證者直接操縱交易排序的誘因，讓一般使用者被夾擊攻擊的機率下降。' },
+            { title: 'L1 Gas 費用結構優化', desc: '引入區塊層級的存取清單與其他 Gas 調整，預計讓鏈上合約互動成本進一步下降，有利於 DeFi 用戶直接在 L1 操作。' }
+        ]
     },
     {
         id: "hegota", phase: "Hegotá", date: "預計 2026 下半年+", status: "future",
         title: "輕量節點與無縫跨鏈", description: "無縫跨鏈體驗、私有隱形地址、降低節點硬碟門檻。",
-        painPoints: ["節點硬體門檻", "質押集中化", "資產持有隱私"]
+        painPoints: ["節點硬體門檻", "質押集中化", "資產持有隱私"],
+        highlights: [
+            { title: '無狀態節點：硬碟需求大幅下降', desc: '目前跑一個以太坊全節點需要 2TB+ 硬碟。Hegotá 計畫引入歷史資料過期機制，讓普通電腦也能參與驗證，去中心化程度提升。' },
+            { title: '隱形地址（Stealth Addresses）', desc: '收款方可以產生一次性地址，讓付款者與外界都無法輕易追蹤資產歸屬，為鏈上隱私提供基礎設施。' }
+        ]
     }
 ];
 
@@ -199,21 +216,37 @@ export const roadmapNodesEn = [
     {
         id: "dencun", phase: "Dencun", date: "March 2024", status: "completed",
         title: "Massive L2 Fee Drop", description: "Introduced Blob space, reducing Rollup fees by tens of times.",
-        painPoints: ["L1 Fees & Throughput", "L2 Fragmentation & Bridging"]
+        painPoints: ["L1 Fees & Throughput", "L2 Fragmentation & Bridging"],
+        highlights: [
+            { title: 'Rollup Fees Drop 10–100x', desc: 'EIP-4844 introduced "Blob data", letting L2s post data to Ethereum at a fraction of the previous cost.' },
+            { title: 'Foundation for L2 Scale', desc: 'Blob space dramatically increased Ethereum\'s data bandwidth, paving the way for more rollup activity.' }
+        ]
     },
     {
         id: "pectra", phase: "Pectra", date: "May 2025", status: "completed",
         title: "Pay Gas Without ETH", description: "Account Abstraction (EIP-7702) launched on Mainnet.",
-        painPoints: ["Onboarding Frictions", "Seed Phrases & Recovery", "Smart Contract Approvals Risk"]
+        painPoints: ["Onboarding Frictions", "Seed Phrases & Recovery", "Smart Contract Approvals Risk"],
+        highlights: [
+            { title: 'Pay Gas in Stablecoins', desc: 'EIP-7702 lets you pay gas with USDC or other tokens — no need to hold ETH just to transact.' },
+            { title: 'Safer, Smarter Wallets', desc: 'Supports social recovery and batch transactions: lose your phone, not your money. Complete DeFi flows in one click.' }
+        ]
     },
     {
         id: "glamsterdam", phase: "Glamsterdam", date: "Exp. H1 2026", status: "in_progress",
         title: "Anti-Frontrunning & L1 Fee Cuts", description: "Proposer-Builder Separation helps mitigate front-running and MEV risks.",
-        painPoints: ["Transaction Privacy / MEV", "L1 Fees & Throughput"]
+        painPoints: ["Transaction Privacy / MEV", "L1 Fees & Throughput"],
+        highlights: [
+            { title: 'Proposer-Builder Separation (ePBS)', desc: 'Separates "who orders transactions" from "who proposes the block", reducing incentives for validators to front-run users.' },
+            { title: 'L1 Gas Structure Improvements', desc: 'Block-level access lists and other gas tweaks are expected to lower on-chain contract interaction costs.' }
+        ]
     },
     {
         id: "hegota", phase: "Hegotá", date: "Exp. H2 2026+", status: "future",
         title: "Light Nodes & Seamless Crosschain", description: "Seamless cross-chain, stealth addresses, and lower hardware requirements for nodes.",
-        painPoints: ["Node Hardware Requirements", "Staking Centralization", "Asset Holding Privacy"]
+        painPoints: ["Node Hardware Requirements", "Staking Centralization", "Asset Holding Privacy"],
+        highlights: [
+            { title: 'Stateless Nodes: Much Lower Storage', desc: 'Running a full node today needs 2TB+ storage. Hegotá aims to make history expire so ordinary machines can validate.' },
+            { title: 'Stealth Addresses', desc: 'Recipients can use one-time addresses so senders and observers cannot easily link payments to an identity.' }
+        ]
     }
 ];

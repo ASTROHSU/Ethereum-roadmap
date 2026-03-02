@@ -143,7 +143,7 @@ export default function ConsumerUpgradeCarousel({
                     </p>
 
                     {node.painPoints && node.painPoints.length > 0 && (
-                        <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-700/50">
+                        <div className="pt-3 border-t border-slate-100 dark:border-slate-700/50">
                             <p className={`text-[10px] uppercase font-bold tracking-wider mb-2 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
                                 {PAIN_POINT_SOLVED_LABEL[language]}
                             </p>
