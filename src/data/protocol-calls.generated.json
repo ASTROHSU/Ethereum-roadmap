@@ -696,6 +696,12 @@
     "path": "pqi/028"
   },
   {
+    "type": "pqi",
+    "date": "2026-03-04",
+    "number": "029",
+    "path": "pqi/029"
+  },
+  {
     "type": "pqts",
     "date": "2026-02-04",
     "number": "001",
@@ -706,6 +712,12 @@
     "date": "2026-02-18",
     "number": "002",
     "path": "pqts/002"
+  },
+  {
+    "type": "pqts",
+    "date": "2026-03-04",
+    "number": "003",
+    "path": "pqts/003"
   },
   {
     "type": "price",
