@@ -4,7 +4,7 @@ import PublicNetworkUpgradePage from './components/PublicNetworkUpgradePage';
 import HomePage from './components/HomePage';
 import RankPage from './components/RankPage';
 import CallsIndexPage from './components/CallsIndexPage';
-import CallPage from './components/call/CallPage';
+import SimpleCallPage from './components/call/SimpleCallPage';
 import { SchedulePage } from './components/schedule';
 import { EipPage } from './components/eip';
 import EipsIndexPage from './components/EipsIndexPage';
@@ -137,7 +137,7 @@ function App() {
           } />
           <Route path="/rank" element={<RankPage />} />
           <Route path="/calls" element={<CallsIndexPage />} />
-          <Route path="/calls/*" element={<CallPage />} />
+          <Route path="/calls/*" element={<SimpleCallPage />} />
           <Route path="/feedback" element={<ExternalRedirect />} />
           <Route path="/eips" element={<EipsIndexPage />} />
           <Route path="/eips/:id" element={<EipPage />} />
