@@ -9,6 +9,7 @@ import ConsumerUpgradeCarousel from './ConsumerUpgradeCarousel';
 import ConsumerEIPSection from './ConsumerEIPSection';
 import { officialRoadmapPhasesZh, officialRoadmapPhasesEn } from '../data/officialRoadmapPhases';
 import { translations } from '../data/translations';
+import { syncInfo } from '../data/syncInfo';
 
 const HomePage = () => {
   const [language, setLanguage] = useState<'zh' | 'en'>('zh');
@@ -329,6 +330,14 @@ const HomePage = () => {
                 forkcast.org
               </span>
             </a>
+            {syncInfo.lastSyncedAt && (
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
+                {language === 'zh'
+                  ? `上次從上游同步：${new Date(syncInfo.lastSyncedAt).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}`
+                  : `Last synced from upstream: ${new Date(syncInfo.lastSyncedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
+                }
+              </p>
+            )}
           </div>
 
           {/* EF Protocol Support */}
