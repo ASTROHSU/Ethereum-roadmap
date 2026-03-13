@@ -42,6 +42,7 @@ jobs:
           fi
           NEW=$(git rev-list $BASE..upstream/main --count)
           echo "new_commits=$NEW" >> $GITHUB_OUTPUT
+          echo "base_sha=$BASE" >> $GITHUB_OUTPUT
           if [ "$NEW" -gt 0 ]; then
             echo "has_new=true" >> $GITHUB_OUTPUT
           else
@@ -132,6 +133,66 @@ jobs:
           **差異**：https://github.com/ethereum/forkcast/compare/main...ASTROHSU:Ethereum-roadmap:main" \
             --head "$BRANCH" \
             --base main
+
+      # ── 報告 ──
+
+      - name: Write summary
+        if: always()
+        run: |
+          echo "## Forkcast 上游同步報告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**執行時間**：$(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.check.outputs.has_new }}" != "true" ]; then
+            echo "### ✅ 無上游更新" >> $GITHUB_STEP_SUMMARY
+            echo "上游 \`ethereum/forkcast\` 目前沒有新的 commit，無需同步。" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          echo "### 上游新增 ${{ steps.check.outputs.new_commits }} 個 commit" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit 清單：**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          git log --oneline ${{ steps.check.outputs.base_sha }}..upstream/main | head -20 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.merge.outputs.conflict }}" == "true" ]; then
+            echo "### ⚠️ 有衝突，已建立 PR" >> $GITHUB_STEP_SUMMARY
+            echo "自動 merge 失敗，請前往 Pull Requests 頁面手動處理衝突後合併。" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          fi
+
+          echo "### ✅ 已成功 merge 並 push" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # 哪些檔案有變動
+          CHANGED=$(git diff --name-only ${{ steps.merge.outputs.pre_sha }}..HEAD -- src/ public/ 2>/dev/null || echo "")
+          if [ -n "$CHANGED" ]; then
+            echo "**變動的檔案：**" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "$CHANGED" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # 翻譯結果
+          if [ "${{ steps.translate_check.outputs.has_changes }}" == "true" ]; then
+            echo "### 🌐 自動翻譯" >> $GITHUB_STEP_SUMMARY
+            echo "以下雙語檔案偵測到英文端有變更，已自動翻譯成繁體中文：" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            for f in ${{ steps.translate_check.outputs.files }}; do
+              echo "- \`$f\`" >> $GITHUB_STEP_SUMMARY
+            done
+          else
+            echo "### 🌐 翻譯" >> $GITHUB_STEP_SUMMARY
+            echo "雙語資料檔案（roadmapNodes / officialRoadmapPhases / translations）本次未變動，無需翻譯。" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "[查看完整 diff](https://github.com/ethereum/forkcast/compare/${{ steps.check.outputs.base_sha }}...upstream/main)" >> $GITHUB_STEP_SUMMARY
 
       - name: Skip (no new commits)
         if: steps.check.outputs.has_new == 'false'
