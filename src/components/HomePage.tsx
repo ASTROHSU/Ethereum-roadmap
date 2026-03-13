@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 // Our consumer-focused data and components
 import ConsumerUpgradeCarousel from './ConsumerUpgradeCarousel';
 import ConsumerEIPSection from './ConsumerEIPSection';
+import RecentProtocolCalls from './RecentProtocolCalls';
 import { officialRoadmapPhasesZh, officialRoadmapPhasesEn } from '../data/officialRoadmapPhases';
 import { translations } from '../data/translations';
 import { syncInfo } from '../data/syncInfo';
@@ -312,6 +313,9 @@ const HomePage = () => {
 
         {/* Consumer-friendly Recently Updated EIPs */}
         <ConsumerEIPSection language={language} darkMode={darkMode} />
+
+        {/* Recent Protocol Calls */}
+        <RecentProtocolCalls language={language} darkMode={darkMode} />
 
         {/* Footer */}
         <div className="mt-20 border-t border-slate-200 dark:border-slate-800 pt-10 pb-8 text-center text-sm">
