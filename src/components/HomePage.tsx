@@ -330,14 +330,12 @@ const HomePage = () => {
                 forkcast.org
               </span>
             </a>
-            {syncInfo.lastSyncedAt && (
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
-                {language === 'zh'
-                  ? `上次從上游同步：${new Date(syncInfo.lastSyncedAt).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}`
-                  : `Last synced from upstream: ${new Date(syncInfo.lastSyncedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
-                }
-              </p>
-            )}
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
+              {language === 'zh'
+                ? `資料更新至：${new Date(syncInfo.lastSyncedAt).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}`
+                : `Content as of: ${new Date(syncInfo.lastSyncedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
+              }
+            </p>
           </div>
 
           {/* EF Protocol Support */}
