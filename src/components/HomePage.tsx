@@ -179,6 +179,12 @@ const HomePage = () => {
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mt-0.5">
               {t.siteSubtitle}
             </p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              {language === 'zh'
+                ? `資料更新至：${new Date(syncInfo.lastSyncedAt).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}`
+                : `Content as of: ${new Date(syncInfo.lastSyncedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
+              }
+            </p>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
             {/* Language toggle */}
@@ -330,12 +336,6 @@ const HomePage = () => {
                 forkcast.org
               </span>
             </a>
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
-              {language === 'zh'
-                ? `資料更新至：${new Date(syncInfo.lastSyncedAt).toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' })}`
-                : `Content as of: ${new Date(syncInfo.lastSyncedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
-              }
-            </p>
           </div>
 
           {/* EF Protocol Support */}
