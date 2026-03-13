@@ -34,7 +34,8 @@ export const officialRoadmapPhasesZh = [
         status: 'in_progress',
         progress: 20,
         goals: [
-            '🔄 ePBS（Glamsterdam）——此處針對「提議者 vs 打包者分離」，讓 MEV 提取額度透明、可預期',
+            '🔄 ePBS（Glamsterdam）——提議者委外給自由競爭的打包者市場，讓打包者集中化不蔓延至質押',
+            '🔄 FOCIL（Glamsterdam 討論中）——協議內多人參與打包，部分交易必須被納入，強化抗審查',
             '🔄 DVT（分散式驗證者技術）持續推進',
             '📋 加密記憶體池（未來防 MEV 搶跑）',
             '📋 抑制流動性質押集中化（Lido / Coinbase 問題）',
@@ -118,7 +119,8 @@ export const officialRoadmapPhasesEn = [
         status: 'in_progress',
         progress: 20,
         goals: [
-            '🔄 ePBS (Glamsterdam) — targeting "Proposer-Builder Separation" to make MEV extraction transparent and predictable',
+            '🔄 ePBS (Glamsterdam) — proposers outsource to a permissionless builder market; builder centralization does not creep into staking',
+            '🔄 FOCIL (Glamsterdam, in discussion) — in-protocol multi-participant block building; some txs must be included, improving censorship resistance',
             '🔄 DVT (Distributed Validator Technology) ongoing advancement',
             '📋 Encrypted Mempool (future prevention of MEV front-running)',
             '📋 Mitigating liquid staking centralization (Lido / Coinbase risks)',

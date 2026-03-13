@@ -116,10 +116,11 @@ export const roadmapNodesZh = [
     },
     {
         id: "glamsterdam", phase: "Glamsterdam", date: "預計 2026 上半年", status: "in_progress",
-        title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險。",
+        title: "防夾擊與 L1 降費", description: "將打包與提議者分離，減少被搶跑風險；協議內多人參與打包（FOCIL）強化抗審查。",
         painPoints: ["交易隱私 / MEV", "L1 手續費與吞吐"],
         highlights: [
-            { title: '打包者與提議者分離（ePBS）', desc: '把「選擇哪些交易打包」與「提議區塊」分開由不同角色負責，降低驗證者直接操縱交易排序的誘因，讓一般使用者被夾擊攻擊的機率下降。' },
+            { title: '打包者與提議者分離（ePBS）', desc: '提議者把「誰來打包區塊」交給自由競爭的打包者市場，讓打包者集中化不會變成質押集中化。把「選擇哪些交易打包」與「提議區塊」分開，降低驗證者直接操縱排序的誘因，減少一般使用者被夾擊的機率。' },
+            { title: '協議內多人參與打包（FOCIL）', desc: '由隨機選出的見證者各自指定若干筆交易「必須被納入」區塊，否則區塊無效。即使單一打包者想審查，也無法阻擋這些交易，是抗審查的第一步。' },
             { title: 'L1 Gas 費用結構優化', desc: '引入區塊層級的存取清單與其他 Gas 調整，預計讓鏈上合約互動成本進一步下降，有利於 DeFi 用戶直接在 L1 操作。' }
         ]
     },
@@ -251,11 +252,12 @@ export const roadmapNodesEn = [
     },
     {
         id: "glamsterdam", phase: "Glamsterdam", date: "Exp. H1 2026", status: "in_progress",
-        title: "Anti-Frontrunning & L1 Fee Cuts", description: "Proposer-Builder Separation helps mitigate front-running and MEV risks.",
-        painPoints: ["Transaction Privacy / MEV", "L1 Fees & Throughput"],
+        title: "Anti-Frontrunning & Censorship Resistance", description: "ePBS separates proposers from builders; FOCIL adds in-protocol multi-participant block building.",
+        painPoints: ["MEV Risks", "L1 Throughput"],
         highlights: [
-            { title: 'Proposer-Builder Separation (ePBS)', desc: 'Separates "who orders transactions" from "who proposes the block", reducing incentives for validators to front-run users.' },
-            { title: 'L1 Gas Structure Improvements', desc: 'Block-level access lists and other gas tweaks are expected to lower on-chain contract interaction costs.' }
+            { title: 'ePBS (Proposer-Builder Separation)', desc: 'Proposers outsource block building to a permissionless market of builders, so builder centralization does not become staking centralization. Separating who orders transactions from who proposes the block reduces front-running and MEV impact on users.' },
+            { title: 'FOCIL (In-Protocol Multi-Participant Building)', desc: 'Randomly-selected attesters each mandate that certain transactions must be included in the block (otherwise the block is rejected). Even if one builder tries to censor, those transactions get in—strengthening censorship resistance.' },
+            { title: 'L1 Gas Optimizations', desc: 'Block-level access lists and other gas adjustments to further reduce the cost of on-chain contract interactions.' }
         ]
     },
     {
