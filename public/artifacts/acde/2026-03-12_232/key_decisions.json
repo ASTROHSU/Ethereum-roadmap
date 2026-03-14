@@ -1,0 +1,52 @@
+{
+  "meeting": "ACDE #232 - March 12, 2026",
+  "key_decisions": [
+    {
+      "original_text": "SSE/Pure ETH rejected as Hegotá headliner",
+      "timestamp": "00:39:56",
+      "type": "headliner_selected",
+      "eips": [],
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "Lucid rejected as Hegotá headliner",
+      "timestamp": "00:40:56",
+      "type": "headliner_selected",
+      "eips": [],
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "Frame transactions headliner decision delayed to March 26; requires Besu, Nethermind, or Reth support to proceed",
+      "timestamp": "01:33:46",
+      "type": "headliner_selected",
+      "eips": [],
+      "fork": null,
+      "context": "requires client support"
+    },
+    {
+      "original_text": "Glamsterdam devnet progress: bal-devnet-2 running, devnet-3 delayed pending EIP-8037 resolution",
+      "timestamp": "00:07:01",
+      "type": "devnet_inclusion",
+      "eips": [
+        8037
+      ],
+      "devnet": "bal-devnet-3",
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "Repricing breakout scheduled next Wednesday to address 8037 complexity and align with 7928",
+      "timestamp": "00:22:02",
+      "type": "other",
+      "eips": [
+        8037,
+        7928
+      ],
+      "devnet": null,
+      "fork": null,
+      "context": "address 8037/7928 alignment"
+    }
+  ]
+}
