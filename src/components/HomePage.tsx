@@ -174,9 +174,12 @@ const HomePage = () => {
       <div className="max-w-5xl mx-auto px-6 py-6 border-b border-slate-200 dark:border-slate-800 mb-8">
         <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
           <div className="min-w-0 text-left">
-            <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-              {t.siteTitle}
-            </h2>
+            <div className="flex items-center gap-2">
+              <img src="/favicon.png" alt="" className="w-8 h-8 rounded-md flex-shrink-0" />
+              <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
+                {t.siteTitle}
+              </h2>
+            </div>
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed mt-0.5">
               {t.siteSubtitle}
             </p>

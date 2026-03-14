@@ -65,14 +65,17 @@ const SimpleCallPage = () => {
   // 找出對應的 call metadata
   const call = protocolCalls.find(c => c.path === callPath);
 
+  // Artifact folder uses {date}_{number} format, e.g. acde/2026-03-12_232
+  const artifactPath = call ? `${call.type}/${call.date}_${call.number}` : null;
+
   useEffect(() => {
-    if (!callPath) return;
+    if (!artifactPath) return;
     setLoading(true);
-    fetch(`/artifacts/${callPath}/tldr.json`)
+    fetch(`/artifacts/${artifactPath}/tldr.json`)
       .then(r => (r.ok ? r.json() : null))
       .then(data => { setTldr(data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [callPath]);
+  }, [artifactPath]);
 
   const bg = darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900';
   const cardBg = darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200';
@@ -89,11 +92,11 @@ const SimpleCallPage = () => {
 
         {/* 返回 */}
         <Link
-          to="/calls"
+          to="/"
           className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
-          所有會議
+          以太坊升級地圖
         </Link>
 
         {/* ── 標題區 ── */}

@@ -23,11 +23,14 @@ import { parseArgs } from 'node:util';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const DEFAULT_MODEL = 'gpt-4o';
+const DEFAULT_MODEL = 'gpt-4.1-nano';
 
 const MODEL_PRICING = {
   'gpt-4o':      [2.5, 10.0],   // $/M tokens [input, output]
   'gpt-4o-mini': [0.15, 0.6],
+  'gpt-4.1':     [2.0, 8.0],
+  'gpt-4.1-mini':[0.4, 1.6],
+  'gpt-4.1-nano':[0.1, 0.4],
 };
 
 // ─── CLI ────────────────────────────────────────────────────────────────────

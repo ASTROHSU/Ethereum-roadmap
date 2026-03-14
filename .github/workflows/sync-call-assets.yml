@@ -35,8 +35,13 @@ jobs:
 
       - name: Extract key decisions from new TLDRs
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node scripts/extract-key-decisions.mjs --all
+
+      - name: Generate Chinese summaries for new calls
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/generate-call-summaries.mjs --new-only
 
       - name: Check for changes
         id: changes

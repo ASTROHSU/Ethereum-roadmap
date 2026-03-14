@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ExternalLink } from 'lucide-react';
-import { getRecentCalls, callTypeNames, type CallType } from '../data/calls';
+import { getRecentCalls, type CallType } from '../data/calls';
+import callSummaries from '../data/call-summaries.generated.json';
 
 const CALL_BORDER: Record<CallType, string> = {
   acdc:  'border-l-blue-500 dark:border-l-blue-400',
@@ -67,28 +68,35 @@ const RecentProtocolCalls = ({ language, darkMode }: Props) => {
       </div>
 
       <div className="flex flex-col gap-2">
-        {calls.map(call => (
-          <Link
-            key={call.path}
-            to={`/calls/${call.path}`}
-            className={`flex items-center justify-between bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 hover:shadow-sm dark:hover:shadow-slate-700/20 transition-all hover:border-slate-300 dark:hover:border-slate-600 border-l-4 ${CALL_BORDER[call.type]}`}
-          >
-            <div className="flex items-center gap-3 min-w-0">
-              <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0 min-w-[3.5rem] text-center ${CALL_BADGE[call.type]}`}>
-                {call.type.toUpperCase()}
-              </span>
-              <span className={`text-sm font-medium truncate ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>
-                {callTypeNames[call.type]}
-              </span>
-              <span className={`text-sm flex-shrink-0 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                #{call.number}
-              </span>
-            </div>
-            <span className={`text-xs flex-shrink-0 ml-4 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
-              {formatDate(call.date, language)}
-            </span>
-          </Link>
-        ))}
+        {calls.map(call => {
+          const summary = (callSummaries as Record<string, string>)[call.path];
+          return (
+            <Link
+              key={call.path}
+              to={`/calls/${call.path}`}
+              className={`block bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 hover:shadow-sm dark:hover:shadow-slate-700/20 transition-all hover:border-slate-300 dark:hover:border-slate-600 border-l-4 ${CALL_BORDER[call.type]}`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0 min-w-[3.5rem] text-center ${CALL_BADGE[call.type]}`}>
+                    {call.type.toUpperCase()}
+                  </span>
+                  <span className={`text-sm font-medium flex-shrink-0 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>
+                    #{call.number}
+                  </span>
+                </div>
+                <span className={`text-xs flex-shrink-0 ml-4 ${darkMode ? 'text-slate-500' : 'text-slate-400'}`}>
+                  {formatDate(call.date, language)}
+                </span>
+              </div>
+              {summary && (
+                <p className={`mt-1 text-xs leading-snug line-clamp-2 ${darkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                  {summary.replace(/^(這場會議主要討論了|這場會議主要討論|會議主要討論了|會議主要討論)/, '')}
+                </p>
+              )}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 /**
  * Extract structured key decisions from tldr.json files.
  *
- * Calls the Anthropic API to classify decisions from meeting TLDRs
+ * Calls the OpenAI API to classify decisions from meeting TLDRs
  * as stage_change, devnet_inclusion, headliner_selected, or other.
  *
  * Usage:
@@ -11,7 +11,7 @@
  *   node scripts/extract-key-decisions.mjs --all --dry-run
  *   node scripts/extract-key-decisions.mjs --only acde/2026-02-12_230 --force
  *
- * Requires: ANTHROPIC_API_KEY environment variable
+ * Requires: OPENAI_API_KEY environment variable
  */
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
@@ -25,14 +25,14 @@ const ARTIFACTS_DIR = join(ROOT, 'public', 'artifacts');
 const EIPS_JSON = join(ROOT, 'src', 'data', 'eips.json');
 
 const ACD_CALL_TYPES = new Set(['acdc', 'acde', 'acdt']);
-const DEFAULT_MODEL = 'claude-sonnet-4-5-20250929';
+const DEFAULT_MODEL = 'gpt-4.1-nano';
 
 const MODEL_PRICING = {
-  'claude-opus-4-6': [15.0, 75.0],
-  'claude-opus-4-5-20251101': [15.0, 75.0],
-  'claude-sonnet-4-5-20250929': [3.0, 15.0],
-  'claude-sonnet-4-20250514': [3.0, 15.0],
-  'claude-haiku-4-5-20251001': [0.8, 4.0],
+  'gpt-4o':      [2.5, 10.0],   // $/M tokens [input, output]
+  'gpt-4o-mini': [0.15, 0.6],
+  'gpt-4.1':     [2.0, 8.0],
+  'gpt-4.1-mini':[0.4, 1.6],
+  'gpt-4.1-nano':[0.1, 0.4],
 };
 
 const EXTRACTION_PROMPT = `Classify decisions from Ethereum governance meeting summaries into structured JSON.
@@ -80,7 +80,7 @@ Return ONLY valid JSON (no markdown fences):
 Only include \`stage_change\` when type is "stage_change". Only include \`devnet\` when type is "devnet_inclusion". Only include \`fork\` when a fork name is mentioned. Only include \`context\` when meaningful additional context exists.`;
 
 function calculateCost(model, usage) {
-  const [inputPrice, outputPrice] = MODEL_PRICING[model] || [0.8, 4.0];
+  const [inputPrice, outputPrice] = MODEL_PRICING[model] || [0.1, 0.4];
   return (
     (usage.input_tokens / 1_000_000) * inputPrice +
     (usage.output_tokens / 1_000_000) * outputPrice
@@ -175,30 +175,32 @@ function validateSchema(data) {
   return errors;
 }
 
-async function callAnthropic(model, systemPrompt, userMessage) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+async function callOpenAI(model, systemPrompt, userMessage) {
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY environment variable is not set');
+    throw new Error('OPENAI_API_KEY environment variable is not set');
   }
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       model,
-      max_tokens: 4096,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: userMessage }],
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userMessage },
+      ],
+      temperature: 0.3,
+      response_format: { type: 'json_object' },
     }),
   });
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(`Anthropic API error ${response.status}: ${body}`);
+    throw new Error(`OpenAI API error ${response.status}: ${body}`);
   }
 
   return response.json();
@@ -239,25 +241,18 @@ async function extractKeyDecisions(meetingDir, model, force) {
 
   const userMessage = `## Meeting\n\n${meeting}\n${aliasSection}\n## TLDR\n\n${JSON.stringify(tldrData, null, 2)}`;
 
-  console.log(`  Calling Claude API (${model}) with ${decisions.length} decision(s)...`);
+  console.log(`  Calling OpenAI API (${model}) with ${decisions.length} decision(s)...`);
 
   try {
-    const response = await callAnthropic(model, EXTRACTION_PROMPT, userMessage);
+    const response = await callOpenAI(model, EXTRACTION_PROMPT, userMessage);
 
     const usage = {
-      input_tokens: response.usage.input_tokens,
-      output_tokens: response.usage.output_tokens,
+      input_tokens: response.usage?.prompt_tokens || 0,
+      output_tokens: response.usage?.completion_tokens || 0,
     };
 
-    let jsonStr = response.content[0].text.trim();
-
-    // Strip markdown code fences if present
-    if (jsonStr.startsWith('```')) {
-      const lines = jsonStr.split('\n');
-      const start = lines[0].startsWith('```') ? 1 : 0;
-      const end = lines[lines.length - 1].trim() === '```' ? lines.length - 1 : lines.length;
-      jsonStr = lines.slice(start, end).join('\n');
-    }
+    const jsonStr = response.choices?.[0]?.message?.content?.trim();
+    if (!jsonStr) throw new Error('Empty response from OpenAI');
 
     const result = JSON.parse(jsonStr);
 

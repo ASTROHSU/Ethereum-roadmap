@@ -7,6 +7,7 @@ import { protocolCalls, callTypeNames, type Call, type CallType } from '../data/
 import { timelineEvents, type TimelineEvent } from '../data/events';
 import { fetchUpcomingCalls, type UpcomingCall } from '../utils/github';
 import GlobalCallSearch from './GlobalCallSearch';
+import callSummaries from '../data/call-summaries.generated.json';
 
 const CallsIndexPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -481,6 +482,7 @@ const CallsIndexPage: React.FC = () => {
                           pqi: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
                         };
 
+                        const summary = (callSummaries as Record<string, string>)[call.path];
                         return (
                           <Link
                             key={call.path}
@@ -495,9 +497,9 @@ const CallsIndexPage: React.FC = () => {
                                   </span>
                                 </Tooltip>
                                 <div className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                                  Call #{call.number}
+                                  #{call.number}
                                 </div>
-                                <div className="text-sm text-slate-600 dark:text-slate-400">
+                                <div className="text-xs text-slate-500 dark:text-slate-500">
                                   {call.date}
                                 </div>
                               </div>
@@ -505,6 +507,11 @@ const CallsIndexPage: React.FC = () => {
                                 →
                               </div>
                             </div>
+                            {summary && (
+                              <div className="mt-1.5 text-xs text-slate-500 dark:text-slate-400 leading-snug line-clamp-2">
+                                {summary}
+                              </div>
+                            )}
                           </Link>
                         );
                     })()}
