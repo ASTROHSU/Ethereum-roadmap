@@ -498,6 +498,12 @@
     "path": "acdt/074"
   },
   {
+    "type": "acdt",
+    "date": "2026-03-23",
+    "number": "075",
+    "path": "acdt/075"
+  },
+  {
     "type": "awd",
     "date": "2026-02-18",
     "number": "038",
@@ -808,6 +814,12 @@
     "date": "2026-03-09",
     "number": "022",
     "path": "rpc/022"
+  },
+  {
+    "type": "rpc",
+    "date": "2026-03-23",
+    "number": "023",
+    "path": "rpc/023"
   },
   {
     "type": "tli",

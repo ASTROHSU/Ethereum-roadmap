@@ -1,0 +1,47 @@
+{
+  "meeting": "ACDT #75 - March 23, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Store 3 epochs of PTC in consensus state (previous + next 2 epochs)",
+      "timestamp": "00:24:27",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "context": ""
+    },
+    {
+      "original_text": "Variable PTC deadline deferred; can add post-fork if needed",
+      "timestamp": "00:29:23",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "context": "deferred to after fork"
+    },
+    {
+      "original_text": "Defer minor 8037 spec changes to bal-devnet-4 to stabilize devnet-3",
+      "timestamp": "00:13:20",
+      "type": "stage_change",
+      "eips": [
+        8037
+      ],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "context": "to stabilize devnet-3"
+    },
+    {
+      "original_text": "ePBS devnet-1 focuses on structure testing, not builder API or benchmarking",
+      "timestamp": "00:28:51",
+      "type": "devnet_inclusion",
+      "eips": [
+        7732
+      ],
+      "devnet": "epbs-devnet-1",
+      "context": "structure testing only"
+    }
+  ]
+}
