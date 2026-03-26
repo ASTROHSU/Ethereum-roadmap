@@ -1,0 +1,32 @@
+{
+  "meeting": "ACDE #233 - March 26, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Frame transactions rejected as Hegotá headliner",
+      "timestamp": "01:31:37",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Declined"
+      }
+    },
+    {
+      "original_text": "No EL headliner selected for Hegotá; AA prioritized as non-headliner theme",
+      "timestamp": "01:35:53",
+      "type": "other",
+      "eips": [],
+      "context": "Hegotá headliner selection"
+    },
+    {
+      "original_text": "CFI: Frame transactions (EIP-8141) for Hegotá as non-headliner",
+      "timestamp": "01:42:40",
+      "type": "stage_change",
+      "eips": [
+        8141
+      ],
+      "stage_change": {
+        "to": "Considered"
+      }
+    }
+  ]
+}
