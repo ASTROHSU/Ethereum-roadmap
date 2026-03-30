@@ -1,0 +1,45 @@
+{
+  "meeting": "ACDT #76 - March 30, 2026",
+  "key_decisions": [
+    {
+      "original_text": "ETH/70 required for Glamsterdam if gas limit exceeds 80M",
+      "timestamp": "00:08:00",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "context": "if gas limit exceeds 80M"
+    },
+    {
+      "original_text": "EPBS DevNet 1 launching tomorrow with Alpha 4 spec",
+      "timestamp": "00:18:07",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "epbs-devnet-1",
+      "context": ""
+    },
+    {
+      "original_text": "Glamsterdam DevNet 0 will not include new EIPs beyond Ball+EPBS merge",
+      "timestamp": "00:24:50",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "glamsterdam-devnet-0",
+      "context": ""
+    },
+    {
+      "original_text": "External builder API must be tested in isolation before Ball+EPBS merge",
+      "timestamp": "00:27:33",
+      "type": "other",
+      "eips": [],
+      "context": "API testing in isolation before merge"
+    },
+    {
+      "original_text": "Next week's ACD Testing call (April 6) cancelled for Easter Monday",
+      "timestamp": "00:42:48",
+      "type": "other",
+      "eips": [],
+      "context": "call cancelled for Easter"
+    }
+  ]
+}
