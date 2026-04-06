@@ -858,6 +858,12 @@
     "path": "rpc/023"
   },
   {
+    "type": "rpc",
+    "date": "2026-04-06",
+    "number": "024",
+    "path": "rpc/024"
+  },
+  {
     "type": "tli",
     "date": "2026-02-03",
     "number": "002",
