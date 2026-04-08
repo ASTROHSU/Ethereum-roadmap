@@ -780,6 +780,12 @@
     "path": "pqi/033"
   },
   {
+    "type": "pqi",
+    "date": "2026-04-08",
+    "number": "034",
+    "path": "pqi/034"
+  },
+  {
     "type": "pqts",
     "date": "2026-02-04",
     "number": "001",
@@ -892,5 +898,11 @@
     "date": "2026-03-11",
     "number": "002",
     "path": "zkevm/002"
+  },
+  {
+    "type": "zkevm",
+    "date": "2026-04-08",
+    "number": "003",
+    "path": "zkevm/003"
   }
 ]
