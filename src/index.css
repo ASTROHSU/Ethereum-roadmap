@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* ── 全域字型設定 ─────────────────────────────── */
+/* 使用思源黑體 (Noto Sans TC)；英數字 fallback 至 system-ui */
+@theme {
+  --font-sans: "Noto Sans TC", "Noto Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+html {
+  font-size: 17px;          /* 預設 16px → 調高為 17px，整體可讀性提升 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
 /* Configure dark mode to use class instead of media query */
 @custom-variant dark (&:where(.dark, .dark *));
 
