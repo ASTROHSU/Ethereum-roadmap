@@ -3,9 +3,7 @@
   <head>
     <script>
       try {
-        const theme = localStorage.getItem('theme');
-        const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
-        if (theme === 'dark' || (theme !== 'light' && prefersDark)) {
+        if (localStorage.getItem('theme') === 'dark') {
           document.documentElement.classList.add('dark');
         }
       } catch (e) {}
@@ -53,20 +51,6 @@
     </script>
     <!-- End Matomo Code -->
 
-    <!-- GitHub Pages SPA redirect handling -->
-    <script type="text/javascript">
-      // Handle GitHub Pages SPA redirect
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) {
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location))
-    </script>
   </head>
   <body>
     <div id="root"></div>

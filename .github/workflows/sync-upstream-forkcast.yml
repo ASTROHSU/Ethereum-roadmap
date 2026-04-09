@@ -1,6 +1,6 @@
-# 自動同步 ethereum/forkcast 上游變更
-# - 無衝突 → merge → 偵測雙語檔案變更 → 自動翻譯 → push
-# - 有衝突 → 建立 PR 讓你手動處理
+# 自動同步 ethereum/forkcast 上游資料檔案
+# 改用 file-copy 方式（而非 git merge），因為兩個 repo 沒有共同的 git 歷史
+# - 從上游拉取共用資料檔案 → 偵測雙語檔案變更 → 自動翻譯 → push
 name: Sync upstream Forkcast
 
 on:
@@ -13,13 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure git
@@ -27,51 +25,87 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Fetch upstream Forkcast
+      - name: Fetch upstream files
         run: |
           git remote add upstream https://github.com/ethereum/forkcast.git 2>/dev/null || true
           git fetch upstream main --no-tags
 
-      - name: Check for new upstream commits
-        id: check
+      # 從上游複製共用資料檔案（排除已由其他 workflow 處理的檔案）
+      - name: Copy shared data files from upstream
+        id: copy
         run: |
-          BASE=$(git merge-base HEAD upstream/main 2>/dev/null || echo "")
-          if [ -z "$BASE" ]; then
-            echo "has_new=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          NEW=$(git rev-list $BASE..upstream/main --count)
-          echo "new_commits=$NEW" >> $GITHUB_OUTPUT
-          echo "base_sha=$BASE" >> $GITHUB_OUTPUT
-          if [ "$NEW" -gt 0 ]; then
-            echo "has_new=true" >> $GITHUB_OUTPUT
+          CHANGED_FILES=""
+
+          # 要同步的檔案清單（排除 calls.ts / eips.ts / protocol-calls — 由 sync-call-assets 和 validate-eips 處理）
+          SYNC_FILES="src/data/upgrades.ts src/data/events.ts src/data/pending-proposals.ts src/data/devnet-specs.ts"
+
+          for f in $SYNC_FILES; do
+            # 檢查上游是否存在此檔案
+            if ! git cat-file -e upstream/main:$f 2>/dev/null; then
+              echo "  ⚠ $f not found in upstream, skipping"
+              continue
+            fi
+
+            # 用 git show 寫入暫存檔，比較 hash 判斷是否有差異
+            git show upstream/main:$f > /tmp/upstream_file 2>/dev/null
+            if [ -f "$f" ] && diff -q "$f" /tmp/upstream_file > /dev/null 2>&1; then
+              continue
+            fi
+
+            # 寫入新版本
+            cp /tmp/upstream_file "$f"
+            CHANGED_FILES="$CHANGED_FILES $f"
+            echo "  ✓ Updated $f"
+          done
+
+          # 同步 prioritization 目錄
+          mkdir -p src/data/prioritization
+          for f in $(git ls-tree --name-only -r upstream/main -- src/data/prioritization/); do
+            git show upstream/main:$f > /tmp/upstream_file 2>/dev/null
+            if [ -f "$f" ] && diff -q "$f" /tmp/upstream_file > /dev/null 2>&1; then
+              continue
+            fi
+            mkdir -p "$(dirname $f)"
+            cp /tmp/upstream_file "$f"
+            CHANGED_FILES="$CHANGED_FILES $f"
+            echo "  ✓ Updated $f"
+          done
+
+          CHANGED_FILES=$(echo "$CHANGED_FILES" | xargs)
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "::notice::Updated files: $CHANGED_FILES"
           else
-            echo "has_new=false" >> $GITHUB_OUTPUT
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "::notice::No upstream changes detected"
           fi
 
-      - name: Try auto-merge
-        if: steps.check.outputs.has_new == 'true'
-        id: merge
+      # ── 資料傳遞與翻譯步驟 ──
+
+      - name: Setup Node.js
+        if: steps.copy.outputs.has_changes == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 把上游的 status/date 變更傳遞到 roadmapNodes.ts（carousel 資料源）
+      - name: Propagate status to roadmapNodes
+        if: steps.copy.outputs.has_changes == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          PRE_SHA=$(git rev-parse HEAD)
-          echo "pre_sha=$PRE_SHA" >> $GITHUB_OUTPUT
-          if git merge upstream/main --no-edit; then
-            echo "conflict=false" >> $GITHUB_OUTPUT
-          else
-            git merge --abort
-            echo "conflict=true" >> $GITHUB_OUTPUT
-          fi
+          node scripts/propagate-upstream-status.mjs
 
-      # ── 翻譯步驟（merge 成功後、push 前） ──
-
+      # 檢查翻譯檔案是否有被上游直接修改（罕見但可能）
       - name: Check for translatable changes
-        if: steps.merge.outputs.conflict == 'false'
+        if: steps.copy.outputs.has_changes == 'true'
         id: translate_check
         run: |
-          CHANGED=$(git diff --name-only ${{ steps.merge.outputs.pre_sha }}..HEAD -- src/data/)
           NEED=""
           for f in roadmapNodes.ts officialRoadmapPhases.ts translations.ts; do
-            if echo "$CHANGED" | grep -q "src/data/$f"; then
+            if echo "${{ steps.copy.outputs.changed_files }}" | grep -q "src/data/$f"; then
               NEED="$NEED src/data/$f"
             fi
           done
@@ -83,12 +117,6 @@ jobs:
             echo "has_changes=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Setup Node.js
-        if: steps.translate_check.outputs.has_changes == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Translate upstream changes
         if: steps.translate_check.outputs.has_changes == 'true'
         env:
@@ -96,59 +124,56 @@ jobs:
         run: |
           node scripts/translate-upstream.mjs --files ${{ steps.translate_check.outputs.files }}
 
-      - name: Commit translations
-        if: steps.translate_check.outputs.has_changes == 'true'
+      # ── Commit & Push ──
+
+      - name: Commit and push changes
+        if: steps.copy.outputs.has_changes == 'true'
         run: |
-          git add src/data/
+          git add -A
+
           if git diff --staged --quiet; then
-            echo "No translation changes to commit"
-          else
-            git commit -m "chore: auto-translate upstream changes to Traditional Chinese"
+            echo "No effective changes to commit"
+            exit 0
           fi
 
-      - name: Update sync timestamp
-        if: steps.merge.outputs.conflict == 'false'
-        run: |
+          # 更新 syncInfo.ts
           NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           cat > src/data/syncInfo.ts << EOF
-// Auto-generated by sync-upstream-forkcast workflow. Do not edit manually.
-export const syncInfo = {
-  lastCheckedAt: '${NOW}',
-  lastSyncedAt: '${NOW}',
-};
-EOF
+          // Auto-generated by sync workflows. Do not edit manually.
+          export const syncInfo = {
+            lastCheckedAt: '${NOW}',
+            lastSyncedAt: '${NOW}',
+          };
+          EOF
+          # 移除前導空白（heredoc 造成）
+          sed -i 's/^          //' src/data/syncInfo.ts
           git add src/data/syncInfo.ts
-          if ! git diff --staged --quiet; then
-            git commit -m "chore: update sync timestamp [skip ci]"
-          fi
 
-      # ── Push 或建 PR ──
+          git commit -m "chore: sync upstream forkcast data
 
-      - name: Push merged changes
-        if: steps.merge.outputs.conflict == 'false'
-        run: git push origin main
+          Updated: ${{ steps.copy.outputs.changed_files }}"
+          git push origin main
 
-      - name: Create PR on conflict
-        if: steps.merge.outputs.conflict == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update checked timestamp (no changes)
+        if: steps.copy.outputs.has_changes == 'false'
         run: |
-          BRANCH="auto-sync/forkcast-$(date +%Y%m%d)"
-          git checkout -b "$BRANCH"
-          git merge upstream/main --no-edit || true
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          # 讀取現有的 lastSyncedAt
+          LAST_SYNCED=$(grep lastSyncedAt src/data/syncInfo.ts | sed "s/.*'\(.*\)'.*/\1/" || echo "$NOW")
+          cat > src/data/syncInfo.ts << EOF
+          // Auto-generated by sync workflows. Do not edit manually.
+          export const syncInfo = {
+            lastCheckedAt: '${NOW}',
+            lastSyncedAt: '${LAST_SYNCED}',
+          };
+          EOF
+          sed -i 's/^          //' src/data/syncInfo.ts
+          git add src/data/syncInfo.ts
 
-          git add -A
-          git commit -m "chore: sync upstream forkcast (has conflicts)" --no-verify || true
-          git push origin "$BRANCH"
-
-          gh pr create \
-            --title "Upstream Forkcast sync — 有衝突需手動處理" \
-            --body "自動同步 \`ethereum/forkcast\` 時遇到衝突，請手動解決後合併。
-
-          **上游新 commit 數**：${{ steps.check.outputs.new_commits }}
-          **差異**：https://github.com/ethereum/forkcast/compare/main...ASTROHSU:Ethereum-roadmap:main" \
-            --head "$BRANCH" \
-            --base main
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: update sync check timestamp [skip ci]"
+            git push origin main
+          fi
 
       # ── 報告 ──
 
@@ -160,56 +185,14 @@ EOF
           echo "**執行時間**：$(date -u '+%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
-          if [ "${{ steps.check.outputs.has_new }}" != "true" ]; then
-            echo "### ✅ 無上游更新" >> $GITHUB_STEP_SUMMARY
-            echo "上游 \`ethereum/forkcast\` 目前沒有新的 commit，無需同步。" >> $GITHUB_STEP_SUMMARY
-            exit 0
-          fi
-
-          echo "### 上游新增 ${{ steps.check.outputs.new_commits }} 個 commit" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit 清單：**" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          git log --oneline ${{ steps.check.outputs.base_sha }}..upstream/main | head -20 >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ "${{ steps.merge.outputs.conflict }}" == "true" ]; then
-            echo "### ⚠️ 有衝突，已建立 PR" >> $GITHUB_STEP_SUMMARY
-            echo "自動 merge 失敗，請前往 Pull Requests 頁面手動處理衝突後合併。" >> $GITHUB_STEP_SUMMARY
-            exit 0
-          fi
-
-          echo "### ✅ 已成功 merge 並 push" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          # 哪些檔案有變動
-          CHANGED=$(git diff --name-only ${{ steps.merge.outputs.pre_sha }}..HEAD -- src/ public/ 2>/dev/null || echo "")
-          if [ -n "$CHANGED" ]; then
-            echo "**變動的檔案：**" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            echo "$CHANGED" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.copy.outputs.has_changes }}" == "true" ]; then
+            echo "### ✅ 已同步上游變更" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          # 翻譯結果
-          if [ "${{ steps.translate_check.outputs.has_changes }}" == "true" ]; then
-            echo "### 🌐 自動翻譯" >> $GITHUB_STEP_SUMMARY
-            echo "以下雙語檔案偵測到英文端有變更，已自動翻譯成繁體中文：" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            for f in ${{ steps.translate_check.outputs.files }}; do
-              echo "- \`$f\`" >> $GITHUB_STEP_SUMMARY
-            done
+            echo "**更新的檔案：**" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "${{ steps.copy.outputs.changed_files }}" | tr ' ' '\n' >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
           else
-            echo "### 🌐 翻譯" >> $GITHUB_STEP_SUMMARY
-            echo "雙語資料檔案（roadmapNodes / officialRoadmapPhases / translations）本次未變動，無需翻譯。" >> $GITHUB_STEP_SUMMARY
+            echo "### ✅ 無上游更新" >> $GITHUB_STEP_SUMMARY
+            echo "上游 \`ethereum/forkcast\` 的共用資料檔案與本地一致，無需同步。" >> $GITHUB_STEP_SUMMARY
           fi
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "[查看完整 diff](https://github.com/ethereum/forkcast/compare/${{ steps.check.outputs.base_sha }}...upstream/main)" >> $GITHUB_STEP_SUMMARY
-
-      - name: Skip (no new commits)
-        if: steps.check.outputs.has_new == 'false'
-        run: echo "No new upstream commits."
