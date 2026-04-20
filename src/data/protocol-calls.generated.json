@@ -918,6 +918,12 @@
     "path": "rpc/024"
   },
   {
+    "type": "rpc",
+    "date": "2026-04-20",
+    "number": "025",
+    "path": "rpc/025"
+  },
+  {
     "type": "tli",
     "date": "2026-02-03",
     "number": "002",
