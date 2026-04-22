@@ -822,6 +822,12 @@
     "path": "pqi/035"
   },
   {
+    "type": "pqi",
+    "date": "2026-04-22",
+    "number": "036",
+    "path": "pqi/036"
+  },
+  {
     "type": "pqts",
     "date": "2026-02-04",
     "number": "001",
