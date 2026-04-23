@@ -1,0 +1,75 @@
+{
+  "meeting": "ACDE #235 - April 23, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Engine API PR 786 selected: reorg support up to finalized, not capped",
+      "timestamp": "00:38:23",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Included"
+      },
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8237 (execution witness optimization) proposed; deferred to Hegota",
+      "timestamp": "00:39:08",
+      "type": "other",
+      "eips": [
+        8237
+      ],
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8237 (execution witness) deferred to Hegota, not emergency inclusion",
+      "timestamp": "00:42:20",
+      "type": "other",
+      "eips": [
+        8237
+      ],
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8163 proposed for inclusion: reserves 0xAE opcode for L2/alt-L1 use",
+      "timestamp": "01:09:32",
+      "type": "stage_change",
+      "eips": [
+        8163
+      ],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8163 (0xAE opcode reservation) marked as PFI for Hegota",
+      "timestamp": "01:14:52",
+      "type": "devnet_inclusion",
+      "eips": [
+        8163
+      ],
+      "devnet": "hegota-devnet-0",
+      "context": ""
+    },
+    {
+      "original_text": "EIP-7979 (CALLSUB/RETURNSUB) proposed for inclusion in Hegota",
+      "timestamp": "01:14:38",
+      "type": "devnet_inclusion",
+      "eips": [
+        7979
+      ],
+      "devnet": "hegota-devnet-0",
+      "context": ""
+    },
+    {
+      "original_text": "EIP-7979 (CALLSUB/RETURNSUB) marked as PFI for Hegota",
+      "timestamp": "01:17:33",
+      "type": "devnet_inclusion",
+      "eips": [
+        7979
+      ],
+      "devnet": "hegota-devnet-0",
+      "context": ""
+    }
+  ]
+}
