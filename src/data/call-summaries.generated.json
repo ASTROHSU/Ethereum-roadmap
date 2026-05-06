@@ -96,6 +96,7 @@
   "pqi/035": "決定在Devnet 5將簽名合併成一個並測試所有客戶端配對的互通性",
   "pqi/036": "決定將測試網路名稱改為Lean Fork，暫緩DevNet 5討論以專注於DevNet 4的穩定性",
   "pqi/037": "決定在Devnet 5加入PQ heartbeat（Goldfish）和meta-aggregated proofs（多層合併證明），並用proof disaggregation（證明拆分）取代二元樹傳播設計",
+  "pqi/038": "決定在Devnet 5先推出PQ遞歸聚合並暫緩Goldfish（共識機制）相關變更以確保系統穩定性",
   "pqts/001": "決定以「帳戶抽象（Account Abstraction）」為基礎，支援多種量子安全簽名方案——讓使用者的錢包在量子時代仍能安全使用。",
   "pqts/003": "量子安全交易簽名的技術選型進展，以及確定優先開發哪種密碼學方案。",
   "pqts/004": "採用帳戶抽象（Account Abstraction）進行每筆交易的簽名輪換，縮短攻擊窗口並提升安全性",
