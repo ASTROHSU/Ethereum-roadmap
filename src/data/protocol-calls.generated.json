@@ -312,6 +312,12 @@
     "path": "acde/235"
   },
   {
+    "type": "acde",
+    "date": "2026-05-07",
+    "number": "236",
+    "path": "acde/236"
+  },
+  {
     "type": "acdt",
     "date": "2025-06-16",
     "number": "040",

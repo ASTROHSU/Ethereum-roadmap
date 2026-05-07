@@ -1,0 +1,57 @@
+{
+  "meeting": "ACDE #236 - May 7, 2026",
+  "key_decisions": [
+    {
+      "original_text": "SFI definition finalized; 10 EIPs proposed for SFI status",
+      "timestamp": "00:16:33",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "EIP-8080 (CL side) discussed for potential DFI at next ACDC",
+      "timestamp": "00:09:24",
+      "type": "stage_change",
+      "eips": [
+        8080
+      ],
+      "stage_change": {
+        "to": "Declined"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": "potential DFI at next ACDC"
+    },
+    {
+      "original_text": "Target 200M gas floor for Glamsterdam (pending deposit limit fix)",
+      "timestamp": "00:58:23",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "Remove selfdestruct burn feature (8246); defer full removal to Hegota",
+      "timestamp": "01:13:47",
+      "type": "stage_change",
+      "eips": [
+        8246
+      ],
+      "stage_change": {
+        "to": "Declined"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    }
+  ]
+}
