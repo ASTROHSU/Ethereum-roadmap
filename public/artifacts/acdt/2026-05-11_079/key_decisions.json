@@ -1,0 +1,36 @@
+{
+  "meeting": "ACDT #79 - May 11, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Close PR 5224 (SSZ limit raise); run DevNet <200M gas until progressive lists",
+      "timestamp": "00:31:50",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "devnet": "ssz-devnet-0",
+      "context": "SSZ deposit limit raised to 1M, temporary fix not merged"
+    },
+    {
+      "original_text": "CL validates target adherence; EL validates EIP-1559 rules only",
+      "timestamp": "00:53:36",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "context": "Gas limit validation scope clarified between CL and EL"
+    },
+    {
+      "original_text": "Bid gas limit = target from preferences; payload gas limit = calculated",
+      "timestamp": "01:00:24",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "context": "Gas limit validation rules finalized"
+    }
+  ]
+}
