@@ -1,0 +1,46 @@
+{
+  "meeting": "ACDE #237 - May 21, 2026",
+  "key_decisions": [
+    {
+      "original_text": "7702 delegation BAL change deferred from glamsterdam-devnet-4; future inclusion to be decided in BAL Discord channel",
+      "timestamp": "00:16:05",
+      "type": "devnet_inclusion",
+      "eips": [
+        7702
+      ],
+      "devnet": "bal-devnet-4",
+      "context": ""
+    },
+    {
+      "original_text": "EIP-7904 likely DFI from Glamsterdam; formal status change deferred until Geth benchmarks confirmed",
+      "timestamp": "00:21:07",
+      "type": "stage_change",
+      "stage_change": {
+        "to": "Declined"
+      },
+      "eips": [
+        7904
+      ],
+      "context": "clients to confirm Geth benchmarks"
+    },
+    {
+      "original_text": "PFI for Hegota: EIP-8188 (State Tiering), EIP-8182 (Private Transfers), EIP-4758 (Deactivate SELFDESTRUCT)",
+      "timestamp": "01:10:54",
+      "type": "headliner_selected",
+      "eips": [
+        8188,
+        8182,
+        4758
+      ],
+      "fork": "Hegota",
+      "context": ""
+    },
+    {
+      "original_text": "Monday ACDT tentatively canceled; pending final confirmation in AllCoreDevs Discord",
+      "timestamp": "01:13:29",
+      "type": "other",
+      "eips": [],
+      "context": "meeting schedule adjustment"
+    }
+  ]
+}
