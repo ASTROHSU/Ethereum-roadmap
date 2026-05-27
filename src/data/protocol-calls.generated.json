@@ -906,6 +906,12 @@
     "path": "pqi/040"
   },
   {
+    "type": "pqi",
+    "date": "2026-05-27",
+    "number": "041",
+    "path": "pqi/041"
+  },
+  {
     "type": "pqts",
     "date": "2026-02-04",
     "number": "001",
@@ -954,6 +960,12 @@
     "path": "pqts/008"
   },
   {
+    "type": "pqts",
+    "date": "2026-05-27",
+    "number": "009",
+    "path": "pqts/009"
+  },
+  {
     "type": "price",
     "date": "2026-02-04",
     "number": "001",
@@ -994,6 +1006,12 @@
     "date": "2026-05-13",
     "number": "007",
     "path": "price/007"
+  },
+  {
+    "type": "price",
+    "date": "2026-05-27",
+    "number": "008",
+    "path": "price/008"
   },
   {
     "type": "rpc",
