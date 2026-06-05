@@ -37,6 +37,8 @@ jobs:
           CHANGED_FILES=""
 
           # 要同步的檔案清單（排除 calls.ts / eips.ts / protocol-calls — 由 sync-call-assets 和 validate-eips 處理）
+          # 注意：events.ts 可能 import src/data/generated/*；devnet-specs.ts 會 glob src/data/devnets/*。
+          # 這些相依資料目錄也要在下方同步，否則上游檔案更新後 Vercel build 會找不到 module。
           SYNC_FILES="src/data/upgrades.ts src/data/events.ts src/data/pending-proposals.ts src/data/devnet-specs.ts"
 
           for f in $SYNC_FILES; do
@@ -58,17 +60,23 @@ jobs:
             echo "  ✓ Updated $f"
           done
 
-          # 同步 prioritization 目錄
-          mkdir -p src/data/prioritization
-          for f in $(git ls-tree --name-only -r upstream/main -- src/data/prioritization/); do
-            git show upstream/main:$f > /tmp/upstream_file 2>/dev/null
-            if [ -f "$f" ] && diff -q "$f" /tmp/upstream_file > /dev/null 2>&1; then
-              continue
-            fi
-            mkdir -p "$(dirname $f)"
-            cp /tmp/upstream_file "$f"
-            CHANGED_FILES="$CHANGED_FILES $f"
-            echo "  ✓ Updated $f"
+          # 同步資料目錄：
+          # - prioritization：client priority 資料
+          # - generated：events.ts 等上游檔案 import 的 generated JSON
+          # - devnets：devnet-specs.ts 透過 import.meta.glob 載入的 spec JSON
+          SYNC_DIRS="src/data/prioritization src/data/generated src/data/devnets"
+          for dir in $SYNC_DIRS; do
+            mkdir -p "$dir"
+            for f in $(git ls-tree --name-only -r upstream/main -- "$dir/"); do
+              git show upstream/main:$f > /tmp/upstream_file 2>/dev/null
+              if [ -f "$f" ] && diff -q "$f" /tmp/upstream_file > /dev/null 2>&1; then
+                continue
+              fi
+              mkdir -p "$(dirname $f)"
+              cp /tmp/upstream_file "$f"
+              CHANGED_FILES="$CHANGED_FILES $f"
+              echo "  ✓ Updated $f"
+            done
           done
 
           CHANGED_FILES=$(echo "$CHANGED_FILES" | xargs)
