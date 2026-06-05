@@ -7,7 +7,7 @@
   "type": "Meta",
   "category": "Core",
   "createdDate": "2025-03-26",
-  "discussionLink": "https://ethereum-magicians.org/t/eip-7919-pureth-provable-rpc-responses/21180",
+  "discussionLink": "https://ethereum-magicians.org/t/eip-7919-pureth-meta/23273",
   "reviewer": "staff",
   "layer": "EL",
   "forkRelationships": [
@@ -32,6 +32,12 @@
       ],
       "isHeadliner": false,
       "wasHeadlinerCandidate": true,
+      "champions": [
+        {
+          "name": "Etan Kissling",
+          "discord": "etan_status"
+        }
+      ],
       "presentationHistory": [
         {
           "type": "headliner_proposal",
@@ -39,15 +45,9 @@
           "date": "2025-06-05"
         },
         {
-          "date": "2025-06-19",
           "type": "headliner_presentation",
-          "call": "acde/214"
-        }
-      ],
-      "champions": [
-        {
-          "name": "Etan Kissling",
-          "discord": "etan_status"
+          "call": "acde/214",
+          "date": "2025-06-19"
         }
       ]
     }

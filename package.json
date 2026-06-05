@@ -21,6 +21,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "sync-calls": "node scripts/sync-call-assets.mjs",
+    "sync-forkcast-eips": "node scripts/sync-forkcast-eips.mjs",
+    "test:recent-eips": "node scripts/test-recent-eip-activity.mjs",
     "extract-decisions": "node --env-file=.env scripts/extract-key-decisions.mjs"
   },
   "dependencies": {

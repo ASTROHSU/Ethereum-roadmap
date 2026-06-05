@@ -22,6 +22,11 @@ const SECTION_SUBTITLE: Record<Language, string> = {
 };
 
 const STATUS_PILL: Record<string, { label: Record<Language, string>; color: string; icon: React.ReactNode }> = {
+    'Proposed': {
+        label: { zh: '新提案', en: 'Proposed' },
+        color: 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800',
+        icon: <AlertCircle className="w-3 h-3" />,
+    },
     'Scheduled': {
         label: { zh: '已排入升級', en: 'Scheduled' },
         color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800',
@@ -65,6 +70,46 @@ const VIEW_MORE: Record<Language, string> = { zh: '查看詳情', en: 'View deta
 // Human-written Chinese summaries for the most common recent EIPs
 // Key: eipNumber, value: { zh: "...", en: "..." }
 const EIP_CONSUMER_SUMMARY: Record<number, Record<Language, string>> = {
+    8025: {
+        zh: '讓節點可選擇接收並驗證執行證明（zkEVM proof），先用非強制方式測試「不用完整重跑也能驗證區塊」的路線。',
+        en: 'Lets nodes optionally receive and verify execution proofs, testing a path toward cheaper block validation without making it mandatory yet.',
+    },
+    7709: {
+        zh: '調整 BLOCKHASH 讀取方式與成本，讓較久以前的區塊雜湊可從儲存讀取，同時避免低成本查詢造成資源壓力。',
+        en: 'Changes how BLOCKHASH reads older hashes and reprices the opcode so access remains available without undercharging node resources.',
+    },
+    8037: {
+        zh: '提高建立新帳戶或合約等「新增狀態」操作的 gas 成本，降低狀態膨脹壓力，為更高吞吐量鋪路。',
+        en: 'Raises gas costs for creating new state, reducing state-growth pressure and helping Ethereum scale throughput more safely.',
+    },
+    8024: {
+        zh: '加入更彈性的 EVM 堆疊操作指令，讓合約程式碼更有效率，同時維持向後相容。',
+        en: 'Adds more flexible EVM stack operations so contract bytecode can be more efficient while staying backward-compatible.',
+    },
+    7981: {
+        zh: '提高 Access List 的使用成本，避免特定交易資料被低估價格，讓 gas 計價更接近實際節點負擔。',
+        en: 'Increases access-list costs so transaction pricing better reflects the real resource burden on nodes.',
+    },
+    7976: {
+        zh: '提高 calldata 的最低成本，減少低價大量資料塞進區塊的誘因，協助控制節點頻寬與處理負擔。',
+        en: 'Raises the calldata floor cost to reduce incentives for underpriced data-heavy transactions and protect node bandwidth.',
+    },
+    7954: {
+        zh: '把智慧合約最大大小上限提高，讓大型應用有更多空間，但也需要控制更大合約帶來的節點負擔。',
+        en: 'Raises the maximum contract size, giving larger apps more room while still managing the node-cost tradeoff.',
+    },
+    7843: {
+        zh: '新增 SLOTNUM 指令，讓合約可以直接讀取目前 slot 編號，簡化需要共識層時間資訊的應用設計。',
+        en: 'Adds a SLOTNUM opcode so contracts can directly read the current slot number, simplifying apps that need consensus-layer timing.',
+    },
+    7778: {
+        zh: '移除區塊 gas 退款造成的會計落差，讓每個區塊的實際工作量更容易預測，降低「塞爆區塊」風險。',
+        en: 'Removes refund-based block gas accounting gaps, making block workload more predictable and reducing gas-smuggling risk.',
+    },
+    7708: {
+        zh: '讓所有 ETH 轉帳都產生標準事件紀錄，讓交易所、錢包與資料索引服務更容易追蹤 ETH 流動。',
+        en: 'Makes all ETH transfers emit a standard event log, helping exchanges, wallets, and indexers track ETH movement consistently.',
+    },
     8105: {
         zh: '讓交易在被打包前先加密，防止被礦工或機器人搶先交易。此提案已改以另一種方式推進。',
         en: 'Encrypts transactions before they\'re packaged to prevent bots from front-running. Replaced by an alternative approach.',
@@ -132,7 +177,10 @@ export default function ConsumerEIPSection({ language = 'zh', darkMode = false }
         // Deduplicate: keep only the most recent entry per EIP
         const seen = new Set<number>();
         return entries
-            .sort((a, b) => (b.date > a.date ? 1 : -1))
+            .sort((a, b) => {
+                if (a.date !== b.date) return b.date.localeCompare(a.date);
+                return b.eipNumber - a.eipNumber;
+            })
             .filter((e) => {
                 if (seen.has(e.eipNumber)) return false;
                 seen.add(e.eipNumber);
