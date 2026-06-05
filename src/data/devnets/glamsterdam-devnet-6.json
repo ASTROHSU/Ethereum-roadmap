@@ -1,0 +1,140 @@
+{
+  "id": "glamsterdam-devnet-6",
+  "title": "glamsterdam-devnet-6",
+  "sourceUrl": "https://notes.ethereum.org/@ethpandaops/glamsterdam-devnet-6",
+  "scrapedAt": "2026-06-05T07:41:27.348Z",
+  "announcements": [
+    "glamsterdam-devnet-6 targets to launch in the middle of June 2026."
+  ],
+  "eips": [
+    {
+      "number": 2780,
+      "title": "Reduce intrinsic transaction gas",
+      "status": "new",
+      "url": "https://eips.ethereum.org/EIPS/eip-7708"
+    },
+    {
+      "number": 7708,
+      "title": "ETH transfers emit a log",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7708"
+    },
+    {
+      "number": 7732,
+      "title": "Enshrined Proposer-Builder Separation",
+      "status": "updated",
+      "url": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7732.md"
+    },
+    {
+      "number": 7778,
+      "title": "Block Gas Accounting without Refunds",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7778"
+    },
+    {
+      "number": 7843,
+      "title": "SLOTNUM opcode",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7843"
+    },
+    {
+      "number": 7928,
+      "title": "Block-Level Access Lists",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7928"
+    },
+    {
+      "number": 7954,
+      "title": "Increase Maximum Contract Size",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7954"
+    },
+    {
+      "number": 7975,
+      "title": "eth/70 - partial block receipt lists",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7975"
+    },
+    {
+      "number": 7976,
+      "title": "Increase Calldata Floor Cost (64/64)",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7976"
+    },
+    {
+      "number": 7981,
+      "title": "Increase Access List Cost",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-7981"
+    },
+    {
+      "number": 7997,
+      "title": "Deterministic Factory Predeploy",
+      "status": "new",
+      "url": "https://eips.ethereum.org/EIPS/eip-7997"
+    },
+    {
+      "number": 8024,
+      "title": "Backward compatible SWAPN, DUPN, EXCHANGE",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-8024"
+    },
+    {
+      "number": 8037,
+      "title": "State Creation Gas — CPSB=1530, system-call gas bump, halt/revert + SELFDESTRUCT refunds",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-8037"
+    },
+    {
+      "number": 8038,
+      "title": "State-access gas cost update",
+      "status": "new",
+      "url": "https://eips.ethereum.org/EIPS/eip-8038"
+    },
+    {
+      "number": 8045,
+      "title": "Exclude slashed validators from proposing",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-8045"
+    },
+    {
+      "number": 8061,
+      "title": "Increase exit and consolidation churn",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-8061"
+    },
+    {
+      "number": 8070,
+      "title": "eth/72 - Sparse Blobpool",
+      "status": "new_optional",
+      "url": "https://eips.ethereum.org/EIPS/eip-8070"
+    },
+    {
+      "number": 8159,
+      "title": "eth/71 - Block Access List Exchange",
+      "status": null,
+      "url": "https://eips.ethereum.org/EIPS/eip-8159"
+    },
+    {
+      "number": 8246,
+      "title": "Remove SELFDESTRUCT Burn",
+      "status": "new",
+      "url": "https://eips.ethereum.org/EIPS/eip-8246"
+    }
+  ],
+  "elClientSupport": {
+    "clients": [],
+    "matrix": []
+  },
+  "clClientSupport": {
+    "clients": [],
+    "matrix": []
+  },
+  "specReferences": {
+    "consensusSpecs": {
+      "version": "v1.7.0-alpha.10",
+      "url": "https://github.com/ethereum/consensus-specs/releases/tag/v1.7.0-alpha.10"
+    },
+    "executionSpecs": null
+  }
+}
