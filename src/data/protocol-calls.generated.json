@@ -768,6 +768,12 @@
     "path": "etm/003"
   },
   {
+    "type": "etm",
+    "date": "2026-06-10",
+    "number": "005",
+    "path": "etm/005"
+  },
+  {
     "type": "focil",
     "date": "2025-09-09",
     "number": "019",
@@ -946,6 +952,12 @@
     "date": "2026-06-03",
     "number": "042",
     "path": "pqi/042"
+  },
+  {
+    "type": "pqi",
+    "date": "2026-06-10",
+    "number": "043",
+    "path": "pqi/043"
   },
   {
     "type": "pqts",
