@@ -606,6 +606,12 @@
     "path": "acdt/082"
   },
   {
+    "type": "acdt",
+    "date": "2026-06-15",
+    "number": "083",
+    "path": "acdt/083"
+  },
+  {
     "type": "awd",
     "date": "2026-02-18",
     "number": "038",
@@ -1120,6 +1126,12 @@
     "date": "2026-06-01",
     "number": "027",
     "path": "rpc/027"
+  },
+  {
+    "type": "rpc",
+    "date": "2026-06-15",
+    "number": "028",
+    "path": "rpc/028"
   },
   {
     "type": "tli",
