@@ -618,6 +618,12 @@
     "path": "acdt/083"
   },
   {
+    "type": "acdt",
+    "date": "2026-06-22",
+    "number": "084",
+    "path": "acdt/084"
+  },
+  {
     "type": "awd",
     "date": "2026-02-18",
     "number": "038",

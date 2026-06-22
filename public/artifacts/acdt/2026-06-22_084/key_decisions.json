@@ -1,0 +1,12 @@
+{
+  "meeting": "ACDT #84 - June 22, 2026",
+  "key_decisions": [
+    {
+      "original_text": "No decision yet on EIP-7688 for devnet-7; defer to ACDC after observing devnet-6 stability",
+      "timestamp": "00:20:12",
+      "type": "other",
+      "eips": [],
+      "context": "EIP-7688 inclusion in devnet-7 and builder API scope"
+    }
+  ]
+}
