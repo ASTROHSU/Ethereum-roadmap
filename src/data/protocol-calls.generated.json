@@ -162,6 +162,12 @@
     "path": "acdc/180"
   },
   {
+    "type": "acdc",
+    "date": "2026-06-25",
+    "number": "181",
+    "path": "acdc/181"
+  },
+  {
     "type": "acde",
     "date": "2025-03-27",
     "number": "208",
