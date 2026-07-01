@@ -1026,6 +1026,12 @@
     "path": "pqi/045"
   },
   {
+    "type": "pqi",
+    "date": "2026-07-01",
+    "number": "046",
+    "path": "pqi/046"
+  },
+  {
     "type": "pqts",
     "date": "2026-02-04",
     "number": "001",
