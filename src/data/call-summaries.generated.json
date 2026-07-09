@@ -15,6 +15,7 @@
   "acdc/179": "決定延續Glamsterdam devnet-5穩定測試，並採用Marius的SSE引擎API，暫不調整存款上限",
   "acdc/180": "決定修復 Prysm 客戶端的漏洞、推動 Gloas Proposer Preference API，並計劃逐步移除 MPLEX協議的備用方案",
   "acdc/181": "決定推進EIP-7688（漸進式容器）到devnet-7，並將EIP-8080（合併退出機制）從Glamsterdam中移除，待未來再討論",
+  "acdc/182": "決定將Tony的block-access-list（EIP-11902）改進加入devnet-7，並確認相關測試與更新進度",
   "acde/221": "確認測試網啟動時間表，以及幾項新功能是否納入升級的決策。",
   "acde/222": "確認 Fusaka 升級主網啟動時程，以及各客戶端的開發進度更新。",
   "acde/223": "Fusaka 時間規劃確認，以及 Holesky 測試網遷移計畫的安排。",
