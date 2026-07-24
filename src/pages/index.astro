@@ -2,45 +2,43 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import TaiwanPulse from '../components/TaiwanPulse.astro';
-import { audienceGuides, primaryUpgrade, recentSignals, signalBrief, signalStateLabel, sourceManifest, taipeiTime } from '../lib/radar';
-const signals = recentSignals('Glamsterdam');
+import { primaryUpgrade, recentSignals, signalBrief, signalStateLabel, sourceManifest, taipeiTime } from '../lib/radar';
+import { sourceMap } from '../lib/source-map';
+const signals = recentSignals('Glamsterdam', 2);
 ---
-<SiteLayout description="在升級變成既定事實以前，先知道它正在改變什麼。">
+<SiteLayout description="看懂以太坊今天的樣子，以及下一步正在形成的改變。">
   <SiteHeader />
   <main>
     <section class="radar-grid border-b border-ink/10">
-      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 lg:grid-cols-[1.2fr_.8fr] lg:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 lg:grid-cols-[1.15fr_.85fr] lg:px-8 lg:py-20">
         <div>
-          <p class="font-mono text-xs font-bold tracking-[.18em] text-teal">ETHEREUM / BEFORE IT BECOMES DEFAULT</p>
-          <h1 class="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.12] tracking-tight sm:text-6xl">在升級變成<br/><span class="text-teal">既定事實</span>以前，<br/>先知道它正在改變什麼。</h1>
-          <p class="mt-6 max-w-xl text-lg leading-8 text-ink-soft">協議變化會先出現在會議、規格與測試網。以太坊升級雷達把原始資料轉成臺灣讀者能提早理解的訊號。</p>
+          <p class="text-sm font-bold text-teal">以太坊現況地圖</p>
+          <h1 class="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.12] tracking-tight sm:text-6xl">現在先看懂，<br/><span class="text-teal">未來才不會只剩適應。</span></h1>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-ink-soft">你不需要追完每個提案。但下一次錢包、交易或 L2 的規則改變時，值得知道它從哪裡來。</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a class="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white no-underline hover:bg-teal" href="/upgrade/glamsterdam/">看現在正在形成的升級 →</a>
-            <a class="rounded-full border border-ink/20 px-5 py-3 text-sm font-bold no-underline hover:border-teal hover:text-teal" href="#signals">目前的協議訊號</a>
+            <a class="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white no-underline hover:bg-teal" href="#today">看今天的以太坊 →</a>
+            <a class="rounded-full border border-ink/20 px-5 py-3 text-sm font-bold no-underline hover:border-teal hover:text-teal" href="#future">看接下來的方向</a>
           </div>
-          <p id="returningSignal" class="mt-6 hidden border-l-2 border-coral pl-3 text-sm font-semibold text-ink-soft">協議資料快照已在你上次查看後更新；看看目前仍在形成的訊號。</p>
+          <p class="mt-6 border-l-2 border-coral pl-3 text-sm leading-6 text-ink-soft">真正重要的變化，通常在成為預設以前就開始了。</p>
         </div>
         <TaiwanPulse />
       </div>
     </section>
 
-    <section class="mx-auto max-w-6xl px-5 py-16 lg:px-8">
-      <div class="mb-7 flex items-end justify-between gap-4"><div><p class="font-mono text-xs tracking-[.14em] text-coral">NOW CROSSING</p><h2 class="mt-2 text-3xl font-extrabold">現在正在越過的門檻</h2></div><span class="rounded-full bg-sun/25 px-3 py-1 text-xs font-bold">{primaryUpgrade.name}</span></div>
-      <article class="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-ink text-paper lg:grid-cols-[1.15fr_.85fr]">
-        <div class="p-7 sm:p-10"><p class="font-mono text-xs tracking-[.15em] text-sun">UPGRADE / IN FORMATION</p><h3 class="mt-4 text-4xl font-extrabold">{primaryUpgrade.name}</h3><p class="mt-3 text-xl font-semibold text-mist">{primaryUpgrade.phase}</p><p class="mt-6 max-w-xl leading-7 text-paper/75">{primaryUpgrade.short}</p><div class="mt-8 border-l-2 border-coral pl-4"><p class="text-xs font-bold tracking-wide text-coral">為什麼現在要注意</p><p class="mt-2 leading-7 text-paper/90">{primaryUpgrade.whyNow}</p></div><a href="/upgrade/glamsterdam/" class="mt-8 inline-flex rounded-full bg-paper px-5 py-3 text-sm font-bold text-ink no-underline hover:bg-sun">看完整白話指南 →</a></div>
-        <div class="bg-teal p-7 sm:p-10"><p class="font-mono text-xs tracking-[.15em] text-white/70">WHAT TO WATCH</p><h4 class="mt-4 text-2xl font-bold">接下來別漏看的訊號</h4><p class="mt-4 leading-7 text-white/85">{primaryUpgrade.watch}</p><div class="mt-10 space-y-4"><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">1</span><p class="text-sm leading-6">規格是否從討論走向客戶端實作。</p></div><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">2</span><p class="text-sm leading-6">devnet 是否帶來可重複的測試結果。</p></div><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">3</span><p class="text-sm leading-6">哪些提案從「方向」變成實際納入範圍。</p></div></div></div>
-      </article>
+    <section id="today" class="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+      <div class="max-w-2xl"><p class="text-sm font-bold text-coral">今天的以太坊</p><h2 class="mt-2 text-3xl font-extrabold">擴容已經發生；下一輪規則正在形成。</h2><p class="mt-3 leading-7 text-ink-soft">L1 不再獨自承擔所有活動，L2 也不是同一種安全與成熟度。現在最該掌握的是兩者交界正在改什麼。</p></div>
+      <div class="mt-8 grid gap-4 lg:grid-cols-3">
+        <article class="rounded-2xl border border-ink/10 p-6"><p class="text-xs font-bold text-teal">L1</p><h3 class="mt-3 text-xl font-bold">下一輪升級正在收斂</h3><p class="mt-3 leading-7 text-ink-soft">{primaryUpgrade.name} 正處於規格形成階段。提案、客戶端與測試網會決定哪些改變真正進入升級。</p><a class="mt-5 inline-block text-sm font-bold text-teal" href={sourceMap.forkcast.url} target="_blank">查看 Forkcast →</a></article>
+        <article class="rounded-2xl border border-ink/10 p-6"><p class="text-xs font-bold text-teal">L2</p><h3 class="mt-3 text-xl font-bold">擴容是現在，不是未來</h3><p class="mt-3 leading-7 text-ink-soft">不同 L2 的驗證、資料可用性與風險並不相同。看 L2 時，先分清楚它如何繼承以太坊的安全性。</p><a class="mt-5 inline-block text-sm font-bold text-teal" href={sourceMap.l2beat.url} target="_blank">查看 L2BEAT →</a></article>
+        <article class="rounded-2xl bg-ink p-6 text-paper"><p class="text-xs font-bold text-sun">交界</p><h3 class="mt-3 text-xl font-bold">晚一點理解，選擇會更少</h3><p class="mt-3 leading-7 text-paper/80">規格還在形成時，可以理解取捨；當它進入產品與基礎設施，討論往往只剩如何適配。</p><a class="mt-5 inline-block text-sm font-bold text-sun" href="/impact/wallets-apps/">誰會先受影響？→</a></article>
+      </div>
     </section>
 
-    <section id="signals" class="border-y border-ink/10 bg-mist"><div class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="mb-8"><p class="font-mono text-xs tracking-[.14em] text-teal">SIGNALS, NOT HEADLINES</p><h2 class="mt-2 text-3xl font-extrabold">目前仍在形成的事</h2><p class="mt-2 text-ink-soft">不是每一筆更新都需要焦慮；只顯示可回查、且仍會改變後續選擇的協議訊號。</p></div><div class="grid gap-4 md:grid-cols-3">{signals.map((signal) => <article class="rounded-2xl bg-paper p-6 shadow-sm"><p class="text-xs font-bold text-coral">{signalStateLabel(signal)}</p><h3 class="mt-3 text-lg font-bold">EIP-{signal.id}</h3><p class="mt-1 font-medium">{signalBrief(signal).title}</p><p class="mt-4 text-sm leading-6 text-ink-soft">{signalBrief(signal).summary}</p><p class="mt-5 border-t border-ink/10 pt-4 text-xs leading-5 text-ink-soft">{signalBrief(signal).statusNote}</p>{signal.discussionLink && <a class="mt-4 inline-block text-sm font-bold text-teal" href={signal.discussionLink} target="_blank">查看原始討論 ↗</a>}</article>)}</div></div></section>
+    <section class="border-y border-ink/10 bg-mist"><div class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="flex flex-wrap items-end justify-between gap-5"><div><p class="text-sm font-bold text-teal">正在形成的改變</p><h2 class="mt-2 text-3xl font-extrabold">現在只需要追這兩件事</h2></div><a href="/upgrade/glamsterdam/" class="text-sm font-bold text-teal">看完整脈絡 →</a></div><div class="mt-7 grid gap-4 md:grid-cols-2">{signals.map((signal) => <article class="rounded-2xl bg-paper p-6 shadow-sm"><p class="text-xs font-bold text-coral">{signalStateLabel(signal)}</p><h3 class="mt-3 text-lg font-bold">EIP-{signal.id}：{signalBrief(signal).title}</h3><p class="mt-3 leading-7 text-ink-soft">{signalBrief(signal).summary}</p><a class="mt-5 inline-block text-sm font-bold text-teal" href={signal.discussionLink} target="_blank">查看原始討論 →</a></article>)}</div></div></section>
 
-    <section class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="max-w-2xl"><p class="font-mono text-xs tracking-[.14em] text-coral">WHO FEELS IT FIRST?</p><h2 class="mt-2 text-3xl font-extrabold">影響會先落在誰身上？</h2><p class="mt-3 leading-7 text-ink-soft">你不需要追完協議細節；先從自己會承受哪一種延遲理解成本開始。</p></div><div class="mt-8 grid gap-4 sm:grid-cols-2">{audienceGuides.map((guide, index) => <a href={`/impact/${guide.slug}/`} class="group rounded-2xl border border-ink/10 p-6 no-underline hover:border-teal hover:bg-mist"><div class="flex justify-between"><p class="font-mono text-xs text-teal">0{index + 1}</p><span class="text-xl transition group-hover:translate-x-1">→</span></div><h3 class="mt-7 text-xl font-bold">{guide.label}</h3><p class="mt-1 text-sm font-semibold text-coral">{guide.eyebrow}</p><p class="mt-4 leading-7 text-ink-soft">{guide.summary}</p></a>)}</div></section>
+    <section id="future" class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="max-w-2xl"><p class="text-sm font-bold text-coral">接下來</p><h2 class="mt-2 text-3xl font-extrabold">未來不是一條保證的時間表。</h2><p class="mt-3 leading-7 text-ink-soft">把已在執行的工作、可見的草案方向與長期能力目標分開看，才不會把願景誤讀成明天的功能。</p></div><div class="mt-8 grid gap-4 lg:grid-cols-3"><article class="border-t-4 border-teal bg-mist p-6"><h3 class="text-xl font-bold">近期：可驗證的進度</h3><p class="mt-3 leading-7 text-ink-soft">用 Forkcast 看下一個分叉、提案狀態與測試進展。這是最接近「現在走到哪裡」的資料。</p></article><article class="border-t-4 border-sun bg-mist p-6"><h3 class="text-xl font-bold">中期：正在對齊的方向</h3><p class="mt-3 leading-7 text-ink-soft">用 Strawmap 看 L1 分叉的依賴與排序；它說明方向，但不是承諾日期。</p><a class="mt-5 inline-block text-sm font-bold text-teal" href={sourceMap.strawmap.url} target="_blank">查看 Strawmap →</a></article><article class="border-t-4 border-coral bg-mist p-6"><h3 class="text-xl font-bold">長期：想抵達的能力</h3><p class="mt-3 leading-7 text-ink-soft">更快、更可擴展、更安全與更私密，是長期目標。先理解方向，才能辨識眼前每一項技術改變的意義。</p></article></div></section>
+
+    <section class="border-t border-ink/10 bg-ink text-paper"><div class="mx-auto max-w-6xl px-5 py-12 lg:px-8"><p class="max-w-3xl text-2xl font-bold leading-9">這裡不催你追逐每一條消息。只在那些改變還沒成為預設以前，讓你看懂它正在改變什麼。</p><a href="/evidence/" class="mt-6 inline-block rounded-full bg-paper px-5 py-3 text-sm font-bold text-ink no-underline">查看每一項依據 →</a></div></section>
   </main>
-  <footer class="border-t border-ink/10 px-5 py-8 text-center text-xs text-ink-soft">資料快照：{taipeiTime(sourceManifest.observed_at)} · 原始來源 <a href={sourceManifest.source.url} target="_blank">ethereum/forkcast ↗</a></footer>
+  <footer class="border-t border-ink/10 px-5 py-8 text-center text-xs text-ink-soft">Forkcast 快照：{taipeiTime(sourceManifest.observed_at)} · <a href="/evidence/">來源與閱讀界線</a></footer>
 </SiteLayout>
-<script is:inline define:vars={{ revision: sourceManifest.site_snapshot.revision }}>
-  const key = 'ethereum-radar-last-revision';
-  const previous = localStorage.getItem(key);
-  if (previous && previous !== revision) document.getElementById('returningSignal')?.classList.remove('hidden');
-  localStorage.setItem(key, revision);
-</script>
