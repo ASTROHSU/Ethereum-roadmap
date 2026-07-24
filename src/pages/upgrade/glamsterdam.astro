@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import TaiwanPulse from '../../components/TaiwanPulse.astro';
+import { primaryUpgrade, recentSignals, signalBrief, signalStateLabel } from '../../lib/radar';
+const signals = recentSignals('Glamsterdam', 6);
+---
+<SiteLayout title="Glamsterdam｜以太坊升級雷達" description="Glamsterdam 的白話升級指南：它正在改變什麼、影響誰，以及下一步該看什麼。">
+  <SiteHeader />
+  <main class="mx-auto max-w-6xl px-5 py-12 lg:px-8 lg:py-16">
+    <a href="/" class="text-sm font-bold text-teal">← 回到現在的以太坊</a>
+    <div class="mt-8 grid gap-10 lg:grid-cols-[1.2fr_.8fr]"><section><p class="font-mono text-xs tracking-[.16em] text-coral">UPGRADE GUIDE / 01</p><h1 class="mt-4 text-5xl font-extrabold tracking-tight">{primaryUpgrade.name}</h1><p class="mt-4 text-2xl font-bold text-teal">{primaryUpgrade.phase}</p><p class="mt-7 max-w-2xl text-lg leading-8 text-ink-soft">這不是一個已排程的主網升級公告，而是一個正在被規格、客戶端與測試網逐步定義的方向。現在理解它，能讓你在它成為預設之前看懂取捨。</p><div class="mt-9 grid gap-4 sm:grid-cols-2"><div class="rounded-2xl bg-mist p-5"><p class="text-xs font-bold text-teal">它在解決什麼？</p><p class="mt-3 leading-7">圍繞區塊建構、存取清單與協議效率的下一輪設計選擇；重點不只是一個功能，而是哪些提案會一起成為升級範圍。</p></div><div class="rounded-2xl bg-ink p-5 text-paper"><p class="text-xs font-bold text-sun">為什麼現在看？</p><p class="mt-3 leading-7 text-paper/85">現在仍可看見方案如何形成；一旦進入排程與整合，討論通常轉為實作細節。</p></div></div></section><TaiwanPulse /></div>
+
+    <section class="mt-16 grid gap-10 border-t border-ink/10 pt-12 lg:grid-cols-[.75fr_1.25fr]"><div><p class="font-mono text-xs tracking-[.16em] text-teal">READ BY IMPACT</p><h2 class="mt-3 text-3xl font-extrabold">這會影響誰？</h2></div><div class="grid gap-4 sm:grid-cols-2"><article class="border-l-2 border-coral pl-4"><h3 class="font-bold">錢包與應用</h3><p class="mt-2 text-sm leading-6 text-ink-soft">需要提早辨識未來交易、帳戶與費用假設可能改在哪裡；尚非全面整合期限。</p></article><article class="border-l-2 border-teal pl-4"><h3 class="font-bold">L2 與基礎設施</h3><p class="mt-2 text-sm leading-6 text-ink-soft">協議方向會影響資料、成本與相容性假設；適合在規格期持續驗證。</p></article><article class="border-l-2 border-sun pl-4"><h3 class="font-bold">驗證者與開發者</h3><p class="mt-2 text-sm leading-6 text-ink-soft">從客戶端實作與 devnet 開始，會出現具體測試與維運訊號。</p></article><article class="border-l-2 border-ink pl-4"><h3 class="font-bold">一般使用者</h3><p class="mt-2 text-sm leading-6 text-ink-soft">目前不必採取操作，但值得知道未來錢包與交易體驗改變的來源。</p></article></div></section>
+
+    <section class="mt-16 rounded-3xl bg-mist p-7 sm:p-10"><p class="font-mono text-xs tracking-[.16em] text-coral">EVIDENCE / CURRENT SIGNALS</p><h2 class="mt-3 text-3xl font-extrabold">目前可回查的協議訊號</h2><p class="mt-3 max-w-2xl leading-7 text-ink-soft">以下是 Forkcast 快照中與 Glamsterdam 關聯的 EIP。它們是證據，不等於全部都已被採納。</p><div class="mt-7 space-y-3">{signals.map((signal) => <article class="flex flex-col justify-between gap-3 rounded-xl bg-paper p-5 sm:flex-row sm:items-center"><div><p class="text-xs font-bold text-teal">EIP-{signal.id} · {signalStateLabel(signal)}</p><h3 class="mt-1 font-bold">{signalBrief(signal).title}</h3><p class="mt-1 text-sm text-ink-soft">{signalBrief(signal).summary}</p></div>{signal.discussionLink && <a href={signal.discussionLink} target="_blank" class="shrink-0 text-sm font-bold text-teal">原始討論 ↗</a>}</article>)}</div></section>
+  </main>
+</SiteLayout>

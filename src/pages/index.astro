@@ -1,0 +1,46 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import TaiwanPulse from '../components/TaiwanPulse.astro';
+import { audienceGuides, primaryUpgrade, recentSignals, signalBrief, signalStateLabel, sourceManifest, taipeiTime } from '../lib/radar';
+const signals = recentSignals('Glamsterdam');
+---
+<SiteLayout description="在升級變成既定事實以前，先知道它正在改變什麼。">
+  <SiteHeader />
+  <main>
+    <section class="radar-grid border-b border-ink/10">
+      <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 lg:grid-cols-[1.2fr_.8fr] lg:px-8 lg:py-20">
+        <div>
+          <p class="font-mono text-xs font-bold tracking-[.18em] text-teal">ETHEREUM / BEFORE IT BECOMES DEFAULT</p>
+          <h1 class="mt-5 max-w-3xl text-5xl font-extrabold leading-[1.12] tracking-tight sm:text-6xl">在升級變成<br/><span class="text-teal">既定事實</span>以前，<br/>先知道它正在改變什麼。</h1>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-ink-soft">協議變化會先出現在會議、規格與測試網。以太坊升級雷達把原始資料轉成臺灣讀者能提早理解的訊號。</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white no-underline hover:bg-teal" href="/upgrade/glamsterdam/">看現在正在形成的升級 →</a>
+            <a class="rounded-full border border-ink/20 px-5 py-3 text-sm font-bold no-underline hover:border-teal hover:text-teal" href="#signals">目前的協議訊號</a>
+          </div>
+          <p id="returningSignal" class="mt-6 hidden border-l-2 border-coral pl-3 text-sm font-semibold text-ink-soft">協議資料快照已在你上次查看後更新；看看目前仍在形成的訊號。</p>
+        </div>
+        <TaiwanPulse />
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+      <div class="mb-7 flex items-end justify-between gap-4"><div><p class="font-mono text-xs tracking-[.14em] text-coral">NOW CROSSING</p><h2 class="mt-2 text-3xl font-extrabold">現在正在越過的門檻</h2></div><span class="rounded-full bg-sun/25 px-3 py-1 text-xs font-bold">{primaryUpgrade.name}</span></div>
+      <article class="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-ink text-paper lg:grid-cols-[1.15fr_.85fr]">
+        <div class="p-7 sm:p-10"><p class="font-mono text-xs tracking-[.15em] text-sun">UPGRADE / IN FORMATION</p><h3 class="mt-4 text-4xl font-extrabold">{primaryUpgrade.name}</h3><p class="mt-3 text-xl font-semibold text-mist">{primaryUpgrade.phase}</p><p class="mt-6 max-w-xl leading-7 text-paper/75">{primaryUpgrade.short}</p><div class="mt-8 border-l-2 border-coral pl-4"><p class="text-xs font-bold tracking-wide text-coral">為什麼現在要注意</p><p class="mt-2 leading-7 text-paper/90">{primaryUpgrade.whyNow}</p></div><a href="/upgrade/glamsterdam/" class="mt-8 inline-flex rounded-full bg-paper px-5 py-3 text-sm font-bold text-ink no-underline hover:bg-sun">看完整白話指南 →</a></div>
+        <div class="bg-teal p-7 sm:p-10"><p class="font-mono text-xs tracking-[.15em] text-white/70">WHAT TO WATCH</p><h4 class="mt-4 text-2xl font-bold">接下來別漏看的訊號</h4><p class="mt-4 leading-7 text-white/85">{primaryUpgrade.watch}</p><div class="mt-10 space-y-4"><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">1</span><p class="text-sm leading-6">規格是否從討論走向客戶端實作。</p></div><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">2</span><p class="text-sm leading-6">devnet 是否帶來可重複的測試結果。</p></div><div class="flex gap-3"><span class="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-white/15 text-xs">3</span><p class="text-sm leading-6">哪些提案從「方向」變成實際納入範圍。</p></div></div></div>
+      </article>
+    </section>
+
+    <section id="signals" class="border-y border-ink/10 bg-mist"><div class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="mb-8"><p class="font-mono text-xs tracking-[.14em] text-teal">SIGNALS, NOT HEADLINES</p><h2 class="mt-2 text-3xl font-extrabold">目前仍在形成的事</h2><p class="mt-2 text-ink-soft">不是每一筆更新都需要焦慮；只顯示可回查、且仍會改變後續選擇的協議訊號。</p></div><div class="grid gap-4 md:grid-cols-3">{signals.map((signal) => <article class="rounded-2xl bg-paper p-6 shadow-sm"><p class="text-xs font-bold text-coral">{signalStateLabel(signal)}</p><h3 class="mt-3 text-lg font-bold">EIP-{signal.id}</h3><p class="mt-1 font-medium">{signalBrief(signal).title}</p><p class="mt-4 text-sm leading-6 text-ink-soft">{signalBrief(signal).summary}</p><p class="mt-5 border-t border-ink/10 pt-4 text-xs leading-5 text-ink-soft">{signalBrief(signal).statusNote}</p>{signal.discussionLink && <a class="mt-4 inline-block text-sm font-bold text-teal" href={signal.discussionLink} target="_blank">查看原始討論 ↗</a>}</article>)}</div></div></section>
+
+    <section class="mx-auto max-w-6xl px-5 py-16 lg:px-8"><div class="max-w-2xl"><p class="font-mono text-xs tracking-[.14em] text-coral">WHO FEELS IT FIRST?</p><h2 class="mt-2 text-3xl font-extrabold">影響會先落在誰身上？</h2><p class="mt-3 leading-7 text-ink-soft">你不需要追完協議細節；先從自己會承受哪一種延遲理解成本開始。</p></div><div class="mt-8 grid gap-4 sm:grid-cols-2">{audienceGuides.map((guide, index) => <a href={`/impact/${guide.slug}/`} class="group rounded-2xl border border-ink/10 p-6 no-underline hover:border-teal hover:bg-mist"><div class="flex justify-between"><p class="font-mono text-xs text-teal">0{index + 1}</p><span class="text-xl transition group-hover:translate-x-1">→</span></div><h3 class="mt-7 text-xl font-bold">{guide.label}</h3><p class="mt-1 text-sm font-semibold text-coral">{guide.eyebrow}</p><p class="mt-4 leading-7 text-ink-soft">{guide.summary}</p></a>)}</div></section>
+  </main>
+  <footer class="border-t border-ink/10 px-5 py-8 text-center text-xs text-ink-soft">資料快照：{taipeiTime(sourceManifest.observed_at)} · 原始來源 <a href={sourceManifest.source.url} target="_blank">ethereum/forkcast ↗</a></footer>
+</SiteLayout>
+<script is:inline define:vars={{ revision: sourceManifest.site_snapshot.revision }}>
+  const key = 'ethereum-radar-last-revision';
+  const previous = localStorage.getItem(key);
+  if (previous && previous !== revision) document.getElementById('returningSignal')?.classList.remove('hidden');
+  localStorage.setItem(key, revision);
+</script>

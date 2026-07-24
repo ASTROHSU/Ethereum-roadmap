@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --color-ink: #0b1920;
+  --color-ink-soft: #31464e;
+  --color-paper: #f7f5ef;
+  --color-mist: #e8eee9;
+  --color-teal: #0d7d73;
+  --color-teal-dark: #075b55;
+  --color-coral: #e85e47;
+  --color-sun: #f5bc39;
+}
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; background: var(--color-paper); }
+body { margin: 0; color: var(--color-ink); background: var(--color-paper); }
+::selection { color: white; background: var(--color-teal); }
+
+a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.radar-grid { background-image: linear-gradient(rgba(11,25,32,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(11,25,32,.055) 1px, transparent 1px); background-size: 28px 28px; }
+.island-outline { filter: drop-shadow(0 12px 22px rgba(13,125,115,.18)); }
+.signal-pulse { animation: pulse 2.8s ease-in-out infinite; transform-origin: center; }
+@keyframes pulse { 0%,100% { opacity:.45; transform:scale(.9) } 50% { opacity:1; transform:scale(1.05) } }

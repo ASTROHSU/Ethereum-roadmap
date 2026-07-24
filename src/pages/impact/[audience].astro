@@ -1,0 +1,20 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { audienceGuides, primaryUpgrade, recentSignals, signalBrief, signalStateLabel } from '../../lib/radar';
+export function getStaticPaths() { return audienceGuides.map((guide) => ({ params: { audience: guide.slug }, props: { guide } })); }
+const { guide } = Astro.props;
+const signals = recentSignals('Glamsterdam', 3);
+---
+<SiteLayout title={`${guide.label}｜以太坊升級雷達`} description={`${guide.label}現在最需要提早理解的以太坊升級訊號。`}>
+  <SiteHeader />
+  <main class="mx-auto max-w-5xl px-5 py-12 lg:px-8 lg:py-16">
+    <a href="/" class="text-sm font-bold text-teal">← 回到現在的以太坊</a>
+    <p class="mt-10 font-mono text-xs tracking-[.16em] text-coral">IMPACT LENS / {guide.eyebrow}</p>
+    <h1 class="mt-4 text-5xl font-extrabold tracking-tight">如果你是<br/>{guide.label}</h1>
+    <p class="mt-5 max-w-2xl text-xl leading-8 text-ink-soft">{guide.summary}</p>
+    <section class="mt-12 grid gap-5 md:grid-cols-2"><article class="rounded-3xl bg-ink p-7 text-paper"><p class="text-xs font-bold tracking-wide text-sun">現在最值得知道</p><h2 class="mt-3 text-2xl font-bold">{primaryUpgrade.name}</h2><p class="mt-3 leading-7 text-paper/80">{primaryUpgrade.short}</p><a href="/upgrade/glamsterdam/" class="mt-6 inline-block font-bold text-sun">讀白話升級指南 →</a></article><article class="rounded-3xl border border-coral/30 bg-paper p-7"><p class="text-xs font-bold tracking-wide text-coral">如果晚一點才看</p><h2 class="mt-3 text-2xl font-bold">理解成本會在哪裡出現？</h2><p class="mt-3 leading-7 text-ink-soft">{guide.lateCost}</p></article></section>
+    <section class="mt-14"><p class="font-mono text-xs tracking-[.16em] text-teal">WHAT TO FOLLOW</p><h2 class="mt-3 text-3xl font-extrabold">不需要追完，只要追這些</h2><div class="mt-7 grid gap-4 md:grid-cols-3">{signals.map((signal) => <article class="rounded-2xl bg-mist p-5"><p class="text-xs font-bold text-teal">EIP-{signal.id} · {signalStateLabel(signal)}</p><h3 class="mt-3 font-bold">{signalBrief(signal).title}</h3><p class="mt-3 text-sm leading-6 text-ink-soft">{signalBrief(signal).summary}</p>{signal.discussionLink && <a class="mt-4 inline-block text-sm font-bold text-teal" target="_blank" href={signal.discussionLink}>查看證據 ↗</a>}</article>)}</div></section>
+    <section class="mt-14 border-t border-ink/10 pt-9"><h2 class="text-2xl font-bold">這裡的「值得注意」是什麼意思？</h2><p class="mt-3 max-w-3xl leading-7 text-ink-soft">它不是投資建議，也不是要你立刻採取行動。本站只把已可回查的規格、會議與測試訊號，轉成你能判斷是否需要持續追蹤的語言。</p></section>
+  </main>
+</SiteLayout>

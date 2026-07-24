@@ -1,7 +1,13 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
-} 
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "src/pages/**/*.astro",
+    "src/layouts/**/*.astro",
+    "src/components/**/*.astro",
+    "src/lib/**/*.ts",
+    "src/data/eips.json",
+    "src/data/source-manifest.json"
+  ],
+  "exclude": ["dist", "legacy_src", "src/App.tsx", "src/main.tsx", "src/components/**/*.tsx", "src/contexts/**", "src/hooks/**", "src/types/**", "src/utils/**"]
+}

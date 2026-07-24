@@ -1,0 +1,25 @@
+---
+import { sourceManifest, taipeiTime } from '../lib/radar';
+const synced = taipeiTime(sourceManifest.observed_at);
+---
+<aside class="radar-grid overflow-hidden rounded-3xl border border-teal/20 bg-mist p-5 text-sm" aria-label="資料脈衝">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="mb-1 font-mono text-[11px] tracking-[.16em] text-teal">DATA PULSE / TAIWAN</p>
+      <h2 class="text-xl font-bold">資料脈衝</h2>
+      <p class="mt-2 max-w-xs leading-6 text-ink-soft">不是即時 loading，而是本站最後一次通過驗證的協議資料快照。</p>
+    </div>
+    <svg class="island-outline h-28 w-16 shrink-0" viewBox="0 0 80 150" role="img" aria-label="臺灣資料脈衝圖示">
+      <path d="M43 5C55 17 63 41 61 62c-2 24-16 54-26 76-8 17-11 23-17 20-8-4-6-24-2-39 4-17 9-31 9-47 0-19-5-35 2-53C31 8 37 2 43 5Z" fill="#0d7d73" opacity=".14" stroke="#0d7d73" stroke-width="2"/>
+      <circle class="signal-pulse" cx="40" cy="48" r="7" fill="#e85e47"/><circle cx="40" cy="48" r="2.5" fill="white"/>
+      <circle class="signal-pulse" cx="33" cy="87" r="5" fill="#f5bc39"/><circle cx="33" cy="87" r="2" fill="white"/>
+    </svg>
+  </div>
+  <dl class="mt-5 grid grid-cols-2 gap-x-5 gap-y-3 border-t border-ink/10 pt-4 text-xs">
+    <div><dt class="text-ink-soft">原始來源</dt><dd class="mt-1 font-semibold">{sourceManifest.source.name}</dd></div>
+    <div><dt class="text-ink-soft">資料驗證</dt><dd class="mt-1 font-semibold text-teal">{sourceManifest.validation === 'passed' ? '通過' : sourceManifest.validation}</dd></div>
+    <div><dt class="text-ink-soft">最後同步</dt><dd class="mt-1 font-semibold">{synced}</dd></div>
+    <div><dt class="text-ink-soft">本次快照</dt><dd class="mt-1 font-semibold">{sourceManifest.snapshot.eips} EIPs · {sourceManifest.snapshot.devnets} devnets</dd></div>
+  </dl>
+  <a href="/evidence/" class="mt-5 inline-flex font-semibold text-teal">查看資料如何來到這裡 →</a>
+</aside>

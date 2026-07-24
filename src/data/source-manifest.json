@@ -1,0 +1,17 @@
+{
+  "source": {
+    "name": "ethereum/forkcast",
+    "url": "https://github.com/ethereum/forkcast"
+  },
+  "site_snapshot": {
+    "repository": "ASTROHSU/Ethereum-roadmap",
+    "revision": "822553a"
+  },
+  "observed_at": "2026-07-24T09:34:53Z",
+  "validation": "passed",
+  "snapshot": {
+    "eips": 123,
+    "devnets": 22
+  },
+  "provenance": "原始協議資料由 Forkcast 同步；中文白話與讀者影響標記由本站依來源轉譯，不取代原始資料。"
+}

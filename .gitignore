@@ -28,3 +28,7 @@ src/data/eips.json
 *.njsproj
 *.sln
 *.sw?
+
+# Astro build cache and local visual QA captures
+.astro
+artifacts/qa-*.png
