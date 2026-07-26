@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 417" preserveAspectRatio="xMidYMid">
-  <path fill="#343434" d="m127.96 0-2.8 9.5v275.67l2.8 2.79 127.96-75.64L127.96 0Z"/>
-  <path fill="#8C8C8C" d="M127.96 0 0 212.32l127.96 75.64V154.16L127.96 0Z"/>
-  <path fill="#3C3C3B" d="m127.96 312.19-1.58 1.92v98.2l1.58 4.6L256 236.59l-128.04 75.6Z"/>
-  <path fill="#8C8C8C" d="M127.96 416.91v-104.72L0 236.59l127.96 180.32Z"/>
-  <path fill="#141414" d="m127.96 287.96 127.96-75.64-127.96-58.16v133.8Z"/>
-  <path fill="#393939" d="M0 212.32l127.96 75.64v-133.8L0 212.32Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">以太坊升級雷達</title>
+  <desc id="desc">深石墨底上的青綠色雷達與閃電標記</desc>
+  <rect width="64" height="64" rx="15" fill="#0b1920"/>
+  <path d="M14 43a22 22 0 1 1 36 0" fill="none" stroke="#0d7d73" stroke-width="4" stroke-linecap="round"/>
+  <path d="M20 42a15 15 0 0 1 24 0" fill="none" stroke="#e8eee9" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+  <circle cx="32" cy="42" r="3.5" fill="#f5bc39"/>
+  <path d="m37 12-11 18h8l-5 17 13-21h-8l3-14Z" fill="#f7f5ef"/>
 </svg>
