@@ -2,17 +2,11 @@
 import { sourceManifest, taipeiTime } from '../lib/radar';
 const synced = taipeiTime(sourceManifest.observed_at);
 ---
-<aside class="radar-grid overflow-hidden rounded-3xl border border-teal/20 bg-mist p-5 text-sm" aria-label="資料脈衝">
-  <div class="flex items-start justify-between gap-4">
-    <div>
-      <h2 class="text-xl font-bold">資料脈衝</h2>
-      <p class="mt-2 max-w-xs leading-6 text-ink-soft">最後一次通過驗證的協議資料快照。</p>
-    </div>
-    <svg class="island-outline h-28 w-16 shrink-0" viewBox="0 0 80 150" role="img" aria-label="臺灣資料脈衝圖示">
-      <path d="M43 5C55 17 63 41 61 62c-2 24-16 54-26 76-8 17-11 23-17 20-8-4-6-24-2-39 4-17 9-31 9-47 0-19-5-35 2-53C31 8 37 2 43 5Z" fill="#0d7d73" opacity=".14" stroke="#0d7d73" stroke-width="2"/>
-      <circle class="signal-pulse" cx="40" cy="48" r="7" fill="#e85e47"/><circle cx="40" cy="48" r="2.5" fill="white"/>
-      <circle class="signal-pulse" cx="33" cy="87" r="5" fill="#f5bc39"/><circle cx="33" cy="87" r="2" fill="white"/>
-    </svg>
+<aside class="radar-grid overflow-hidden rounded-3xl border border-teal/20 bg-mist p-5 text-sm" aria-label="資料更新狀態">
+  <div>
+    <p class="text-xs font-bold tracking-[.12em] text-teal">本站判讀的資料依據</p>
+    <h2 class="mt-2 text-xl font-bold">資料更新狀態</h2>
+    <p class="mt-2 max-w-md leading-6 text-ink-soft">這份現況判讀最後一次依據 Forkcast 資料更新的時間與涵蓋範圍。</p>
   </div>
   <dl class="mt-5 grid grid-cols-2 gap-x-5 gap-y-3 border-t border-ink/10 pt-4 text-xs">
     <div><dt class="text-ink-soft">原始來源</dt><dd class="mt-1 font-semibold">{sourceManifest.source.name}</dd></div>
