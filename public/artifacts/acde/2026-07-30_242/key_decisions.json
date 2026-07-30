@@ -1,0 +1,47 @@
+{
+  "meeting": "ACDE #242 - July 30, 2026",
+  "key_decisions": [
+    {
+      "original_text": "devnet-8 / Platåberget testnet launch held until repricing numbers are finalized; public-facing spec should not change post-launch",
+      "timestamp": "00:13:16",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "devnet": "platåberget-testnet"
+    },
+    {
+      "original_text": "devnet-8 will be named Platåberget testnet; internal NFT devnets continue in parallel for chaos testing",
+      "timestamp": "00:29:35",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "platåberget-testnet"
+    },
+    {
+      "original_text": "PFI for Hegota: EIP-8115 (batch priority fees), EIP-8116 (replace cumulative receipt fields), EIP-7807 (SSZ block hash), EIP-7819 (SETDELEGATE), EIP-7906 (transaction assertions), EIP-7668 (remove bloom filters), EIP-8200 (EVMification)",
+      "timestamp": "01:15:30",
+      "type": "headliner_selected",
+      "eips": [
+        8115,
+        8116,
+        7807,
+        7819,
+        7906,
+        7668,
+        8200
+      ],
+      "fork": "Hegota"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:31:38",
+      "target": "Platåberget testnet launch timing — decision expected at ACDT next week"
+    },
+    {
+      "timestamp": "00:35:21",
+      "target": "Hegota proposal deadline — before ACDC call, ~August 7, 2026"
+    }
+  ]
+}
