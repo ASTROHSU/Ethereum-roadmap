@@ -1,0 +1,62 @@
+{
+  "meeting": "ACDC #184 - August 6, 2026",
+  "key_decisions": [
+    {
+      "original_text": "EIP-8070 sparse blob pool Engine API changes included in devnet-8 unless objection raised by Monday ACDT",
+      "timestamp": "00:13:44",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "epbs-devnet-0",
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8198 (Quick Slots): gas limit and blob count per block scale down with slot time; throughput per second held constant; other parameter changes (issuance, blob count) require separate EIPs",
+      "timestamp": "00:25:55",
+      "type": "other",
+      "eips": [
+        8198
+      ],
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8363 PFI is valid per process (permissionless); no CFI or SFI decision made; community consensus explicitly stated as prerequisite for future acceptance",
+      "timestamp": "01:23:07",
+      "type": "headliner_selected",
+      "eips": [
+        8363
+      ],
+      "fork": null,
+      "context": "community consensus explicitly stated as prerequisite for future acceptance"
+    },
+    {
+      "original_text": "PFI for Hegota: EIP-8359 (Beacon Block Reporting), EIP-8198 (Quick Slots), VOPS FOCIL Profiles, EIP-8142 (Blob Columns Propagation), EIP-8C71 (LOTAS), EIP-8363 (Tapered Issuance Burn), EIP-7716 (Anti-Correlation Penalties), EIP-12097/12099 (BLS Withdrawal Retirement + Balance Sunset)",
+      "timestamp": "01:43:23",
+      "type": "other",
+      "eips": [
+        8359,
+        8198,
+        8142,
+        8716,
+        12097,
+        12099
+      ],
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8333 (Align Checkpoint with Epoch Boundary Block) and Engine API sync status EIP deferred to next ACDC",
+      "timestamp": "01:48:10",
+      "type": "other",
+      "eips": [
+        8333
+      ],
+      "context": ""
+    },
+    {
+      "original_text": "Polar bear selected as Hegota mascot",
+      "timestamp": "01:48:33",
+      "type": "other",
+      "eips": [],
+      "context": ""
+    }
+  ]
+}
