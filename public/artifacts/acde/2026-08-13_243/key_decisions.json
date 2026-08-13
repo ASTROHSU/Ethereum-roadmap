@@ -1,0 +1,90 @@
+{
+  "meeting": "ACDE #243 - August 13, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Gas repricing numbers final; no spec changes needed; 200M gas limit confirmed for Glamsterdam",
+      "timestamp": "00:11:34",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Included"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "EIP-8261 (in-client gas limit schedule) moves forward as optional CL config parameter",
+      "timestamp": "00:20:18",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "PFI for Hegota: EIP-7923 (Linear Memory Costing), EIP-3298 (Remove Refunds), EIP-5920 (PAY opcode), EIP-8358 (Net Gas Metering for Account Changes), EIP-8374 (Persist Warm Access Sets), EIP-8368 (CPSB Recalibration), EIP-8077 (announce txs with nonce), EIP-8094 (blob-aware mempool), EIP-8355 (ML-DSA precompile), EIP-8372 (Normalized State Gas Limit), EIP-8375 (eMBER), EIP-8219 (Checked Arithmetic Opcodes)",
+      "timestamp": "01:17:19",
+      "type": "devnet_inclusion",
+      "eips": [
+        7923,
+        3298,
+        5920,
+        8358,
+        8374,
+        8368,
+        8077,
+        8094,
+        8355,
+        8372,
+        8375,
+        8219
+      ],
+      "stage_change": null,
+      "devnet": "hegota-devnet-0",
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "EIPs 7971, 8058, 7609, 7973, 8360 not PFI'd; nixo to contact helkomine for next ACDE opportunity, otherwise PRs closed",
+      "timestamp": "00:30:37",
+      "type": "other",
+      "eips": [
+        7971,
+        8058,
+        7609,
+        7973,
+        8360
+      ],
+      "stage_change": null,
+      "devnet": null,
+      "fork": null,
+      "context": "not PFI'd; contact for next opportunity"
+    },
+    {
+      "original_text": "Native AA implementation decision (Frames/8141 vs 8130) deferred to AA breakout Aug 25 + ACDE Aug 27",
+      "timestamp": "01:34:59",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": "AA breakout and ACDE decision"
+    },
+    {
+      "original_text": "EL client preference lists for Hegota PFIs due by September 10th (ACDE #245)",
+      "timestamp": "00:28:10",
+      "type": "other",
+      "eips": [],
+      "stage_change": null,
+      "devnet": null,
+      "fork": null,
+      "context": "Hegota client preference deadline"
+    }
+  ]
+}
