@@ -714,6 +714,12 @@
     "path": "acdt/091"
   },
   {
+    "type": "acdt",
+    "date": "2026-08-17",
+    "number": "092",
+    "path": "acdt/092"
+  },
+  {
     "type": "awd",
     "date": "2026-02-18",
     "number": "038",

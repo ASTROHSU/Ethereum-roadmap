@@ -1,0 +1,25 @@
+{
+  "meeting": "ACDT #92 - August 17, 2026",
+  "key_decisions": [
+    {
+      "original_text": "ACDT consensus: remove EIP-7610 from Glamsterdam; no behavior change since Geth and Reth already skip the affected tests",
+      "timestamp": "00:20:43",
+      "type": "stage_change",
+      "eips": [
+        7610
+      ],
+      "stage_change": {
+        "to": "Declined"
+      }
+    },
+    {
+      "original_text": "EIP-8253 (nonce bump for 28 special accounts) targeted for Hegota to permanently close the edge case",
+      "timestamp": "00:13:55",
+      "type": "headliner_selected",
+      "eips": [
+        8253
+      ],
+      "fork": "Hegota"
+    }
+  ]
+}
