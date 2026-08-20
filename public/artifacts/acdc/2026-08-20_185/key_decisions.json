@@ -1,0 +1,49 @@
+{
+  "meeting": "ACDC #185 - August 20, 2026",
+  "key_decisions": [
+    {
+      "original_text": "EIP-7610 cancelled from Glamsterdam; not postponed — superseded by EIP-8253 targeting Hegota",
+      "timestamp": "00:30:21",
+      "type": "other",
+      "eips": [],
+      "context": ""
+    },
+    {
+      "original_text": "Non-finality DevNet targeted for the week after next; all clients must be on trunk/unstable branches first",
+      "timestamp": "00:23:04",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "non-finality-devnet",
+      "context": ""
+    },
+    {
+      "original_text": "PFI for Hegota: EIP-833 (Align Checkpoint with Epoch Boundary Block), EIP-8379 (Engine API Sync Status); EIP-12188 (Reduced CL Block Retention Window) deferred to ETH R&D discussion",
+      "timestamp": "00:54:23",
+      "type": "other",
+      "eips": [
+        833,
+        8379,
+        12188
+      ],
+      "context": "deferred to ETH R&D discussion"
+    }
+  ],
+  "targets": [
+    {
+      "timestamp": "00:27:50",
+      "target": "Sepolia Glamsterdam fork — Sep 28, 2026 (epoch 351232); pending confirmation at next ACDC"
+    },
+    {
+      "timestamp": "00:28:57",
+      "target": "Hoodi Glamsterdam fork — Oct 26, 2026 (epoch 132352); contingent on stable DevNets"
+    },
+    {
+      "timestamp": "00:54:44",
+      "target": "Hegota EIP tier rankings from all client teams — mid-September 2026"
+    },
+    {
+      "timestamp": "00:55:36",
+      "target": "Hegota rough consensus on EIP scope — before DevCon"
+    }
+  ]
+}
