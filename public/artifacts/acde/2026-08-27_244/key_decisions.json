@@ -1,0 +1,34 @@
+{
+  "meeting": "ACDE #244 - August 27, 2026",
+  "key_decisions": [
+    {
+      "original_text": "EIP-8037 SELFDESTRUCT gas refill not added to Glamsterdam; deferred to Hegota with proper EIP",
+      "timestamp": "00:32:07",
+      "type": "other",
+      "eips": [],
+      "context": ""
+    },
+    {
+      "original_text": "DFI for Hegota: EIP-7609 (TLOAD/TSTORE cost decrease), EIP-8058 (bytecode deduplication discount) — no champion; EIP-8360 (TCREATE) retained as placeholder",
+      "timestamp": "00:40:03",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Declined"
+      },
+      "context": ""
+    },
+    {
+      "original_text": "EIP-8141 (Frames) SFI for Hegota; spec may still change; SFI status must not impede continued L2 collaboration or spec iteration",
+      "timestamp": "01:37:56",
+      "type": "stage_change",
+      "eips": [
+        8141
+      ],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "context": "for Hegota"
+    }
+  ]
+}
