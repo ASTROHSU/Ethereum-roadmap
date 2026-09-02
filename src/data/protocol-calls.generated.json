@@ -1284,6 +1284,12 @@
     "path": "pqts/013"
   },
   {
+    "type": "pqts",
+    "date": "2026-09-02",
+    "number": "014",
+    "path": "pqts/014"
+  },
+  {
     "type": "price",
     "date": "2026-02-04",
     "number": "001",
