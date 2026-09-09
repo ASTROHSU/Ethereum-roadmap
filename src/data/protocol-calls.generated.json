@@ -1492,5 +1492,11 @@
     "date": "2026-08-12",
     "number": "007",
     "path": "zkevm/007"
+  },
+  {
+    "type": "zkevm",
+    "date": "2026-09-09",
+    "number": "008",
+    "path": "zkevm/008"
   }
 ]
