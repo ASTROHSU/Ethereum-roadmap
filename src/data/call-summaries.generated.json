@@ -44,6 +44,7 @@
   "acde/242": "決定將devnet-8命名為Platåberget測試網，並在數據穩定後進行主網升級，內部NFT測試仍同步進行",
   "acde/243": "Glamsterdam-devnet-8啟動，Gas限額確認為200M，並推進EIP-8261（在客戶端設定Gas限制的選擇性參數）進展",
   "acde/244": "決定推遲SELFDESTRUCT gas refill加入Glamsterdam，並選擇EIP-7609、EIP-8058作為Hegotá的優化方案",
+  "acde/245": "決定將EIP-8253（非零存儲帳戶的nonce調整）從Glamsterdam移到Hegotá並確認EIP-8141（Frame Transactions）為Hegotá的重點議題",
   "acdt/053": "Fusaka 開發網路測試進展，以及節點參與度下滑問題的應對——並決定限制某些可能影響測試的交易操作。",
   "acdt/054": "測試網最新進度，以及確認程式碼凍結和各客戶端正式版發布的時間表——升級前的最後準備階段。",
   "acdt/055": "Holešky 測試網的啟用時間確認，以及決定暫緩主網「影子分叉」測試（平行模擬升級的測試手法）。",
