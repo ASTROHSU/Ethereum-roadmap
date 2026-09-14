@@ -1,0 +1,67 @@
+{
+  "meeting": "ACDT #96 - September 14, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Sepolia Glamsterdam upgrade scheduled for October 6th; all clients confirmed",
+      "timestamp": "00:10:26",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Scheduled"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": "October 6th - Sepolia Glamsterdam upgrade"
+    },
+    {
+      "original_text": "Consensus-specs trunk restricted to CFI/SFI EIPs; PFI-stage tests developed in forks/PRs",
+      "timestamp": "00:19:11",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Considered"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "Sepolia shadow fork delayed ~1 week pending Lighthouse progressive containers bug fixes",
+      "timestamp": "00:18:24",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Withdrawn"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": "pending Lighthouse progressive containers bug fixes"
+    },
+    {
+      "original_text": "Merge legacytests#18 (revert to Yellow Paper + EIP-684 collision behavior); BAL collision left undefined pending EIP-8253 in Hegota",
+      "timestamp": "00:35:09",
+      "type": "stage_change",
+      "eips": [],
+      "stage_change": {
+        "to": "Included"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    },
+    {
+      "original_text": "EIP-8037 merged as text clarification only; no spec or client behavior change",
+      "timestamp": "00:49:28",
+      "type": "stage_change",
+      "eips": [
+        8037
+      ],
+      "stage_change": {
+        "to": "Included"
+      },
+      "devnet": null,
+      "fork": null,
+      "context": null
+    }
+  ]
+}
