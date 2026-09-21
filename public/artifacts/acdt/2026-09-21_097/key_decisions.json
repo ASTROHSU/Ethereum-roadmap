@@ -1,0 +1,27 @@
+{
+  "meeting": "ACDT #97 - September 21, 2026",
+  "key_decisions": [
+    {
+      "original_text": "Serving window / BAL retention not resolved; not blocking testnet launch; continue async",
+      "timestamp": "00:23:10",
+      "type": "other",
+      "eips": [],
+      "context": ""
+    },
+    {
+      "original_text": "Hegota devnet strategy: start FOCIL-only and EIP-7702-only separately, then merge into combined Hegota devnet",
+      "timestamp": "00:44:22",
+      "type": "devnet_inclusion",
+      "eips": [],
+      "devnet": "hegota-devnet-0",
+      "context": ""
+    },
+    {
+      "original_text": "DFI: EIP-8142 (BiB) withdrawn by champion; EIP-8411 proposed as replacement",
+      "timestamp": "00:45:03",
+      "type": "other",
+      "eips": [],
+      "context": "withdrawal and replacement of EIPs"
+    }
+  ]
+}
