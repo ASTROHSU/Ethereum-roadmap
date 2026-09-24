@@ -432,6 +432,12 @@
     "path": "acde/245"
   },
   {
+    "type": "acde",
+    "date": "2026-09-24",
+    "number": "246",
+    "path": "acde/246"
+  },
+  {
     "type": "acdt",
     "date": "2025-06-16",
     "number": "040",
